@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.nanum{
+    font-family: "Nanum Pen Script", cursive;
+}
+
+.banner{
+    background-image: url('../../public/img/Banner.jpg');
+}
+
+.banner_div{
+    background-color: rgb(49, 49, 49,.8);
+}
+
+
+/*Card servicios*/
+.card_services{
+    box-shadow: 0px 0px 10px black;
+}
