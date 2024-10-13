@@ -20,5 +20,34 @@
 
 /*Card servicios*/
 .card_services{
-    box-shadow: 0px 0px 10px black;
+    box-shadow: 0px 0px 5px black;
+}
+
+
+
+
+/*Slider*/
+.swiper-wrapper{
+    margin-bottom: 50px;
+}
+
+
+.swiper-pagination-bullet {
+    width: 12px !important; 
+    height: 12px !important;
+    background-color: #007bff !important;
+    opacity: 1 !important;
+    border-radius: 50% !important;
+    margin: 0 5px !important;
+    margin-top: 40px !important;
+    transition: all 300ms;
+}
+
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+    width: 25px !important;
+    background-color: #d32424 !important;
+    transform: scale(1.2) !important;
+    border-radius: 40% !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) !important;
+    transition: all 300ms;
 }

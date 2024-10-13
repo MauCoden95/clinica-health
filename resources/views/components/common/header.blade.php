@@ -11,7 +11,9 @@
                 <li class="text-xl hover:text-red-600 duration-300 cursor-pointer hover:scale-125">
                     <a href="{{ route('services') }}" wire:navigate>Servicios</a>
                 </li>
-                <li class="text-xl hover:text-red-600 duration-300 cursor-pointer hover:scale-125">Contacto</li>
+                <li class="text-xl hover:text-red-600 duration-300 cursor-pointer hover:scale-125">
+                    <a href="{{ route('contact') }}" wire:navigate>Contacto</a>
+                </li>
                 <li class="text-xl hover:text-red-600 duration-300 cursor-pointer hover:scale-125">Login</li>
             </ul>
         </nav>
