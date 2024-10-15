@@ -50,21 +50,30 @@
     
         <div class="w-full md:w-1/2 bg-white p-4 sm:p-6 shadow-lg rounded-lg">
             <h3 class="text-lg font-semibold mb-4">Enviar un mensaje</h3>
-            <form action="#" class="space-y-4" autoComplete="off">
+            <form wire:submit.prevent="sendMail" class="space-y-4">
+                @if (session()->has('success'))
+                    <div class="bg-green-700 text-white p-3">{{ session('success') }}</div>
+                @endif
                 <div>
                     <label class="block text-gray-700" for="name">Nombre</label>
-                    <input type="text" id="name" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-red-500">
+                    <input type="text" id="name" wire:model="name" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-red-500">
+                    @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
                 <div>
                     <label class="block text-gray-700" for="email">Correo electrónico</label>
-                    <input type="email" id="email" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-red-500">
+                    <input type="email" id="email" wire:model="email" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-red-500">
+                    @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
                 <div>
                     <label class="block text-gray-700" for="message">Mensaje</label>
-                    <textarea id="message" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-red-500" rows="4"></textarea>
+                    <textarea id="message" wire:model="message" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-red-500" rows="4"></textarea>
+                    @error('message') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
                 <button type="submit" class="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition duration-200">Enviar</button>
+                
+                
             </form>
+
             </div>
         </div>
 

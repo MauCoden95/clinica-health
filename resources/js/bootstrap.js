@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modules: [Navigation, Pagination],
         loop: true,
         slidesPerView: 3, 
-        spaceBetween: 30, 
+        spaceBetween: 14, 
         navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',

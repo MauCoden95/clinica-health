@@ -21,6 +21,7 @@
 /*Card servicios*/
 .card_services{
     box-shadow: 0px 0px 5px black;
+    width: 32% !important; 
 }
 
 
@@ -35,7 +36,7 @@
 .swiper-pagination-bullet {
     width: 12px !important; 
     height: 12px !important;
-    background-color: #007bff !important;
+    background-color: #f19c8d !important;
     opacity: 1 !important;
     border-radius: 50% !important;
     margin: 0 5px !important;
@@ -44,10 +45,11 @@
 }
 
 .swiper-pagination-bullet.swiper-pagination-bullet-active {
-    width: 25px !important;
+    width: 30px !important;
     background-color: #d32424 !important;
     transform: scale(1.2) !important;
-    border-radius: 40% !important;
+    border-radius: 30% !important;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) !important;
     transition: all 300ms;
 }
+

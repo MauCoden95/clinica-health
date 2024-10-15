@@ -4,7 +4,10 @@
     <section class="w-full py-12 px-14 bg-gray-100">
         <div class="max-w-7xl mx-auto px-6 text-center">
             <h2 class="text-4xl font-bold text-gray-800">Nuestros Servicios</h2>
-            <p class="text-lg text-gray-600 mt-4">Ofrecemos una amplia gama de servicios médicos para garantizar tu salud y bienestar. Conoce cómo podemos ayudarte.</p>
+            <div class="w-full mt-12 flex gap-7 items-center justify-between">
+                <p class="text-lg text-gray-600 mt-4">En nuestra clínica, ofrecemos una amplia gama de servicios médicos diseñados para cuidar de tu salud y bienestar. Desde consultas especializadas hasta estudios avanzados, nuestro equipo de profesionales está comprometido en brindarte atención personalizada y tratamientos innovadores para asegurar tu recuperación y bienestar integral.</p>
+                <img class="w-full md:w-1/2 mt-8 md:mt-0" src="http://localhost:8000/img/Services.jpg" alt="Estetoscopio" />
+            </div>
         </div>
     </section>
 
