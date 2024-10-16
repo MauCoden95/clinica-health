@@ -9,6 +9,10 @@
     {{--FONT AWESOME--}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    
     @vite(['resources/css/app.css', 'resources/js/app.js']) 
     @livewireStyles
 </head>
@@ -17,6 +21,22 @@
     @livewireScripts
 
   
+    <script>
+        function data(){
+            return {
+                open: false,
+                start(){
+                    this.open = true
+                },
+                isOpen(){
+                    this.open = !this.open
+                },
+                close(){
+                    this.open = false
+                }
+            }
+        }
+    </script>
 
 </body>
 </html>
