@@ -57,4 +57,32 @@
 
 
 
+/*Dashboard*/
+.navbar_dashboard {
+    box-shadow: 4px 0px 5px 0px rgba(207,207,207,1);
+}
+
+
+.active {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    transition: all 300ms;
+}
+
+.inactive {
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    transition: all 300ms;
+}
+
+
+.d_active {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    transition: clip-path 300ms ease;
+}
+
+.d_inactive {
+    clip-path: polygon(-100% 0, 0 0, 0 100%, -100% 100%);
+    transition: clip-path 300ms ease;
+}
+
+
 

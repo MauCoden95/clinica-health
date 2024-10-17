@@ -19,7 +19,7 @@ class Login extends Component
         return view('livewire.pages.login');
     }
    
-
+            
     public function login()
     {
         $this->validate();
@@ -28,7 +28,7 @@ class Login extends Component
             session()->regenerate();
             $user = auth()->user();
             session(['user' => $user]);
-            return $this->redirect('/dashboard', navigate: true);
+            return redirect()->to('/dashboard');
         }
         
         

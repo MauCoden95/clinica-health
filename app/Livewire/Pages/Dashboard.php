@@ -15,6 +15,6 @@ class Dashboard extends Component
         auth()->logout();
         session()->invalidate();
         session()->regenerateToken();
-        return $this->redirect('/', navigate: true);
+        return redirect()->to('/');
     }
 }
