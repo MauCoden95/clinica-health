@@ -51,4 +51,18 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
+    public function turns()
+    {
+        return $this->hasMany(Turn::class);
+    }
+
+    public function turnsExaminations()
+    {
+        return $this->hasMany(TurnExamination::class);
+    }
 }
+
+
+

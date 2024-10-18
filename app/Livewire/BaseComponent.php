@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Livewire\Pages;
+namespace App\Livewire;
 
 use Livewire\Component;
-use App\Livewire\BaseComponent;
 
-class Dashboard extends BaseComponent
+class BaseComponent extends Component
 {
     public function render()
     {
-        return view('livewire.pages.dashboard');
+        return view('livewire.base-component');
     }
-    
+
     public function logout()
     {
         auth()->logout();
