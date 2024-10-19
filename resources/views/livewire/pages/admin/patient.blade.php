@@ -2,25 +2,36 @@
    
     <x-common.dashboard_nav/>
     
-    <div class="w-3/4 h-screen">
+    <div class="w-3/4 h-screen overflow-y-scroll">
         <x-common.header_dashboard/>
 
         
 
-        <div class="w-full px-14 overflow-x-auto">
-            <div class="relative w-60 h-40 mt-20 bg-red-500 rounded-lg overflow-hidden">
+        <div class="w-full px-14 overflow-x-auto mt-20 flex justify-between">
+            <div class="relative w-60 h-40 bg-red-500 rounded-lg overflow-hidden">
                 <h3 class="text-center my-3 text-xl">Cantidad de pacientes</h3>
                 <i class="absolute -left-7 -bottom-7 text-9xl text-red-900 w-1/6 fas fa-user"></i>
                 <h3 class="absolute right-4 bottom-4 text-5xl px-3 py-2 text-center text-gray-900">
                     {{ $count_patients }}
                 </h3>
-            </div>   
+            </div> 
+            
+            
+            <button class="relative h-12 p-3 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
+                Nuevo <i class="fas fa-plus-circle"></i>
+            </button> 
         </div>
        
-        <div class="relative w-full px-14 overflow-x-auto">
+        <div class="relative w-full px-14 overflow-x-auto mb-7">
             <h3 class="px-3 py-1 text-center text-2xl mt-16 font-bold">Todos los pacientes</h3>
+           
             
+       
+
+
             <table class="w-full m-auto mt-6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                
+                @if(count($patients) > 0)         
                 <thead class="text-xs text-white uppercase bg-red-600 ">
                     <tr>
                         <th scope="col" class="px-3 py-1 text-center">
@@ -46,8 +57,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody>
-                @if(count($patients) > 0)                   
+                <tbody>          
                         @foreach($patients as $patient)
                             <tr class="bg-gray-200 border-b ">
                                 <td class="px-3 py-2 text-center text-gray-900">
@@ -69,14 +79,18 @@
                                     {{ $patient->obra_social }}
                                 </td>
                                 <td class="px-3 py-2 text-center text-gray-900">
-                                    <a href="#" class="text-2xl"><i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i></a>
-                                    <a href="#" class="text-2xl"><i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i></a>
+                                    <button href="#" class="text-xl"><i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i></button>
+                                    <button onclick="confirmDelete({{ $patient->id }})" class="text-xl">
+                                        <i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
+                                    </button>
+                                   
+
                                 </td>
                             </tr>
                         @endforeach
                   
                 @else
-                    <p class="text-gray-600">No hay pacientes registrados.</p>
+                    <p class="text-gray-600 text-2xl">No hay pacientes registrados.</p>
                 @endif   
                    
                 </tbody>
@@ -90,3 +104,33 @@
     
    
 </div>
+
+
+
+<script>
+    function confirmDelete(patientId) {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "El paciente será eliminado",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si, eliminar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log("Emitir evento Livewire");
+                Livewire.dispatch('deleteConfirmed', {patientId});
+
+                
+
+                Swal.fire({
+                    title: "Eliminado!",
+                    text: "El paciente fue eliminado.",
+                    icon: "success"
+                });
+            } 
+        });
+    }
+</script>

@@ -3,19 +3,25 @@
 namespace App\Livewire\Pages\Admin;
 
 use Livewire\Component;
-use App\Livewire\BaseComponent;
 use App\Models\User;
 
-class Patient extends BaseComponent
+class Patient extends Component
 {
     public $patients;
     public $count_patients;
 
+    protected $listeners = ['deleteConfirmed'];
+
     public function mount()
     {
-        $patients = $this->patients = User::with('roles')->whereHas('roles', function($query) {
+        $this->loadPatients();
+    }
+
+    public function loadPatients()
+    {
+        $this->patients = User::with('roles')->whereHas('roles', function ($query) {
             $query->where('name', 'paciente');
-        })->get();      
+        })->get();
         
         $this->count_patients = $this->patients->count();
     }
@@ -23,5 +29,33 @@ class Patient extends BaseComponent
     public function render()
     {
         return view('livewire.pages.admin.patient');
+    }
+
+    public function deletePatient($patientId)
+    {
+        $patient = User::find($patientId);
+
+        if ($patient) {
+            $patient->removeRole('paciente');
+            $patient->delete();
+
+           
+            $this->loadPatients();
+
+         
+
+            session()->flash('successDelete', 'Paciente eliminado exitosamente.');
+        } else {
+            session()->flash('error', 'No se pudo encontrar el paciente.');
+            $this->dispatchBrowserEvent('sweet-alert', [
+                'icon' => 'error',
+                'title' => 'Error al eliminar paciente.'
+            ]);
+        }
+    }
+
+    public function deleteConfirmed($patientId)
+    {
+        $this->deletePatient($patientId);
     }
 }
