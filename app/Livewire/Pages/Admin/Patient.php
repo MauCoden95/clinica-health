@@ -17,6 +17,8 @@ class Patient extends Component
     public $dni;
     public $obra_social;
 
+    public $dniFilter = '';
+
     protected $listeners = ['deleteConfirmed'];
 
     protected $rules = [
@@ -28,10 +30,40 @@ class Patient extends Component
         'obra_social' => 'required|string|max:255'
     ];
 
+
+
+    
+
     public function mount()
     {
         $this->loadPatients();
     }
+
+
+
+
+
+
+    public function render()
+    {
+        $filteredPatients = User::with('roles')
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'paciente');
+            })
+            ->when($this->dniFilter, function ($query) {
+                return $query->where('dni', 'like', $this->dniFilter . '%');
+            })
+            ->get();
+
+        $this->patients = $filteredPatients;
+
+        return view('livewire.pages.admin.patient');
+    }
+
+
+
+
+
 
     public function loadPatients()
     {
@@ -42,10 +74,10 @@ class Patient extends Component
         $this->count_patients = $this->patients->count();
     }
 
-    public function render()
-    {
-        return view('livewire.pages.admin.patient');
-    }
+
+
+
+
 
     public function deletePatient($patientId)
     {
@@ -66,10 +98,19 @@ class Patient extends Component
         }
     }
 
+
+
+
+
+
     public function deleteConfirmed($patientId)
     {
         $this->deletePatient($patientId);
     }
+
+
+
+
 
 
     
@@ -80,6 +121,10 @@ class Patient extends Component
         session()->regenerateToken();
         return redirect()->to('/');
     }
+
+
+
+
 
     public function register()
     {
@@ -100,11 +145,27 @@ class Patient extends Component
 
             $this->loadPatients();
 
-            $this->dispatch("success","Usuario registrado correctamente");
+            
+            $this->dispatch('showAlert', [
+                'type' => 'success',
+                'title' => '¡Éxito!',
+                'text' => 'Usuario registrado correctamente'
+            ]);
+
+           
+            $this->reset(['name', 'email', 'address', 'phone', 'dni', 'obra_social']);
 
             session()->flash("success","Usuario registrado correctamente");    
         }
 
         
+    }
+
+
+
+
+    public function editPatient($patientId)
+    {
+        return Redirect::route('admin.edit-patient', ['id' => $patientId]);
     }
 }
