@@ -13,4 +13,11 @@ class Dashboard extends Component
     }
     
     
+    public function logout()
+    {
+        auth()->logout();
+        session()->invalidate();
+        session()->regenerateToken();
+        return redirect()->to('/');
+    }
 }

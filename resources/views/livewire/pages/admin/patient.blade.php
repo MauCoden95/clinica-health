@@ -1,5 +1,12 @@
-<div class="flex">
-   
+<div class="relative flex">
+    <div class="div_add z-50 absolute top-0 left-0 right-0 bottom-0 w-screen h-screen flex items-center justify-center">
+        <button class="btn_close absolute top-5 right-5 text-5xl text-white">
+            <i class="fas fa-times"></i>
+        </button> 
+        <div class="div_add__div w-4/6 min-h-[400px] bg-white rounded-lg">
+            <x-common.form_add_patient /> 
+        </div> 
+    </div> 
     <x-common.dashboard_nav/>
     
     <div class="w-3/4 h-screen overflow-y-scroll">
@@ -7,7 +14,7 @@
 
         
 
-        <div class="w-full px-14 overflow-x-auto mt-20 flex justify-between">
+        <div class="relative w-full px-14 overflow-x-auto mt-20 flex justify-between">
             <div class="relative w-60 h-40 bg-red-500 rounded-lg overflow-hidden">
                 <h3 class="text-center my-3 text-xl">Cantidad de pacientes</h3>
                 <i class="absolute -left-7 -bottom-7 text-9xl text-red-900 w-1/6 fas fa-user"></i>
@@ -17,9 +24,11 @@
             </div> 
             
             
-            <button class="relative h-12 p-3 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
+            <button class="btn_add relative h-12 p-3 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
                 Nuevo <i class="fas fa-plus-circle"></i>
             </button> 
+
+            
         </div>
        
         <div class="relative w-full px-14 overflow-x-auto mb-7">

@@ -86,3 +86,24 @@
 
 
 
+.div_add{
+    display: none;
+    background-color: rgb(59, 59, 59, .7);
+}
+
+
+@keyframes slideDown {
+    0% {
+        transform: translateY(-20%); 
+        opacity: 0; 
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1; 
+    }
+}
+
+
+.animated-div {
+    animation: slideDown .3s ease-out;
+}
