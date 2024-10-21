@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Doctor extends Model
 {
     use HasFactory;
+    protected $fillable = ['specialty_id','user_id','license'];
 
+    
     public function specialty()
     {
-        return $this->belongsTo(Specialty::class);
+        return $this->belongsTo(Specialty::class, 'specialty_id');
     }
 
     public function turns()
