@@ -53,7 +53,7 @@ class EditPatient extends Component
                 'name' => 'required|string|max:255',
                 'email' => ['required', 'email', Rule::unique('users')->ignore($this->patientId)],
                 'address' => 'required|string|max:255',
-                'phone' => 'required|numeric|max:9999999999', // Ajusta el máximo según tus necesidades
+                'phone' => 'required|numeric|max:9999999999', 
                 'dni' => ['required', 'numeric', Rule::unique('users')->ignore($this->patientId)],
                 'obra_social' => 'required|string|max:255',
             ]);

@@ -1,12 +1,5 @@
 <div class="relative flex">
-    <div class="div_add z-50 absolute top-0 left-0 right-0 bottom-0 w-screen h-screen flex items-center justify-center">
-        <button class="btn_close absolute top-5 right-5 text-5xl text-white">
-            <i class="fas fa-times"></i>
-        </button> 
-        <div class="div_add__div w-4/6 min-h-[400px] bg-white rounded-lg">
-            <x-common.form_add_patient /> 
-        </div> 
-    </div> 
+    
     <x-common.dashboard_nav/>
     
     <div class="w-3/4 h-screen overflow-y-scroll">
@@ -24,9 +17,21 @@
             </div> 
             
             
-            <button class="btn_add relative h-12 p-3 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
-                Nuevo <i class="fas fa-plus-circle"></i>
-            </button> 
+            <div x-data="{ visible: false }">
+                <button @click="visible = true" class="btn_add h-12 p-3 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
+                    Nuevo <i class="fas fa-plus-circle"></i>
+                </button> 
+
+                <div x-show="visible" x-bind:style="{ display: visible ? 'flex' : 'none' }" class="z-50 div_add fixed inset-0 flex items-center justify-center">
+                    <button @click="visible = false" class="btn_close absolute top-5 right-5 text-5xl text-white">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div :class="{'animated-div': visible}" class="div_add__div w-4/6 min-h-[400px] bg-white rounded-lg">            
+                        <x-common.form_add_patient /> 
+                    </div> 
+                </div> 
+            </div>
+
 
             
         </div>

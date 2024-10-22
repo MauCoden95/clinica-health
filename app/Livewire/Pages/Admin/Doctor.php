@@ -24,6 +24,8 @@ class Doctor extends Component
 
     public $dniFilter = '';
 
+    protected $listeners = ['deleteConfirmed'];
+
     protected $rules = [
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255|unique:users',
@@ -126,4 +128,37 @@ class Doctor extends Component
        
     }
 
+
+    public function deleteDoctor($doctorId)
+    {
+        $doctor = \App\Models\Doctor::find($doctorId);
+
+        if ($doctor) {
+            $doctor->delete();
+
+            $user = User::find($doctor->user_id);
+            $user->removeRole('doctor');
+
+            $user->delete();
+
+           
+            $this->loadDoctors();
+
+         
+
+            session()->flash('successDelete', 'Doctor eliminado exitosamente.');
+        } else {
+            session()->flash('error', 'No se pudo encontrar el doctor.');
+        }
+    }
+
+
+
+
+
+
+    public function deleteConfirmed($doctorId)
+    {
+        $this->deleteDoctor($doctorId);
+    }
 }

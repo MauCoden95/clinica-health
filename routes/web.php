@@ -9,6 +9,7 @@ use App\Livewire\Pages\Dashboard;
 use App\Livewire\Pages\Admin\Patient;
 use App\Livewire\Pages\Admin\EditPatient;
 use App\Livewire\Pages\Admin\Doctor;
+use App\Livewire\Pages\Admin\EditDoctor;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Index::class)->name('index');
@@ -28,6 +29,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/admin/pacientes', Patient::class)->name('admin.pacientes');
     Route::get('/admin/editar-paciente/{id}', EditPatient::class)->name('edit.patient');
     Route::get('/admin/doctores', Doctor::class)->name('admin.doctor');
+    Route::get('/admin/editar-doctor/{id}', EditDoctor::class)->name('edit.doctor');
 });
 
 
