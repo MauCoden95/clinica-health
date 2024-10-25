@@ -5,9 +5,13 @@ namespace App\Livewire\Pages\Admin;
 use Livewire\Component;
 use App\Models\Specialty;
 use App\Models\User;
+use App\Traits\LogoutTrait;
+
 
 class Doctor extends Component
 {
+    use LogoutTrait;
+
     public $doctors;
     public $count_doctors;
     public $specialties;
@@ -59,14 +63,6 @@ class Doctor extends Component
         $this->doctors = $filteredDoctors; 
 
         return view('livewire.pages.admin.doctor');
-    }
-
-    public function logout()
-    {
-        auth()->logout();
-        session()->invalidate();
-        session()->regenerateToken();
-        return redirect()->to('/');
     }
 
 

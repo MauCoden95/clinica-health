@@ -10,6 +10,9 @@
                 <a class="block w-full" wire:navigate href="http://localhost:8000/admin/doctores"><i class="w-1/6 fas fa-user-md"></i>Médicos</a>
             </li>
             <li class="w-full pl-4 cursor-pointer p-3 hover:bg-red-400 text-xl duration-300" >
+                <a class="block w-full" wire:navigate href="http://localhost:8000/admin/especialidades"><i class="w-1/6 fas fa-notes-medical"></i>Especialidades</a>
+            </li>
+            <li class="w-full pl-4 cursor-pointer p-3 hover:bg-red-400 text-xl duration-300" >
                 <a class="block w-full" wire:navigate ><i class="w-1/6 fas fa-calendar-times"></i>Calendario General</a>
             </li>
             <li class="w-full pl-4 cursor-pointer p-3 hover:bg-red-400 text-xl duration-300" >

@@ -106,3 +106,13 @@
 .animated-div {
     animation: slideDown .3s ease-out;
 }
+
+
+
+
+
+
+/*Login Admin*/
+.bg-login-admin{
+    background-image: url('../../public/img/Clinic.jpg');
+}

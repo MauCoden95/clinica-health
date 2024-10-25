@@ -5,10 +5,13 @@ namespace App\Livewire\Pages\Admin;
 use Livewire\Component;
 use App\Models\Doctor;
 use Illuminate\Validation\Rule;
+use App\Traits\LogoutTrait;
 
 
 class EditDoctor extends Component
 {
+    use LogoutTrait;
+
     public $doctor;
 
     public $specialty_id;
@@ -69,7 +72,7 @@ class EditDoctor extends Component
                     'license' => $this->license,
                 ]);
     
-                $this->dispatch('editDoctor', [
+                $this->dispatch('showAlert', [
                     'type' => 'success',
                     'title' => '¡Éxito!',
                     'text' => 'Doctor actualizado correctamente'
@@ -78,7 +81,7 @@ class EditDoctor extends Component
 
           
         } catch (\Exception $e) {
-            $this->dispatch('editDoctor', [
+            $this->dispatch('showAlert', [
                 'type' => 'error',
                 'title' => 'Error',
                 'text' => 'Ocurrió un error al actualizar el doctor'

@@ -4,9 +4,12 @@ namespace App\Livewire\Pages\Admin;
 
 use Livewire\Component;
 use App\Models\User;
+use App\Traits\LogoutTrait;
 
 class Patient extends Component
 {
+    use LogoutTrait;
+
     public $patients;
     public $count_patients;
 
@@ -107,20 +110,7 @@ class Patient extends Component
     {
         $this->deletePatient($patientId);
     }
-
-
-
-
-
-
-    
-    public function logout()
-    {
-        auth()->logout();
-        session()->invalidate();
-        session()->regenerateToken();
-        return redirect()->to('/');
-    }
+   
 
 
 

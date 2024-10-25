@@ -2,7 +2,7 @@
     <div class="text-center mt-12 text-2xl">Registrar nuevo profesional</div>
     <script>
         document.addEventListener('livewire:initialized', () => {
-            @this.on('showAlert', (data) => {
+            @this.on('alertSuccess', (data) => {
                 Swal.fire({
                     title: data[0].title,
                     text: data[0].text,

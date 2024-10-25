@@ -6,10 +6,13 @@ use Livewire\Component;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
+use App\Traits\LogoutTrait;
 
 
 class EditPatient extends Component
 {
+    use LogoutTrait;
+
     public $patient;
     public $patientId;
     public $name;
@@ -73,14 +76,14 @@ class EditPatient extends Component
 
                
             } else {
-                $this->dispatch('editUser', [
+                $this->dispatch('showAlert', [
                     'type' => 'error',
                     'title' => 'Error',
                     'text' => 'Paciente no encontrado'
                 ]);
             }
         }catch (\Exception $e) {
-            $this->dispatch('editUser', [
+            $this->dispatch('showAlert', [
                 'type' => 'error',
                 'title' => 'Error',
                 'text' => 'Ocurrió un error al actualizar el paciente'
