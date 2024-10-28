@@ -37,6 +37,7 @@
             @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
 
+       
 
         <div>
             <input wire:model="address" class="w-full p-3 border-b border-red-500" type="text" name="address" placeholder="Dirección..."/>    

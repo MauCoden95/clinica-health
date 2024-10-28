@@ -19,20 +19,26 @@ class Login extends Component
         return view('livewire.pages.login');
     }
    
-            
+
     public function login()
     {
         $this->validate();
 
         if (auth()->attempt(['email' => $this->email, 'password' => $this->password])) {
-            session()->regenerate();
             $user = auth()->user();
+
+           
+            if (!auth()->user()->hasRole('paciente')) {
+                auth()->logout(); 
+                $this->addError('email', 'Sólo pacientes pueden ingresar.'); 
+                return; 
+            }
+
+            session()->regenerate();
             session(['user' => $user]);
             return redirect()->to('/dashboard');
         }
         
-        
-
         $this->addError('email', 'Las credenciales proporcionadas no son correctas.');
     }
 }

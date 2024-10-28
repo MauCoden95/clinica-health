@@ -7,6 +7,7 @@ use App\Livewire\Pages\Login;
 use App\Livewire\Pages\Register;
 use App\Livewire\Pages\Dashboard;
 use App\Livewire\Pages\LoginAdmin;
+use App\Livewire\Pages\Turns;
 use App\Livewire\Pages\Admin\Patient;
 use App\Livewire\Pages\Admin\EditPatient;
 use App\Livewire\Pages\Admin\Doctor;
@@ -38,6 +39,10 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/admin/editar-especialidad/{id}', EditSpecialty::class)->name('edit.specialty');
 });
 
+
+Route::group(['middleware' => ['role:paciente']], function () { 
+    Route::get('/turnos', Turns::class)->name('turns');
+});
 
 
 

@@ -116,7 +116,7 @@ class Doctor extends Component
 
             $this->loadDoctors();
            
-            //$this->reset(['name', 'email', 'address', 'phone', 'dni', 'obra_social']);
+           
 
             session()->flash("success","Usuario registrado correctamente");    
         }

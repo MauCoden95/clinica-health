@@ -24,6 +24,6 @@ function initEventListeners() {
             icon: data[0].type,
         });
     });
-showAlert
+
     
 }
