@@ -8,6 +8,7 @@ use App\Livewire\Pages\Register;
 use App\Livewire\Pages\Dashboard;
 use App\Livewire\Pages\LoginAdmin;
 use App\Livewire\Pages\Turns;
+use App\Livewire\Pages\Dash;
 use App\Livewire\Pages\Admin\Patient;
 use App\Livewire\Pages\Admin\EditPatient;
 use App\Livewire\Pages\Admin\Doctor;
@@ -22,6 +23,7 @@ Route::get('/contacto', Contact::class)->name('contact');
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('register');
 Route::get('/login-admin', LoginAdmin::class)->name('login.admin');
+Route::get('/dash', Dash::class)->name('dash');
 
 
 
