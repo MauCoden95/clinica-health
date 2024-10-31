@@ -21,9 +21,10 @@
                             <h3 class="text-2xl my-3 font-bold text-center">{{ \Carbon\Carbon::parse($date)->format('d-m-Y') }}</h3>
                             <div class="list-none pl-5 grid gap-3 grid-cols-2">
                                 @foreach ($turns as $turn)
-                                    <div class="cursor-pointer text-center w-24 p-2 my-3 rounded-md bg-red-600 hover:bg-red-900 text-white duration-300">
-                                        {{ \Carbon\Carbon::parse($turn->time)->format('H-i') }}
+                                    <div onclick="confirmDelete({{ $turn->id }}, '{{ \Carbon\Carbon::parse($date)->translatedFormat('j \de F \de Y') }}', '{{ \Carbon\Carbon::parse($turn->time)->format('H:i') }}')" class="cursor-pointer text-center w-24 p-2 my-3 rounded-md bg-red-600 hover:bg-red-900 text-white duration-300">
+                                        {{ \Carbon\Carbon::parse($turn->time)->format('H:i') }}
                                     </div>
+
                                 @endforeach
                             </div>
                         </div>
@@ -35,3 +36,33 @@
         </main>
     </div>
 </div>
+
+
+
+<script>
+    function confirmDelete(id, date, time) {
+        Swal.fire({
+            title: "¿Desea confirmar este turno?",
+            text: `${date} a las ${time}`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Confirmar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log("Emitir evento Livewire");
+                Livewire.dispatch('scheduleAppointmentConfirm', {
+                    id
+                });
+
+                Swal.fire({
+                    title: "Confirmado!",
+                    text: `${date} a las ${time}`,
+                    icon: "success"
+                });
+            }
+        });
+    }
+</script>

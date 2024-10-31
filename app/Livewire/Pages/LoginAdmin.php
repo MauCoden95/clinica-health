@@ -35,6 +35,8 @@ class LoginAdmin extends Component
                 return; 
             }
 
+            session(['user_id' => $user->id]);
+
             session()->regenerate();
             session(['user' => $user]);
             return redirect()->to('/dashboard');

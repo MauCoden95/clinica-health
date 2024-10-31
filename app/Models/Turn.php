@@ -9,6 +9,8 @@ class Turn extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['user_id','doctor_id','date','time','status'];
+
     public function doctor()
     {
         return $this->belongsTo(Doctor::class);
