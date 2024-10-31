@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Livewire\Pages;
+namespace App\Livewire\Pages\Paciente;
+
 
 use Livewire\Component;
 use App\Models\Specialty;
@@ -15,13 +16,13 @@ class Turns extends Component
     public $specialtyId;
     public $doctors;
 
+
     public function render()
     {
-        $this->getDoctors();         
+        $this->getDoctors();  
 
-        return view('livewire.pages.turns');
+        return view('livewire.pages.paciente.turns');
     }
-
 
     public function mount()
     {
@@ -47,6 +48,5 @@ class Turns extends Component
             $this->doctors = []; 
         }
     }
-   
    
 }

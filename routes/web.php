@@ -6,9 +6,10 @@ use App\Livewire\Pages\Contact;
 use App\Livewire\Pages\Login;
 use App\Livewire\Pages\Register;
 use App\Livewire\Pages\Dashboard;
-use App\Livewire\Pages\LoginAdmin;
-use App\Livewire\Pages\Turns;
 use App\Livewire\Pages\Dash;
+use App\Livewire\Pages\LoginAdmin;
+use App\Livewire\Pages\Paciente\Turns;
+use App\Livewire\Pages\Paciente\TurnsDoctor;
 use App\Livewire\Pages\Admin\Patient;
 use App\Livewire\Pages\Admin\EditPatient;
 use App\Livewire\Pages\Admin\Doctor;
@@ -43,7 +44,8 @@ Route::group(['middleware' => ['role:admin']], function () {
 
 
 Route::group(['middleware' => ['role:paciente']], function () { 
-    Route::get('/turnos', Turns::class)->name('turns');
+    Route::get('/pacientes/turnos', Turns::class)->name('paciente.turns');
+    Route::get('/pacientes/turnos-medico/{id}', TurnsDoctor::class)->name('paciente.turns_doctor');
 });
 
 

@@ -58,7 +58,7 @@
                                     <td class="border p-2 text-center">{{ $doctor->specialty->specialty }}</td>
                                     <td class="border p-2 text-center">{{ $doctor->license }}</td>
                                     <td class="border p-2 text-center">
-                                        <a href="#"
+                                        <a href="http://localhost:8000/pacientes/turnos-medico/{{ $doctor->id }}" wire:navigate
                                             class="text-red-700 hover:text-red-500 hover:underline duration-300">
                                             Turnos disponibles
                                         </a>
