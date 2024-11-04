@@ -20,6 +20,8 @@ class TurnsDoctor extends Component
     public $name;
     public $turns_availables;
     public $user_id;
+    public $turns;
+    
 
     protected $listeners = ['scheduleAppointmentConfirm'];
 
@@ -30,6 +32,7 @@ class TurnsDoctor extends Component
 
         $this->getDoctorName($this->id);
         $this->getTurnsAvailables($this->id);
+        
     }
 
     public function render()
@@ -37,6 +40,7 @@ class TurnsDoctor extends Component
         return view('livewire.pages.paciente.turns-doctor');
     }
 
+    
     public function getDoctorName($id){
         $doctorName = Doctor::find($id)->user->name;
 
