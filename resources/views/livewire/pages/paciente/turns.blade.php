@@ -1,21 +1,21 @@
-<div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-100 overflow-hidden">
+<div x-data="{ sidebarOpen: false }" class="relative flex h-screen bg-gray-100 overflow-hidden">
 
-    
+
     <div :class="{ 'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen }"
         class="fixed inset-0 bg-white w-full h-full transform transition-transform duration-300 z-50 md:relative md:translate-x-0 md:w-64 md:h-auto md:flex md:flex-col">
-      
-       
+
+
 
         <button @click="sidebarOpen = false" class="absolute top-4 right-4 text-gray-600 md:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
         </button>
-        
-       
-        
 
-       
+
+
+
+
         <x-common.dashboard_nav />
     </div>
 
@@ -34,7 +34,7 @@
                     </h3>
                 </div>
 
-             
+
 
 
 
@@ -43,7 +43,7 @@
             <div class="relative w-full px-14 overflow-x-auto mb-7">
                 <h3 class="px-3 py-1 text-center text-2xl mt-16 font-bold">Turnos programados</h3>
 
-                
+
 
 
                 <table class="w-full m-auto mt-6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -69,28 +69,30 @@
                             </tr>
                         </thead>
 
-                          <tbody>
+                        <tbody>
                             @foreach ($turns as $turn)
                                 <tr class="bg-gray-200 border-b ">
                                     <td class="px-3 py-2 text-center text-gray-900">
-                                        {{ $turn['specialty'] }} 
+                                        {{ $turn['specialty'] }}
                                     </td>
                                     <td class="px-3 py-2 text-center text-gray-900">
-                                        {{ $turn['doctor_name'] }} 
+                                        {{ $turn['doctor_name'] }}
                                     </td>
                                     <td class="px-3 py-2 text-center text-gray-900">
                                         {{ \Carbon\Carbon::parse($turn['date'])->format('d-m-Y') }}
                                     </td>
                                     <td class="px-3 py-2 text-center text-gray-900">
-                                        {{ $turn['time'] }} 
+                                        {{ $turn['time'] }}
                                     </td>
                                     <td class="px-3 py-2 text-center text-gray-900">
                                         <button>
-                                            <i class="fas fa-edit text-xl duration-300 text-blue-500 hover:text-blue-700"></i>
+                                            <i
+                                                class="fas fa-edit text-xl duration-300 text-blue-500 hover:text-blue-700"></i>
                                         </button>
 
                                         <button>
-                                            <i class="fas fa-trash text-xl ml-3 duration-300 text-red-500 hover:text-red-700"></i>
+                                            <i
+                                                class="fas fa-trash text-xl ml-3 duration-300 text-red-500 hover:text-red-700"></i>
                                         </button>
                                     </td>
                                 </tr>

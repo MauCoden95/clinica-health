@@ -1,32 +1,21 @@
-<div x-data="{ sidebarOpen: false }" class="relative flex h-screen bg-gray-100 overflow-hidden">
-    
-    
+<div x-data="{ sidebarOpen: false, confirmDeleteVisible: false, doctorId: null }" class="relative flex h-screen bg-gray-100 overflow-hidden">
     <div :class="{ 'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen }"
         class="fixed inset-0 bg-white w-full h-full transform transition-transform duration-300 z-50 md:relative md:translate-x-0 md:w-64 md:h-auto md:flex md:flex-col">
-      
-       
-
+        
         <button @click="sidebarOpen = false" class="absolute top-4 right-4 text-gray-600 md:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
         </button>
-        
-       
-        
 
-       
         <x-common.dashboard_nav />
     </div>
-
-
 
     <div class="flex-1 flex flex-col overflow-hidden">
         <x-common.header_dashboard />
 
         <main class="w-full flex-1 overflow-x-hidden overflow-y-auto bg-white">
             <div class="relative w-full px-14 overflow-x-auto mt-20 flex justify-between">
-                <!-- Tarjeta de cantidad de doctores -->
                 <div class="relative w-60 h-40 bg-red-500 rounded-lg overflow-hidden">
                     <h3 class="text-center my-3 text-xl">Cantidad de doctores</h3>
                     <i class="absolute -left-7 -bottom-7 text-9xl text-red-900 w-1/6 fas fa-user-md"></i>
@@ -36,8 +25,7 @@
                 </div>
 
                 <div x-data="{ visible: false }">
-                    <button @click="visible = true"
-                        class="btn_add h-12 p-3 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
+                    <button @click="visible = true" class="btn_add h-12 p-3 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
                         Nuevo <i class="fas fa-plus-circle"></i>
                     </button>
 
@@ -90,7 +78,7 @@
                                     <td class="px-3 py-2 text-center text-gray-900">
                                         <a wire:navigate href="{{ route('edit.doctor', ['id' => $doctor->id]) }}"
                                             class="text-xl"><i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i></a>
-                                        <button onclick="confirmDelete({{ $doctor->id }})" class="text-xl">
+                                        <button @click="confirmDeleteVisible = true; doctorId = {{ $doctor->id }}" class="text-xl">
                                             <i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
                                         </button>
                                     </td>
@@ -106,24 +94,15 @@
             </div>
         </main>
     </div>
-</div>
 
-<script>
-    function confirmDelete(doctorId) {
-        Swal.fire({
-            title: "¿Estás seguro?",
-            text: "El doctor será eliminado",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Si, eliminar",
-            cancelButtonText: "Cancelar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Livewire.dispatch('deleteConfirmed', { doctorId });
-                Swal.fire("Eliminado!", "El doctor fue eliminado.", "success");
-            }
-        });
-    }
-</script>
+
+    <div x-show="confirmDeleteVisible" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+        <div class="bg-white p-6 rounded-lg text-center">
+            <h2 class="text-xl font-semibold mb-4">¿Estás seguro?</h2>
+            <p class="mb-4">El doctor será eliminado</p>
+            <button @click="confirmDeleteVisible = false; Livewire.dispatch('deleteConfirmed', { doctorId }); doctorId = null"
+                    class="bg-red-500 text-white px-4 py-2 rounded-md mr-2">Sí, eliminar</button>
+            <button @click="confirmDeleteVisible = false" class="bg-gray-300 px-4 py-2 rounded-md">Cancelar</button>
+        </div>
+    </div>
+</div>

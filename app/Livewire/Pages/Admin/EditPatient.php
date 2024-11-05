@@ -67,7 +67,7 @@ class EditPatient extends Component
                 $update = $patient->update($validatedData);
 
                 if ($update) {
-                    $this->dispatch('editUser', [
+                    $this->dispatch('showAlert', [
                         'type' => 'success',
                         'title' => '¡Éxito!',
                         'text' => 'Paciente actualizado correctamente'

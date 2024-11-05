@@ -21,7 +21,12 @@
     <div class="flex-1 flex flex-col overflow-hidden">
         <x-common.header_dashboard />
         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-white p-6">
-            @yield('content')
+            
+            <button>
+                Clickeame
+            </button>
+
+            
         </main>
     </div>
 </div>
