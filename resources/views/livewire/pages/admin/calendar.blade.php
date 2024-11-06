@@ -26,54 +26,13 @@
 
         <main class="w-full flex-1 overflow-x-hidden overflow-y-auto bg-white">
             <div>
-                <div id="calendar"></div>
+                
 
-                @push('styles')
-                    <link href="{{ asset('css/fullcalendar.min.css') }}" rel="stylesheet">
-                @endpush
+                {{ $events }}
 
-                @push('scripts')
-                    <script src="{{ asset('js/fullcalendar.min.js') }}"></script>
-                    <script>
-                        document.addEventListener('livewire:load', function() {
-                            var calendarEl = document.getElementById('calendar');
-                            var calendar = new FullCalendar.Calendar(calendarEl, {
-                                initialView: 'dayGridMonth',
-                                selectable: true,
-                                events: @json($events),
-                                dateClick: function(info) {
-                                    @this.showTurns(info.date);
-                                },
-                            });
-                            calendar.render();
-                        });
+              
 
-                        Livewire.on('turnsUpdated', function(turns) {
-                            let turnsList = document.getElementById('turns-list');
-                            turnsList.innerHTML = ''; 
-
-                            turns.forEach(turn => {
-                                let li = document.createElement('li');
-                                li.innerText =
-                                    `Paciente: ${turn.user.name}, Médico: ${turn.doctor.user.name}, Especialidad: ${turn.doctor.specialty.specialty}, Fecha: ${turn.date}, Hora: ${turn.time}`;
-                                turnsList.appendChild(li);
-                            });
-                        });
-                    </script>
-                @endpush
-
-                <div id="turns-container">
-                    <h3>Turnos del día: {{ $selectedDate }}</h3>
-                    <ul id="turns-list">
-                        @foreach ($turns as $turn)
-                            <li>
-                                Paciente: {{ $turn->user->name }}, Médico: {{ $turn->doctor->user->name }},
-                                Especialidad: {{ $turn->doctor->specialty->specialty }}, Fecha: {{ $turn->date }},
-                                Hora: {{ $turn->time }}
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+                
             </div>
 
         </main>

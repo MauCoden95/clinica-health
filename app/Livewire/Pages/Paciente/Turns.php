@@ -22,6 +22,8 @@ class Turns extends Component
     public $turns;
     public $count_turns;
 
+    protected $listeners = ['cancelConfirmed'];
+
 
     public function render()
     {
@@ -44,11 +46,12 @@ class Turns extends Component
                     ->where('user_id', $user_id)
                     ->whereDate('date', '>=', now()->toDateString())
                     ->orderBy('date', 'asc')
-                    ->get(['date', 'time', 'doctor_id']);
+                    ->get(['id','date', 'time', 'doctor_id']);
 
 
         $this->turns = $this->turns->map(function ($turn) {
             return [
+                'id' => $turn->id,
                 'specialty' => $turn->doctor->specialty->specialty,
                 'doctor_name' => $turn->doctor->user->name,
                 'date' => $turn->date,
@@ -80,6 +83,20 @@ class Turns extends Component
         } else {
             $this->doctors = []; 
         }
+    }
+
+
+    public function cancelConfirmed($turnId){
+        $this->cancelTurn($turnId);
+    }
+
+    public function cancelTurn($turnId){
+        $turn = Turn::find($turnId);
+
+        $turn->update([
+            'user_id' => NULL,
+            'status' => 'available'
+        ]);
     }
    
 }

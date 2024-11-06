@@ -22,18 +22,19 @@ class Calendar extends Component
 
     public function loadEvents()
     {
-        $this->events = Turn::with(['user', 'doctor.specialty'])
-            ->get()
-            ->map(function ($turn) {
-                return [
-                    'id' => $turn->id,
-                    'title' => $turn->user ? $turn->user->name : 'Sin paciente', 
-                    'start' => Carbon::parse($turn->date . ' ' . $turn->time)->toIso8601String(), 
-                    'doctor' => $turn->doctor ? $turn->doctor->user->name : 'Sin médico', 
-                    'specialty' => $turn->doctor && $turn->doctor->specialty ? $turn->doctor->specialty->specialty : 'Sin especialidad', // Manejar caso nulo
-                ];
-            })
-            ->toArray();
+        $this->events = Turn::with(['user', 'doctor.user', 'doctor.specialty'])
+                            ->where('status', 'unavailable')
+                            ->get()
+                            ->map(function ($turn) {
+                                return [
+                                    'name_patient' => $turn->user->name,
+                                    'name_doctor' => $turn->doctor->user->name,
+                                    'specialty' => $turn->doctor->specialty->specialty,
+                                    'date' => $turn->date,
+                                    'time' => $turn->time,
+                                ];
+                            });
+    
     }
 
 
@@ -42,6 +43,7 @@ class Calendar extends Component
         $this->selectedDate = $date->format('Y-m-d');
         $this->turns = Turn::with(['user', 'doctor.specialty'])
             ->whereDate('date', $this->selectedDate)
+            ->where('status', 'unavailable')
             ->get();
 
         

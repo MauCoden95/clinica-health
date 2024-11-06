@@ -81,7 +81,7 @@
                 <div class="bg-white rounded-lg p-5">
                     <h3 class="text-lg font-bold">¿Estás seguro?</h3>
                     <p class="mt-2">La especialidad será eliminada.</p>
-                    <div class="flex justify-end mt-4">
+                    <div class="flex justify-between mt-4">
                         <button @click="confirmDelete = false" class="mr-2 px-4 py-2 bg-gray-400 text-white rounded">Cancelar</button>
                         <button @click="$wire.deleteConfirmed(specialtyIdToDelete); confirmDelete = false" class="px-4 py-2 bg-red-600 text-white rounded">Eliminar</button>
                     </div>

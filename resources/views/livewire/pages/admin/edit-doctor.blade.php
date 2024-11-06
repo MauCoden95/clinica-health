@@ -19,7 +19,7 @@
         <x-common.dashboard_nav />
     </div>
 
-    <!-- Contenido principal -->
+   
     <div class="flex-1 flex flex-col overflow-hidden">
         <x-common.header_dashboard />
 
@@ -44,7 +44,7 @@
                     });
                 </script>
 
-                <!-- Formulario de edición -->
+               
                 <form wire:submit.prevent="editDoctor" class="grid grid-cols-2 gap-3">
                     <div class="mb-4">
                         <label for="name" class="block text-gray-700 font-bold mb-2">Nombre</label>

@@ -1,4 +1,4 @@
-<div x-data="{ sidebarOpen: false }" class="relative flex h-screen bg-gray-100 overflow-hidden">
+<div x-data="{ sidebarOpen: false, showModal: false, turnId: null }" class="relative flex h-screen bg-gray-100 overflow-hidden">
 
 
     <div :class="{ 'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen }"
@@ -43,7 +43,7 @@
             <div class="relative w-full px-14 overflow-x-auto mb-7">
                 <h3 class="px-3 py-1 text-center text-2xl mt-16 font-bold">Turnos programados</h3>
 
-
+   
 
 
                 <table class="w-full m-auto mt-6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -82,7 +82,7 @@
                                         {{ \Carbon\Carbon::parse($turn['date'])->format('d-m-Y') }}
                                     </td>
                                     <td class="px-3 py-2 text-center text-gray-900">
-                                        {{ $turn['time'] }}
+                                        {{ \Carbon\Carbon::parse($turn['time'])->format('h:i') }}
                                     </td>
                                     <td class="px-3 py-2 text-center text-gray-900">
                                         <button>
@@ -91,7 +91,7 @@
                                         </button>
 
                                         <button>
-                                            <i
+                                            <i  @click="showModal = true, turnId = {{ $turn['id'] }}"
                                                 class="fas fa-trash text-xl ml-3 duration-300 text-red-500 hover:text-red-700"></i>
                                         </button>
                                     </td>
@@ -168,5 +168,17 @@
 
 
         </main>
+    </div>
+
+    <div x-show="showModal"
+        class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+        <div class="bg-white p-6 rounded-lg text-center">
+            <h2 class="text-xl font-semibold mb-4">¿Estás seguro?</h2>
+            <p class="mb-4">El turno será cancelado</p>
+            <button
+                @click="showModal = false; Livewire.dispatch('cancelConfirmed', { turnId }); turnId = null"
+                class="bg-red-500 text-white px-4 py-2 rounded-md mr-2">Sí, eliminar</button>
+            <button @click="showModal = false" class="bg-gray-300 px-4 py-2 rounded-md">Cancelar</button>
+        </div>
     </div>
 </div>

@@ -1,5 +1,5 @@
 <div class="">
-    <div class="w-full m-auto flex items-center justify-center h-24 border-b-2">
+    <div class="w-full m-auto flex items-center justify-center h-24">
         <img class="w-28" src="{{ asset('img/Logo.png') }}" alt="Logo" />
     </div>
     <nav class="w-full h-auto duration-300">
