@@ -41,12 +41,14 @@ class TurnsDoctor extends Component
     }
 
     
+    // Obtiene el nombre del doctor
     public function getDoctorName($id){
         $doctorName = Doctor::find($id)->user->name;
 
         $this->name = $doctorName;
     }
 
+    // Obtiene los turnos disponibles del doctor
     public function getTurnsAvailables($id){
         $turns = DB::table('turns')
                 ->select('id','date', 'time', 'status')
@@ -62,12 +64,12 @@ class TurnsDoctor extends Component
         $this->turns_availables = $turns_group;
     }
 
-
+    // Confirma la cita programada
     public function scheduleAppointmentConfirm($id){
         $this->scheduleAppointment($id);
     }
 
-
+    // Programa una cita
     public function scheduleAppointment($id){
         $turn = Turn::find($id);
 

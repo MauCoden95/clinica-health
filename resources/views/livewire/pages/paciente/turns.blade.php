@@ -1,23 +1,9 @@
-<div x-data="{ sidebarOpen: false, showModal: false, turnId: null }" class="relative flex h-screen bg-gray-100 overflow-hidden">
+<div x-data="{ sidebarOpen: false, showModal: false, showModalTurn: false, turnId: null, doctorId: false }" class="relative flex h-screen bg-gray-100 overflow-hidden">
 
 
-    <div :class="{ 'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen }"
-        class="fixed inset-0 bg-white w-full h-full transform transition-transform duration-300 z-50 md:relative md:translate-x-0 md:w-64 md:h-auto md:flex md:flex-col">
+    <x-common.sidebar />
 
-
-
-        <button @click="sidebarOpen = false" class="absolute top-4 right-4 text-gray-600 md:hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-
-
-
-
-
-        <x-common.dashboard_nav />
-    </div>
+   
 
 
     <div class="flex-1 flex flex-col overflow-hidden">
@@ -40,10 +26,12 @@
 
             </div>
 
+
+
             <div class="relative w-full px-14 overflow-x-auto mb-7">
                 <h3 class="px-3 py-1 text-center text-2xl mt-16 font-bold">Turnos programados</h3>
 
-   
+
 
 
                 <table class="w-full m-auto mt-6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -85,20 +73,21 @@
                                         {{ \Carbon\Carbon::parse($turn['time'])->format('h:i') }}
                                     </td>
                                     <td class="px-3 py-2 text-center text-gray-900">
-                                        <button>
+                                        <button
+                                            @click="showModalTurn = true, Livewire.dispatch('showTurnsAvailables', { doctorId: {{ $turn['doctor_id'] }} } );">
                                             <i
-                                                class="fas fa-edit text-xl duration-300 text-blue-500 hover:text-blue-700"></i>
+                                                class="fas fa-calendar text-xl duration-300 text-blue-500 hover:text-blue-700"></i>
                                         </button>
 
                                         <button>
-                                            <i  @click="showModal = true, turnId = {{ $turn['id'] }}"
+                                            <i @click="showModal = true, turnId = {{ $turn['id'] }}"
                                                 class="fas fa-trash text-xl ml-3 duration-300 text-red-500 hover:text-red-700"></i>
                                         </button>
                                     </td>
                                 </tr>
                             @endforeach
                         @else
-                            <p class="text-gray-600 text-2xl">No hay turnos disponibles.</p>
+                            <p class="text-gray-600 text-2xl">No hay turnos agendados.</p>
                     @endif
 
                     </tbody>
@@ -170,15 +159,45 @@
         </main>
     </div>
 
-    <div x-show="showModal"
-        class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+    <div x-show="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
         <div class="bg-white p-6 rounded-lg text-center">
             <h2 class="text-xl font-semibold mb-4">¿Estás seguro?</h2>
             <p class="mb-4">El turno será cancelado</p>
-            <button
-                @click="showModal = false; Livewire.dispatch('cancelConfirmed', { turnId }); turnId = null"
+            <button @click="showModal = false; Livewire.dispatch('cancelConfirmed', { turnId }); turnId = null"
                 class="bg-red-500 text-white px-4 py-2 rounded-md mr-2">Sí, eliminar</button>
             <button @click="showModal = false" class="bg-gray-300 px-4 py-2 rounded-md">Cancelar</button>
         </div>
     </div>
+
+
+    <div x-show="showModalTurn" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50">
+        <div class="relative w-4/6 m-auto mt-28 bg-white p-6 rounded-lg text-center overflow-y-scroll">
+            <button @click="showModalTurn = false" class="absolute top-4 right-4 text-black text-2xl"><i
+                    class="fas fa-times"></i></button>
+            <h2 class="text-2xl font-semibold mb-4">Reprogramar turno</h2>
+
+            <div class="grid grid-cols-3 gap-3">
+                @if (isset($turns_availables))
+                    @foreach ($turns_availables as $date => $turns)
+                        <div class="my-4">
+                            <h3 class="text-lg font-bold">{{ \Carbon\Carbon::parse($date)->format('d-m-Y') }}</h3>
+                            <ul class="mt-2">
+                                @foreach ($turns as $turn)
+                                    <li class="border-2 bg-gray-300 p-2 my-1">
+                                        <span
+                                            class="mr-2">{{ \Carbon\Carbon::parse($turn->time)->format('h:i A') }}</span>
+                                        <button @click="/* Aquí puedes manejar la lógica para seleccionar un turno */"
+                                            class="text-blue-500 hover:underline">Seleccionar</button>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endforeach
+                @else
+                    <p>No hay turnos disponibles.</p>
+                @endif
+            </div>
+        </div>
+    </div>
+
 </div>
