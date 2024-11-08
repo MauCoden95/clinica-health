@@ -11,13 +11,9 @@
 
             
             <div class="relative w-full px-14 overflow-x-auto mt-20 flex justify-between">
-                <div class="relative w-60 h-40 bg-red-500 rounded-lg overflow-hidden">
-                    <h3 class="text-center my-3 text-xl">Cantidad de pacientes</h3>
-                    <i class="absolute -left-7 -bottom-7 text-9xl text-red-900 w-1/6 fas fa-user-md"></i>
-                    <h3 class="absolute right-4 bottom-4 text-5xl px-3 py-2 text-center text-gray-900">
-                        {{ $count_patients }}
-                    </h3>
-                </div>
+
+                <x-common.count :item="'Cantidad de pacientes'" :quantity="$count_patients" :icon="'fas fa-user'" />
+
                 <div x-data="{ visible: false }">
                     <button @click="visible = true" class="btn_add h-12 p-3 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
                         Nuevo <i class="fas fa-plus-circle"></i>

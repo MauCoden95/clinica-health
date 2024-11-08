@@ -8,13 +8,8 @@
         <main class="w-full flex-1 overflow-x-hidden overflow-y-auto bg-white ">
 
             <div class="relative w-full px-14 overflow-x-auto mt-20 flex justify-between">
-                <div class="relative w-60 h-40 bg-red-500 rounded-lg overflow-hidden">
-                    <h3 class="text-center my-3 text-xl">Cantidad de especialidades</h3>
-                    <i class="absolute -left-7 -bottom-7 text-9xl text-red-900 w-1/6 fas fa-user-md"></i>
-                    <h3 class="absolute right-4 bottom-4 text-5xl px-3 py-2 text-center text-gray-900">
-                        {{ $count_specialties }}
-                    </h3>
-                </div>
+                <x-common.count :item="'Cantidad de especialidades'" :quantity="$count_specialties" :icon="'fas fa-user-md'" />
+
 
                 <div x-data="{ visible: false }">
                     <button @click="visible = true"
@@ -50,30 +45,38 @@
                             @foreach ($specialties as $specialty)
                                 <tr class="bg-gray-200 border-b ">
                                     <td class="px-3 py-2 text-center text-xl text-gray-900">{{ $specialty->id }}</td>
-                                    <td class="px-3 py-2 text-center text-xl text-gray-900">{{ $specialty->specialty }}</td>
+                                    <td class="px-3 py-2 text-center text-xl text-gray-900">{{ $specialty->specialty }}
+                                    </td>
                                     <td class="px-3 py-2 text-center text-xl text-gray-900">
                                         <a wire:navigate href="{{ route('edit.specialty', ['id' => $specialty->id]) }}"
-                                            class="text-xl"><i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i></a>
-                                        <button @click="confirmDelete = true; specialtyIdToDelete = {{ $specialty->id }}" class="text-xl">
-                                            <i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
+                                            class="text-xl"><i
+                                                class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i></a>
+                                        <button
+                                            @click="confirmDelete = true; specialtyIdToDelete = {{ $specialty->id }}"
+                                            class="text-xl">
+                                            <i
+                                                class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
                                         </button>
                                     </td>
                                 </tr>
                             @endforeach
                         @else
                             <p class="text-gray-600 text-2xl">No hay doctores registrados.</p>
-                        @endif
+                    @endif
                     </tbody>
                 </table>
             </div>
 
-            <div x-show="confirmDelete" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div x-show="confirmDelete"
+                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                 <div class="bg-white rounded-lg p-5">
                     <h3 class="text-lg font-bold">¿Estás seguro?</h3>
                     <p class="mt-2">La especialidad será eliminada.</p>
                     <div class="flex justify-between mt-4">
-                        <button @click="confirmDelete = false" class="mr-2 px-4 py-2 bg-gray-400 text-white rounded">Cancelar</button>
-                        <button @click="$wire.deleteConfirmed(specialtyIdToDelete); confirmDelete = false" class="px-4 py-2 bg-red-600 text-white rounded">Eliminar</button>
+                        <button @click="confirmDelete = false"
+                            class="mr-2 px-4 py-2 bg-gray-400 text-white rounded">Cancelar</button>
+                        <button @click="$wire.deleteConfirmed(specialtyIdToDelete); confirmDelete = false"
+                            class="px-4 py-2 bg-red-600 text-white rounded">Eliminar</button>
                     </div>
                 </div>
             </div>

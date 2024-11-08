@@ -180,4 +180,7 @@ class Turns extends Component
     public function showTurnsAvailables($doctorId){
         $this->getTurnsAvailables($doctorId);
     }
+
+
+   
 }
