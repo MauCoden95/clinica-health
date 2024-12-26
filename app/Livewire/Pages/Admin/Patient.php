@@ -158,4 +158,8 @@ class Patient extends Component
     {
         return Redirect::route('admin.edit-patient', ['id' => $patientId]);
     }
+
+
+
+    
 }

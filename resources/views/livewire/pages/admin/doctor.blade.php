@@ -81,6 +81,10 @@
     </div>
 
 
+
+
+
+    {{-- Modal para confirmar eliminacion de medico --}}
     <div x-show="confirmDeleteVisible" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
         <div class="bg-white p-6 rounded-lg text-center">
             <h2 class="text-xl font-semibold mb-4">¿Estás seguro?</h2>

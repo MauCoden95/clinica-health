@@ -28,8 +28,10 @@ class Turns extends Component
     public $turns;
     public $count_turns;
     public $turns_availables = [];
+    public $error = 'dsadsa';
 
-    protected $listeners = ['cancelConfirmed','showTurnsAvailables'];
+    protected $listeners = ['cancelConfirmed','showTurnsAvailables','editOldTurn','editNewTurn'];
+
     
 
 
@@ -157,6 +159,7 @@ class Turns extends Component
         $turns = DB::table('turns')
                 ->select('id','date', 'time', 'status')
                 ->where('status', 'available')
+                ->where('date', '<=', Carbon::now()->addMonths(2))
                 ->where('doctor_id', $id)
                 ->whereDate('date', '>=', Carbon::now()->toDateString()) 
                 ->orderBy('date')
@@ -183,4 +186,35 @@ class Turns extends Component
 
 
    
+    public function editOldTurn($oldTurnId)
+    {
+        $turn = Turn::find($oldTurnId);
+
+
+        if($turn){
+            $turn->update([
+                'user_id' => NULL,
+                'status' => 'available'
+            ]);
+        }else{
+            $this->error = 'No se pudo editar el turno';
+        }
+
+        
+
+        //$this->loadTurns($this->user_id);
+    }
+
+
+    public function editNewTurn($oldTurnId,$newTurnId){
+        $newTurn = Turn::find($newTurnId);
+
+
+        $newTurn->update([
+            'user_id' => $this->user_id,
+            'status' => 'unavailable'
+        ]);
+
+        $this->editOldTurn($oldTurnId);
+    }
 }
