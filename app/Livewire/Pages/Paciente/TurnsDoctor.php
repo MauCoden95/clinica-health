@@ -65,13 +65,13 @@ class TurnsDoctor extends Component
     }
 
     // Confirma la cita programada
-    public function scheduleAppointmentConfirm($id){
-        $this->scheduleAppointment($id);
+    public function scheduleAppointmentConfirm($turnId){
+        $this->scheduleAppointment($turnId);
     }
 
     // Programa una cita
-    public function scheduleAppointment($id){
-        $turn = Turn::find($id);
+    public function scheduleAppointment($turnId){
+        $turn = Turn::find($turnId);
 
         if ($turn) {
              $update = $turn->update([

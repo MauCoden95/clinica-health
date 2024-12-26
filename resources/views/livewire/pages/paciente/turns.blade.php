@@ -168,8 +168,8 @@
         <div class="bg-white p-6 rounded-lg text-center">
             <h2 class="text-xl font-semibold mb-4">¿Estás seguro?</h2>
             <p class="mb-4">El turno será cancelado</p>
-            <button @click="showModal = false; Livewire.dispatch('cancelConfirmed', { turnId }); turnId = null"
-                class="bg-red-500 text-white px-4 py-2 rounded-md mr-2">Sí, eliminar</button>
+            <button @click="showModal = false; Livewire.dispatch('cancelConfirmed', { turnId }); Swal.fire('Turno cancelado', '', 'success');"
+                class="bg-red-500 text-white px-4 py-2 rounded-md mr-2">Sí, cancelar</button>
             <button @click="showModal = false" class="bg-gray-300 px-4 py-2 rounded-md">Cancelar</button>
         </div>
     </div>
@@ -210,7 +210,7 @@
                 </div>
                 @endforeach
                 @else
-                <p>No hay turnos disponibles.</p>
+                    <p>No hay turnos disponibles.</p>
                 @endif
             </div>
         </div>
@@ -238,17 +238,16 @@
 
 
     {{-- Modal para confirmar reprogramacion de turno --}}
-    {{-- Modal para confirmar reprogramacion de turno --}}
     <div x-show="confirmReschedule" class="fixed inset-0 bg-gray-900 bg-opacity-90 flex items-center justify-center z-50">
         <div class="relative m-auto w-64 bg-white p-4 rounded-lg text-center overflow-y-auto max-h-[80vh]">
             <h2 class="text-center my-2 text-xl font-bold">¿Confirmar turno?</h2>
             <h4 class="text-center my-2">
                 <span x-text="dateEdit.split('-').reverse().join('-')"></span> a las <span x-text="timeEdit"></span>
-                <span x-text="newTurnId"></span>
+                
             </h4>
             <div class="w-full py-3 flex items-center justify-between">
                 <button
-                    @click="if (newTurnId !== 0) { Livewire.dispatch('editNewTurn', { oldTurnId: oldTurnId, newTurnId: newTurnId, date: dateEdit, time: timeEdit }); confirmReschedule = false; }"
+                    @click="if (newTurnId !== 0) { Livewire.dispatch('editNewTurn', { oldTurnId: oldTurnId, newTurnId: newTurnId, date: dateEdit, time: timeEdit }); confirmReschedule = false; }; Swal.fire('Turno reprogramado', '', 'success');"
                     class="bg-red-600 hover:bg-red-800 duration-300 text-white rounded-md p-3">
                     Confirmar
                 </button>
