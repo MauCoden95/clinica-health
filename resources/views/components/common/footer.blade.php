@@ -1,6 +1,6 @@
 <footer class="footer bg-gray-300 text-base-content p-10">
     <aside>
-        <img class="w-32" src="http://localhost:8000/img/Logo.png"/>
+        <img class="w-32" src="http://localhost:8080/img/Logo.png"/>
         <p class="text-black">
             Clínica Health
         <br />

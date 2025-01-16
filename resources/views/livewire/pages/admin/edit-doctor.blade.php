@@ -1,9 +1,9 @@
 <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-100 overflow-hidden">
 
-  
+
     <x-common.sidebar />
 
-   
+
     <div class="flex-1 flex flex-col overflow-hidden">
         <x-common.header_dashboard />
 
@@ -28,7 +28,11 @@
                     });
                 </script>
 
-               
+
+                
+
+
+
                 <form wire:submit.prevent="editDoctor" class="grid grid-cols-2 gap-3">
                     <div class="mb-4">
                         <label for="name" class="block text-gray-700 font-bold mb-2">Nombre</label>

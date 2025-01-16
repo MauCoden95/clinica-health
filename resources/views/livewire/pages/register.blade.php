@@ -78,5 +78,5 @@
             </div>
         </form>
     </div>
-    <img class="w-2/4 h-full mt-10 md:mt-0" src="http://localhost:8000/img/Register.jpg" alt="Dos médicos" />
+    <img class="w-2/4 h-full mt-10 md:mt-0" src="http://localhost:8080/img/Register.jpg" alt="Dos médicos" />
 </div>

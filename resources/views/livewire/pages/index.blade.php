@@ -8,7 +8,7 @@
                 En nuestra clínica, tu salud es nuestra prioridad. Ofrecemos atención médica integral con profesionales dedicados y tecnología de vanguardia. Nos comprometemos a brindarte un cuidado personalizado y de calidad, asegurando tu bienestar en cada paso del camino.
             </p>
         </div>
-        <img class="w-4/5 md:w-2/5 mt-6 md:mt-0" src="http://localhost:8000/img/Banner1.png" alt="Dos médicos" />
+        <img class="w-4/5 md:w-2/5 mt-6 md:mt-0" src="http://localhost:8080/img/Banner1.png" alt="Dos médicos" />
     </section>
 
 
@@ -160,7 +160,7 @@
                     </ul>
                 </div>
             </div>
-            <img class="w-full md:w-1/2 mt-8 md:mt-0" src="http://localhost:8000/img/Innovacion.png" alt="Dos médicos" />
+            <img class="w-full md:w-1/2 mt-8 md:mt-0" src="http://localhost:8080/img/Innovacion.png" alt="Dos médicos" />
         </div>
     </section>
 
