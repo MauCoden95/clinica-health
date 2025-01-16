@@ -5,6 +5,7 @@ namespace App\Livewire\Pages\Admin;
 use Livewire\Component;
 use App\Models\Turn;
 use App\Models\Doctor;
+use App\Models\User;
 use Carbon\Carbon;
 use App\Traits\LogoutTrait;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +21,8 @@ class Calendar extends Component
     public $todayDate = '';
     public $occupation_day = 50;
     public $topThreeSpecialties = [];
+    public $topThreeDoctors = [];
+    public $patients = [];
 
     /**
      * Función que se ejecuta al montar el componente, carga los eventos (turnos) y 
@@ -31,6 +34,8 @@ class Calendar extends Component
         $this->todayDate = Carbon::now()->format('d-m-y');
         $this->occupationDay();
         $this->getTopThreeSpecialties();
+        $this->getTopThreeDoctors();
+        $this->patientsWithRepeatedTurns();
     }
 
     /**
@@ -76,7 +81,9 @@ class Calendar extends Component
         return view('livewire.pages.admin.calendar', [
             'turns' => $this->turns,
             'occupation_day' => $this->occupation_day,
-            'topThreeSpecialties' => $this->topThreeSpecialties
+            'topThreeSpecialties' => $this->topThreeSpecialties,
+            'topThreeDoctors' => $this->topThreeDoctors,
+            'patients' => $this->patients
         ]);
     }
 
@@ -108,5 +115,32 @@ class Calendar extends Component
             ->limit(3)
             ->get();
     }
+
+
     
+    public function getTopThreeDoctors(){
+        $this->topThreeDoctors = Doctor::select('users.name', DB::raw('count(*) as total'))
+            ->join('turns', 'doctors.id', '=', 'turns.doctor_id')
+            ->join('users', 'doctors.user_id', '=', 'users.id')
+            ->where('turns.status', 'unavailable')
+            ->groupBy('users.name')
+            ->orderBy('total', 'desc')
+            ->limit(3)
+            ->get();
+    }
+
+    
+    
+    public function patientsWithRepeatedTurns(){
+        $startDate = Carbon::now()->startOfMonth()->subMonths(3);
+        $endDate = Carbon::now()->endOfMonth();
+        $this->patients = User::select('users.name', DB::raw('count(*) as total'))
+            ->join('turns', 'users.id', '=', 'turns.user_id')
+            ->whereBetween('turns.date', [$startDate, $endDate])
+            ->groupBy('users.name')
+            ->having('total', '>', 1)
+            ->get();
+    }
+    
+
 }

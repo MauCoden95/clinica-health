@@ -51,13 +51,11 @@
 
             <div class="w-5/6 m-auto">
 
-                <x-common.statistics :occupationDay="$occupation_day" :topThreeSpecialties="$topThreeSpecialties"/>
-
+                <x-common.statistics :occupationDay="$occupation_day" :topThreeSpecialties="$topThreeSpecialties" :topThreeDoctors="$topThreeDoctors" :patients="$patients"/>
 
 
             </div>
 
-          
 
         </main>
     </div>

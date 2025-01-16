@@ -13,7 +13,7 @@
             </div>
         </div>
 
-
+      
 
         <div class="bg-white rounded-lg p-4 shadow-md">
             <h2 class="font-bold mb-2">Especialidades más Demandadas</h2>
@@ -39,27 +39,35 @@
             <h2 class="font-bold mb-2">Doctores con más Turnos</h2>
             <table class="w-full">
                 <tbody class="bg-white">
-                    <tr>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                            <div class="flex items-center">
-                                <div class="text-sm leading-5 font-medium text-gray-900">Dr. Juan Pérez</div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                            <div class="flex items-center">
-                                <div class="text-sm leading-5 font-medium text-gray-900">Dr. Ana Gómez</div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                            <div class="flex items-center">
-                                <div class="text-sm leading-5 font-medium text-gray-900">Dr. Pedro Sánchez</div>
-                            </div>
-                        </td>
-                    </tr>
+                @foreach ($topThreeDoctors as $doctor)
+                        <tr>
+                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                                <div class="flex items-center justify-between">
+                                    <div class="text-sm leading-5 font-medium text-gray-900">{{ $doctor->name }} </div>
+                                    <div class="ml-2 text-sm leading-5 font-medium text-gray-900"> {{ $doctor->total }} turnos asignados</div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="bg-white rounded-lg p-4 shadow-md">
+            <h2 class="font-bold mb-2">Pacientes que han reservado más de un turno el ultimo mes</h2>
+            <table class="w-full">
+                <tbody class="bg-white">
+                @foreach ($patients as $patient)
+                        <tr>
+                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                                <div class="flex items-center justify-between">
+                                    <div class="text-sm leading-5 font-medium text-gray-900">{{ $patient->name }} </div>
+                                    <div class="ml-2 text-sm leading-5 font-medium text-gray-900"> {{ $patient->total }} turnos asignados</div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
