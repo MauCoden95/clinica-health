@@ -4,8 +4,10 @@ namespace App\Livewire\Pages\Admin;
 
 use Livewire\Component;
 use App\Models\Turn;
+use App\Models\Doctor;
 use Carbon\Carbon;
 use App\Traits\LogoutTrait;
+use Illuminate\Support\Facades\DB;
 
 class Calendar extends Component
 {
@@ -16,6 +18,8 @@ class Calendar extends Component
     public $turnsByPatient = [];
     public $selectedDate;
     public $todayDate = '';
+    public $occupation_day = 50;
+    public $topThreeSpecialties = [];
 
     /**
      * Función que se ejecuta al montar el componente, carga los eventos (turnos) y 
@@ -25,6 +29,8 @@ class Calendar extends Component
     {
         $this->loadEvents();
         $this->todayDate = Carbon::now()->format('d-m-y');
+        $this->occupationDay();
+        $this->getTopThreeSpecialties();
     }
 
     /**
@@ -69,6 +75,8 @@ class Calendar extends Component
     {
         return view('livewire.pages.admin.calendar', [
             'turns' => $this->turns,
+            'occupation_day' => $this->occupation_day,
+            'topThreeSpecialties' => $this->topThreeSpecialties
         ]);
     }
 
@@ -80,4 +88,25 @@ class Calendar extends Component
             ->where('user_id', $user_id)
             ->get();
     }
+
+
+    public function occupationDay(){
+        $today = Carbon::now()->format('Y-m-d');
+        $total = Turn::whereDate('date', $today)->count();
+        $occupied = Turn::whereDate('date', $today)->where('status', 'unavailable')->count();
+        $this->occupation_day = ($occupied * 100) / $total;
+    }
+
+    
+    public function getTopThreeSpecialties(){
+        $this->topThreeSpecialties = Doctor::select('specialties.specialty', DB::raw('count(*) as total'))
+            ->join('turns', 'doctors.id', '=', 'turns.doctor_id')
+            ->join('specialties', 'doctors.specialty_id', '=', 'specialties.id')
+            ->where('turns.status', 'unavailable')
+            ->groupBy('specialties.specialty')
+            ->orderBy('total', 'desc')
+            ->limit(3)
+            ->get();
+    }
+    
 }

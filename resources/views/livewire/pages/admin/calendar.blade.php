@@ -10,61 +10,92 @@
 
         <main class="w-full flex-1 px-14 overflow-x-hidden overflow-y-auto bg-white">
             <div>
-              <h1 class="text-2xl my-7 text-center font-bold">Calendario de turnos</h1>
+                <h1 class="text-2xl my-7 text-center font-bold">Calendario de turnos</h1>
 
-              <div x-data="{ calendar: 'monthly' }" class="w-5/6 m-auto mb-7">
-                <div class="w-full flex gap-7 mb-7">
-                    <button @click="calendar = 'monthly'; updateCalendarView('dayGridMonth')" class="w-full bg-red-500 hover:bg-red-800 duration-300 text-white p-3 my-1">Turnos mensuales</button>
-                    <button @click="calendar = 'weekly'; updateCalendarView('timeGridWeek')" class="w-full bg-red-500 hover:bg-red-800 duration-300 text-white p-3 my-1">Turnos semanales</button>
-                    <button @click="calendar = 'daily'; updateCalendarView('timeGridDay')" class="w-full bg-red-500 hover:bg-red-800 duration-300 text-white p-3 my-1">Turnos diarios</button>
+                <div x-data="{ calendar: 'monthly' }" class="w-5/6 m-auto mb-7">
+                    <div class="w-full flex gap-7 mb-7">
+                        <button @click="calendar = 'monthly'; updateCalendarView('dayGridMonth')" class="w-full bg-red-500 hover:bg-red-800 duration-300 text-white p-3 my-1">Turnos mensuales</button>
+                        <button @click="calendar = 'weekly'; updateCalendarView('timeGridWeek')" class="w-full bg-red-500 hover:bg-red-800 duration-300 text-white p-3 my-1">Turnos semanales</button>
+                        <button @click="calendar = 'daily'; updateCalendarView('timeGridDay')" class="w-full bg-red-500 hover:bg-red-800 duration-300 text-white p-3 my-1">Turnos diarios</button>
+                    </div>
+
+                    <div id="calendar"></div>
                 </div>
-               
-                <div id="calendar"></div>
-              </div>
-              
 
-              
+
+
 
 
             </div>
+
+
+
+            <div>
+
+
+                <div x-data="{ calendar: 'monthly' }" class="w-5/6 m-auto my-20">
+                    <h1 class="text-2xl my-7 text-center font-bold">Buscar turnos por médico o especialidad</h1>
+
+
+                    <input wire:model.live="filter" type="text" placeholder="Ingrese Nombre Médico o Especialidad"
+                        class="w-full p-2 border border-gray-300 active:border-red-500 rounded-md">
+                </div>
+
+
+
+
+
+            </div>
+
+
+
+            <div class="w-5/6 m-auto">
+
+                <x-common.statistics :occupationDay="$occupation_day" :topThreeSpecialties="$topThreeSpecialties"/>
+
+
+
+            </div>
+
+          
 
         </main>
     </div>
 </div>
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales/es.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales/es.js"></script>
 
-    <script>
-      let calendar;
-      
-      document.addEventListener('DOMContentLoaded', function() {
+<script>
+    let calendar;
+
+    document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
-        
+
         calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          locale: 'es',
-          headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: ''
-          },
-          dayCellClassNames: function(arg) {
-            if (arg.date.getMonth() !== new Date().getMonth()) {
-              return 'bg-gray-200 text-gray-400';
+            initialView: 'dayGridMonth',
+            locale: 'es',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: ''
+            },
+            dayCellClassNames: function(arg) {
+                if (arg.date.getMonth() !== new Date().getMonth()) {
+                    return 'bg-gray-200 text-gray-400';
+                }
+                return '';
             }
-            return '';
-          }
         });
 
         calendar.render();
-      });
+    });
 
-      function updateCalendarView(view) {
+    function updateCalendarView(view) {
         if (calendar) {
-          calendar.changeView(view);
+            calendar.changeView(view);
         }
-      }
-    </script>
+    }
+</script>
 @endpush
