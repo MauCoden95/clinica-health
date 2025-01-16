@@ -10,7 +10,8 @@ Este proyecto es una aplicación web que permite a los pacientes reservar turnos
 - Interfaz de usuario fácil de usar.
 - Soporte para múltiples médicos y horarios.
 - Notificaciones automáticas por correo electrónico.
-- Sistema de autenticación seguro con JWT.
+- Sistema de autenticación seguro con contraseña hasheada.
+- Sistema de roles y permisos
 
 ## Tecnologías
 - Laravel 11
@@ -22,4 +23,24 @@ Este proyecto es una aplicación web que permite a los pacientes reservar turnos
 ## Instalación
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/usuario/repositorio.git
+   git clone https://github.com/usuario/clinica-health.git
+
+2. Navega al directorio del proyecto:
+   cd clinica-health
+
+3. Instala las dependencias:
+   composer install
+   npm install
+
+4. Configura el archivo .env:
+   cp .env.example .env
+
+5. Genera la clave de la aplicación:
+    php artisan key:generate
+
+6. Corre las migraciones:
+    php artisan migrate
+
+7. Inicia el servidor de desarrollo:
+   php artisan serve
+    Accede a la aplicación en http://localhost:8000.
