@@ -1,6 +1,6 @@
 # Sistema de Reservas de Turnos Médicos
 
-![Vista princiapal](https://ibb.co/n7xCWQ3)
+![Vista princiapal](https://i.ibb.co/YcHZrfD/imagen-2025-01-16-183125318.png)
 
 
 ## Descripción
