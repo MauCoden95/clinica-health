@@ -6,6 +6,10 @@
 ## Descripción
 Este proyecto es una aplicación web que permite a los pacientes reservar turnos médicos en línea con facilidad. Los médicos pueden administrar su disponibilidad y los pacientes recibirán notificaciones por correo electrónico.
 
+
+
+
+
 ## ===== Frontend ======
 - Interfaz de usuario fácil de usar.
 - Soporte para múltiples médicos y horarios.
@@ -15,6 +19,10 @@ Este proyecto es una aplicación web que permite a los pacientes reservar turnos
 - Ventanas emergentes para confirmar reservas, cancelar turnos o mostrar detalles adicionales.
 - Representaciones visuales en dashboards para pacientes y administradores (por ejemplo, número de turnos reservados).
 
+
+
+
+
 ## ===== Admin =====
 - Crear, editar, eliminar y listar médicos, incluyendo detalles como especialidad, licencia profesional, horarios disponibles y perfil.
 - Registro, edición y desactivación de pacientes, con la posibilidad de consultar su historial médico o de reserva.
@@ -23,12 +31,19 @@ Este proyecto es una aplicación web que permite a los pacientes reservar turnos
 - Crear y administrar usuarios del sistema con roles específicos (administrador, doctor, etc.).
 - Gestionar los suministros y equipos médicos de la clínica. 
 
+
+
+
 ## ===== Tecnologías =====
 - Laravel 11
 - Alpine.js
 - MySQL
 - Tailwind CSS
 - Livewire
+
+
+
+
 
 ## ===== Instalación =====
 1. Clona el repositorio:
@@ -54,6 +69,8 @@ Este proyecto es una aplicación web que permite a los pacientes reservar turnos
 7. Inicia el servidor de desarrollo:
    php artisan serve
     Accede a la aplicación en http://localhost:8000.
+
+
 
 
 ## ===== Capturas de pantalla =====
