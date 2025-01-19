@@ -23,14 +23,14 @@ Este proyecto es una aplicación web que permite a los pacientes reservar turnos
 - Crear y administrar usuarios del sistema con roles específicos (administrador, doctor, etc.).
 - Gestionar los suministros y equipos médicos de la clínica. 
 
-## Tecnologías
+## ===== Tecnologías =====
 - Laravel 11
 - Alpine.js
 - MySQL
 - Tailwind CSS
 - Livewire
 
-## Instalación
+## ===== Instalación =====
 1. Clona el repositorio:
    ```bash
    git clone https://github.com/usuario/clinica-health.git
