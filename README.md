@@ -1,6 +1,6 @@
 # Sistema de Reservas de Turnos Médicos
 
-![Vista princiapal](https://i.ibb.co/YcHZrfD/imagen-2025-01-16-183125318.png)
+![Vista principal](https://i.ibb.co/YcHZrfD/imagen-2025-01-16-183125318.png)
 
 
 ## Descripción
@@ -54,3 +54,10 @@ Este proyecto es una aplicación web que permite a los pacientes reservar turnos
 7. Inicia el servidor de desarrollo:
    php artisan serve
     Accede a la aplicación en http://localhost:8000.
+
+
+## ===== Capturas de pantalla =====
+![Vista todos los pacientes](https://i.ibb.co/jVPbtVD/qqqqq.png)
+![Vista de registro exitosa](https://i.ibb.co/3FMxGvC/qqqqq1.png)
+![Vista turnos programados del paciente](https://i.ibb.co/KrfzFY8/qqqqq2.png)
+![Vista reprogramar turno](https://i.ibb.co/jVPbtVD/qqqqq3.png)
