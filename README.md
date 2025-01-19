@@ -58,6 +58,9 @@ Este proyecto es una aplicación web que permite a los pacientes reservar turnos
 
 ## ===== Capturas de pantalla =====
 ![Vista todos los pacientes](https://i.ibb.co/jVPbtVD/qqqqq.png)
+
 ![Vista de registro exitosa](https://i.ibb.co/3FMxGvC/qqqqq1.png)
+
 ![Vista turnos programados del paciente](https://i.ibb.co/KrfzFY8/qqqqq2.png)
+
 ![Vista reprogramar turno](https://i.ibb.co/jVPbtVD/qqqqq3.png)
