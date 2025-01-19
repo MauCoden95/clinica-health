@@ -6,12 +6,22 @@
 ## Descripción
 Este proyecto es una aplicación web que permite a los pacientes reservar turnos médicos en línea con facilidad. Los médicos pueden administrar su disponibilidad y los pacientes recibirán notificaciones por correo electrónico.
 
-## Características
+## ===== Frontend ======
 - Interfaz de usuario fácil de usar.
 - Soporte para múltiples médicos y horarios.
-- Notificaciones automáticas por correo electrónico.
-- Sistema de autenticación seguro con contraseña hasheada.
-- Sistema de roles y permisos
+- Mensajes de éxito, error o advertencia al interactuar con formularios u otros elementos.
+- Una forma gráfica para seleccionar fechas y ver disponibilidad de turnos.
+- Incorporación de íconos relevantes (por ejemplo, reloj, calendario, médico) para complementar textos.
+- Ventanas emergentes para confirmar reservas, cancelar turnos o mostrar detalles adicionales.
+- Representaciones visuales en dashboards para pacientes y administradores (por ejemplo, número de turnos reservados).
+
+## ===== Admin =====
+- Crear, editar, eliminar y listar médicos, incluyendo detalles como especialidad, licencia profesional, horarios disponibles y perfil.
+- Registro, edición y desactivación de pacientes, con la posibilidad de consultar su historial médico o de reserva.
+- Crear y organizar especialidades para facilitar la asignación de médicos.
+- Visualizar y administrar las reservas de turnos, reasignar médicos, cancelar citas y gestionar turnos pendientes o no asignados.
+- Crear y administrar usuarios del sistema con roles específicos (administrador, doctor, etc.).
+- Gestionar los suministros y equipos médicos de la clínica. 
 
 ## Tecnologías
 - Laravel 11
