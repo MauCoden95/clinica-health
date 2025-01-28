@@ -63,8 +63,7 @@
                 </table>
 
 
-
-                <form wire:submit.prevent="editDoctorSchedule({{ $doctor_schedule->id }})" class="grid grid-cols-2 gap-3">
+                <form wire:submit.prevent="editDoctorSchedule({{ $doctor_schedule->doctor_id }})" class="grid grid-cols-2 gap-3">
 
 
                     <div>
@@ -86,6 +85,11 @@
 
                     <div>
                         <input wire:model="end_time" min="08:00" max="20:00" class="w-full p-3 border-b border-red-500" type="time" name="end_time" placeholder="Hora de fin..." />
+                        @error('end_time') <span class="text-red-500">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div>
+                        <input wire:model="slot_duration" value="20" class="hidden w-full p-3 border-b border-red-500" type="number" name="slot_duration" />
                         @error('end_time') <span class="text-red-500">{{ $message }}</span> @enderror
                     </div>
 

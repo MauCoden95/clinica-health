@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Traits\LogoutTrait;
 use App\Models\DoctorSchedule;
 use App\Models\Doctor;
+use Illuminate\Support\Facades\DB;
 
 class EditDoctorSchedule extends Component
 {
@@ -54,6 +55,7 @@ class EditDoctorSchedule extends Component
             ]);
 
 
+
             $update = DoctorSchedule::where('doctor_id', '=', $id)->update($validatedData);
 
             if ($update) {
@@ -62,7 +64,11 @@ class EditDoctorSchedule extends Component
                     'title' => '¡Éxito!',
                     'text' => 'Jornada del médico actualizada correctamente'
                 ]);
-            }else{
+
+                $this->deleteAvailableTurns($id);
+
+                $this->createNewTurns($id);
+            } else {
                 $this->dispatch('showAlert', [
                     'type' => 'error',
                     'title' => '¡Error!',
@@ -71,6 +77,44 @@ class EditDoctorSchedule extends Component
             }
         } catch (\Throwable $th) {
             //throw $th;
+        }
+    }
+
+
+    public function deleteAvailableTurns($id)
+    {
+        DB::table('turns')
+            ->where('doctor_id', $id)
+            ->where('status', 'available')
+            ->delete();
+    }
+
+
+    public function createNewTurns($id)
+    {
+        $startDate = now();
+        $endDate = now()->addMonths(2);
+
+        $currentDate = $startDate->copy();
+
+        while ($currentDate->lte($endDate)) {
+            if ($currentDate->dayOfWeek == $this->day_of_week) {
+                $currentTime = $this->start_time;
+
+                while (strtotime($currentTime) < strtotime($this->end_time)) {
+                    DB::table('turns')->insert([
+                        'user_id' => null,
+                        'doctor_id' => $id,
+                        'date' => $currentDate->toDateString(),
+                        'time' => $currentTime,
+                        'status' => 'available'
+                    ]);
+
+                    $currentTime = date('H:i:s', strtotime($currentTime) + $this->slot_duration * 60);
+                }
+            }
+
+            $currentDate->addDay();
         }
     }
 }
