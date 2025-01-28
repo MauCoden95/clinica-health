@@ -5,6 +5,8 @@ namespace App\Livewire\Pages\Admin;
 use Livewire\Component;
 use App\Models\User;
 use App\Traits\LogoutTrait;
+use Illuminate\Support\Facades\Redirect;
+
 
 class Patient extends Component
 {

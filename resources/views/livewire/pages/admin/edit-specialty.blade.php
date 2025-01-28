@@ -19,18 +19,7 @@
 
 
 
-                <script>
-                    document.addEventListener('livewire:initialized', () => {
-                        @this.on('editSpecialty', (data) => {
-                            Swal.fire({
-                                title: data[0].title,
-                                text: data[0].text,
-                                icon: data[0].type,
-                                confirmButtonText: 'Aceptar'
-                            });
-                        });
-                    });
-                </script>
+               
                 <form wire:submit.prevent="editSpecialty" class="flex items-center justify-between gap-3">
                     <div class="w-3/6 mb-4">
                         <label for="specialty" class="block text-gray-700 font-bold mb-2">Especialidad</label>

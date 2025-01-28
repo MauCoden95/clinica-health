@@ -32,7 +32,7 @@
         </form>
 
         <!-- Imagen -->
-        <img class="w-full md:w-2/5 mt-10 md:mt-0" src="http://localhost:8080/img/LoRe.png" alt="Dos médicos" />
+        <img class="w-full md:w-2/5 mt-10 md:mt-0" src="http://localhost:8000/img/LoRe.png" alt="Dos médicos" />
     </div>
 
     <x-common.footer/>

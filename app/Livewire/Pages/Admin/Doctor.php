@@ -5,8 +5,9 @@ namespace App\Livewire\Pages\Admin;
 use Livewire\Component;
 use App\Models\Specialty;
 use App\Models\User;
+use App\Models\DoctorSchedule;
 use App\Traits\LogoutTrait;
-
+use PhpParser\Comment\Doc;
 
 class Doctor extends Component
 {
@@ -17,6 +18,7 @@ class Doctor extends Component
     public $specialties;
 
 
+    //Datos del doctor
     public $name;
     public $email;
     public $address;
@@ -28,7 +30,24 @@ class Doctor extends Component
 
     public $dniFilter = '';
 
+
+
+
+    //Disponibilidad del medico
+    public $day_of_week;
+    public $start_time;
+    public $end_time;
+    public $slot_duration = 20;
+
+
+
+
+
     protected $listeners = ['deleteConfirmed'];
+
+
+
+
 
     protected $rules = [
         'name' => 'required|string|max:255',
@@ -97,13 +116,26 @@ class Doctor extends Component
             'password' => bcrypt(env('DEFAULT_PASSWORD')),
         ]);
 
+        
+
         if ($user) {
             $user->assignRole('doctor');
 
             $doctor =  \App\Models\Doctor::create([
+                'name' => $this->name,
+                'address' => $this->address,
+                'phone' => $this->phone,
                 'specialty_id' => $this->specialty_id, 
                 'user_id' => $user->id, 
                 'license' => $this->license, 
+            ]);
+
+            $doctor_schedule = DoctorSchedule::create([
+                'day_of_week' => $this->day_of_week,
+                'start_time' => $this->start_time,
+                'end_time' => $this->end_time,
+                'slot_duration' => $this->slot_duration,
+                'doctor_id' => $doctor->id,
             ]);
 
 

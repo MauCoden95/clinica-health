@@ -18,18 +18,7 @@
 
 
 
-                <script>
-                    document.addEventListener('livewire:initialized', () => {
-                        @this.on('editUser', (data) => {
-                            Swal.fire({
-                                title: data[0].title,
-                                text: data[0].text,
-                                icon: data[0].type,
-                                confirmButtonText: 'Aceptar'
-                            });
-                        });
-                    });
-                </script>
+                
                 <form wire:submit.prevent="editPatient" class="grid grid-cols-2 gap-3">
                     <div class="mb-4">
                         <label for="name" class="block text-gray-700 font-bold mb-2">Nombre</label>

@@ -36,6 +36,7 @@ class Calendar extends Component
         $this->getTopThreeSpecialties();
         $this->getTopThreeDoctors();
         $this->patientsWithRepeatedTurns();
+        $this->showTurnsToday();
     }
 
     /**
@@ -57,19 +58,16 @@ class Calendar extends Component
                             });
     }
 
-    /**
-     * Función que se ejecuta cuando se selecciona una fecha en el calendario, 
-     * carga los turnos de esa fecha y emite un evento para que se muestren en la vista
-     */
-    public function showTurns($date)
-    {
-        $this->selectedDate = $date->format('Y-m-d');
-        $this->turns = Turn::with(['user', 'doctor.specialty'])
-            ->whereDate('date', $this->selectedDate)
-            ->where('status', 'unavailable')
-            ->get();
+    
 
-        $this->emit('turnsUpdated', $this->turns);
+    public function showTurnsToday(){
+        $this->turns = Turn::with(['user', 'doctor.user', 'doctor.specialty'])
+            ->whereDate('date', Carbon::now()->format('Y-m-d'))
+            ->select('users.name as name_patient', 'turns.time', 'doctors.name as doctor_name', 'specialties.specialty')
+            ->join('users', 'turns.user_id', '=', 'users.id')
+            ->join('doctors', 'turns.doctor_id', '=', 'doctors.id')
+            ->join('specialties', 'doctors.specialty_id', '=', 'specialties.id')
+            ->get();
     }
 
     /**
@@ -101,7 +99,11 @@ class Calendar extends Component
         $today = Carbon::now()->format('Y-m-d');
         $total = Turn::whereDate('date', $today)->count();
         $occupied = Turn::whereDate('date', $today)->where('status', 'unavailable')->count();
-        $this->occupation_day = ($occupied * 100) / $total;
+        if ($total > 0) {
+            $this->occupation_day = ($occupied * 100) / $total;
+        } else {
+            $this->occupation_day = 0;
+        }
     }
 
     

@@ -15,21 +15,10 @@
                     <a wire:navigate href="{{ route('admin.doctor') }}" class="text-xl">Volver a doctores</a>
                 </div>
 
-                <script>
-                    document.addEventListener('livewire:initialized', () => {
-                        @this.on('editDoctor', (data) => {
-                            Swal.fire({
-                                title: data[0].title,
-                                text: data[0].text,
-                                icon: data[0].type,
-                                confirmButtonText: 'Aceptar'
-                            });
-                        });
-                    });
-                </script>
 
 
-                
+
+
 
 
 
@@ -63,6 +52,10 @@
                         <label for="license" class="block text-gray-700 font-bold mb-2">Matrícula</label>
                         <input type="number" id="license" wire:model="license" class="w-full px-3 py-2 border rounded-lg">
                     </div>
+
+
+                  
+
 
                     <div class="mt-6 col-span-2">
                         <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 duration-300">

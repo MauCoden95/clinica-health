@@ -21,7 +21,7 @@
                         <button @click="visible = false" class="btn_close absolute top-5 right-5 text-5xl text-white">
                             <i class="fas fa-times"></i>
                         </button>
-                        <div class="div_add__div w-4/6 min-h-[100px] bg-white rounded-lg">
+                        <div :class="{ 'animated-div': visible }" class="div_add__div w-4/6 min-h-[100px] bg-white rounded-lg">
                             <x-common.form_add_specialty />
                         </div>
                     </div>
@@ -80,6 +80,8 @@
                     </div>
                 </div>
             </div>
+
+            
         </main>
     </div>
 </div>

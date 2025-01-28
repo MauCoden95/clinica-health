@@ -45,7 +45,7 @@ class EditSpecialty extends Component
                 $update = $specialty->update($validatedData);
 
                 if ($update) {
-                    $this->dispatch('editSpecialty', [
+                    $this->dispatch('showAlert', [
                         'type' => 'success',
                         'title' => '¡Éxito!',
                         'text' => 'Especialidad actualizada correctamente'
@@ -54,14 +54,14 @@ class EditSpecialty extends Component
 
                
             } else {
-                $this->dispatch('editSpecialty', [
+                $this->dispatch('showAlert', [
                     'type' => 'error',
                     'title' => 'Error',
                     'text' => 'Especialidad no encontrado'
                 ]);
             }
         }catch (\Exception $e) {
-            $this->dispatch('editSpecialty', [
+            $this->dispatch('showAlert', [
                 'type' => 'error',
                 'title' => 'Error',
                 'text' => 'Ocurrió un error al actualizar la especialidad'

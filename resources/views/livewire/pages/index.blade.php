@@ -1,14 +1,19 @@
 <div>
-    <x-common.header/>
+    <x-common.header />
+
+
 
     <section class="relative w-full min-h-[450px] z-30 py-5 md:py-0 px-8 md:px-14 flex flex-col md:flex-row items-center justify-center">
-        <div class="w-full md:w-2/4 mb-8 md:mb-0">
-            <h2 class="text-2xl md:text-4xl mb-4 md:mb-6 text-center md:text-left">Cuidamos tu salud, <span class="font-bold">transformamos tu vida.</span></h2>
-            <p class="text-sm md:text-base text-center md:text-left">
-                En nuestra clínica, tu salud es nuestra prioridad. Ofrecemos atención médica integral con profesionales dedicados y tecnología de vanguardia. Nos comprometemos a brindarte un cuidado personalizado y de calidad, asegurando tu bienestar en cada paso del camino.
-            </p>
-        </div>
-        <img class="w-4/5 md:w-2/5 mt-6 md:mt-0" src="http://localhost:8080/img/Banner1.png" alt="Dos médicos" />
+
+        <div class="absolute inset-0 flex justify-center items-center">
+
+            <div class="w-full md:w-2/4 mb-8 md:mb-0">
+                <h2 class="text-2xl md:text-4xl mb-4 md:mb-6 text-center md:text-left">Cuidamos tu salud, <span class="font-bold">transformamos tu vida.</span></h2>
+                <p class="text-sm md:text-base text-center md:text-left">
+                    En nuestra clínica, tu salud es nuestra prioridad. Ofrecemos atención médica integral con profesionales dedicados y tecnología de vanguardia. Nos comprometemos a brindarte un cuidado personalizado y de calidad, asegurando tu bienestar en cada paso del camino.
+                </p>
+            </div>
+            <img class="w-4/5 md:w-2/5 mt-6 md:mt-0" src="http://localhost:8000/img/Banner1.png" alt="Dos médicos" />
     </section>
 
 
@@ -60,23 +65,23 @@
         <div class="swiper">
             <div class="w-5/6 swiper-wrapper px-2 mb-5">
                 @foreach($services as $service)
-                    <div class="swiper-slide card_services bg-base-100 w-1/4 p-2 sm:p-3 rounded-md mt-3 duration-300">
-                        <figure>
-                            <img src="{{ $service['image'] }}" alt="{{ $service['atl'] }}" class="w-full h-auto" />
-                        </figure>
-                        <div class="card-body">
-                            <h2 class="card-title text-center my-2 sm:my-3 md:my-4 text-lg sm:text-xl font-bold">{{ $service['specialty'] }}</h2>
-                            <p class="p-2 sm:p-3 text-sm sm:text-base">{{ $service['desc'] }}</p>
-                        </div>
+                <div class="swiper-slide card_services bg-base-100 w-1/4 p-2 sm:p-3 rounded-md mt-3 duration-300">
+                    <figure>
+                        <img src="{{ $service['image'] }}" alt="{{ $service['atl'] }}" class="w-full h-auto" />
+                    </figure>
+                    <div class="card-body">
+                        <h2 class="card-title text-center my-2 sm:my-3 md:my-4 text-lg sm:text-xl font-bold">{{ $service['specialty'] }}</h2>
+                        <p class="p-2 sm:p-3 text-sm sm:text-base">{{ $service['desc'] }}</p>
                     </div>
+                </div>
                 @endforeach
-            
+
             </div>
-        <div class="swiper-pagination"></div>
-    </div>
+            <div class="swiper-pagination"></div>
+        </div>
 
         <div class="grid gap-4 sm:gap-5 md:gap-7 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-         
+
         </div>
     </section>
 
@@ -108,62 +113,62 @@
                     <ul>
                         <li class="flex items-center my-3">
                             <svg class="w-6 h-6 sm:w-8 sm:h-8 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd" />
                             </svg>
                             <span class="text-xs sm:text-sm">Consulta con nuestros especialistas desde cualquier lugar.</span>
                         </li>
                         <li class="flex items-center my-3">
                             <svg class="w-6 h-6 sm:w-8 sm:h-8 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd" />
                             </svg>
                             <span class="text-xs sm:text-sm">Accede a tu información médica de forma rápida y segura.</span>
                         </li>
                         <li class="flex items-center my-3">
                             <svg class="w-6 h-6 sm:w-8 sm:h-8 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd" />
                             </svg>
                             <span class="text-xs sm:text-sm">Tecnología de última generación para diagnósticos precisos.</span>
                         </li>
                         <li class="flex items-center my-3">
                             <svg class="w-6 h-6 sm:w-8 sm:h-8 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd" />
                             </svg>
                             <span class="text-xs sm:text-sm">Seguimiento continuo de pacientes crónicos desde sus hogares.</span>
                         </li>
                     </ul>
-              
+
                     <ul>
                         <li class="flex items-center my-3">
                             <svg class="w-6 h-6 sm:w-8 sm:h-8 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd" />
                             </svg>
                             <span class="text-xs sm:text-sm">Gestiona tus citas y resultados de manera fácil y rápida.</span>
                         </li>
                         <li class="flex items-center my-3">
                             <svg class="w-6 h-6 sm:w-8 sm:h-8 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd" />
                             </svg>
                             <span class="text-xs sm:text-sm">Tratamientos modernos y eficaces para distintas patologías.</span>
                         </li>
                         <li class="flex items-center my-3">
                             <svg class="w-6 h-6 sm:w-8 sm:h-8 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd" />
                             </svg>
                             <span class="text-xs sm:text-sm">Protocolos de atención diseñados según las necesidades individuales.</span>
                         </li>
                         <li class="flex items-center my-3">
                             <svg class="w-6 h-6 sm:w-8 sm:h-8 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z" clip-rule="evenodd" />
                             </svg>
                             <span class="text-xs sm:text-sm">Programas preventivos basados en datos y análisis predictivo.</span>
                         </li>
                     </ul>
                 </div>
             </div>
-            <img class="w-full md:w-1/2 mt-8 md:mt-0" src="http://localhost:8080/img/Innovacion.png" alt="Dos médicos" />
+            <img class="w-full md:w-1/2 mt-8 md:mt-0" src="http://localhost:8000/img/Innovacion.png" alt="Dos médicos" />
         </div>
     </section>
 
 
-    <x-common.footer/>
+    <x-common.footer />
 </div>

@@ -9,10 +9,10 @@ window.addEventListener('load', () => {
 
     initEventListeners();
 
-   
-    Livewire.hook('message.processed', (message, component) => {
-        initEventListeners();
-    });
+
+    
+   calendar();
+    
 })
 
 
@@ -27,3 +27,6 @@ function initEventListeners() {
 
     
 }
+
+
+

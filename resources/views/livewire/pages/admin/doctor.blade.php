@@ -6,7 +6,7 @@
 
         <main class="w-full flex-1 overflow-x-hidden overflow-y-auto bg-white">
             <div class="relative w-full px-14 overflow-x-auto mt-20 flex justify-between">
-            
+
                 <x-common.count :item="'Cantidad de doctores'" :quantity="$count_doctors" :icon="'fas fa-user-md'" />
 
                 <div x-data="{ visible: false }">
@@ -37,43 +37,46 @@
 
                 <table class="w-full m-auto mt-6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     @if (count($doctors) > 0)
-                        <thead class="text-xs text-white uppercase bg-red-600">
-                            <tr>
-                                <th scope="col" class="px-3 py-1 text-center">ID</th>
-                                <th scope="col" class="px-3 py-1 text-center">Nombre</th>
-                                <th scope="col" class="px-3 py-1 text-center">Especialidad</th>
-                                <th scope="col" class="px-3 py-1 text-center">Teléfono</th>
-                                <th scope="col" class="px-3 py-1 text-center">Dirección</th>
-                                <th scope="col" class="px-3 py-1 text-center">Licencia</th>
-                                <th scope="col" class="px-3 py-1 text-center">DNI</th>
-                                <th scope="col" class="px-3 py-1 text-center">Acciones</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach ($doctors as $doctor)
-                                <tr class="bg-gray-200 border-b">
-                                    <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->id }}</td>
-                                    <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->user->name }}</td>
-                                    <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->specialty->specialty }}</td>
-                                    <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->user->phone }}</td>
-                                    <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->user->address }}</td>
-                                    <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->license }}</td>
-                                    <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->user->dni }}</td>
-                                    <td class="px-3 py-2 text-center text-gray-900">
-                                        <a wire:navigate href="{{ route('edit.doctor', ['id' => $doctor->id]) }}"
-                                            class="text-xl"><i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i></a>
-                                        <button @click="confirmDeleteVisible = true; doctorId = {{ $doctor->id }}" class="text-xl">
-                                            <i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    @else
+                    <thead class="text-xs text-white uppercase bg-red-600">
                         <tr>
-                            <td colspan="8" class="text-gray-600 text-2xl text-center">No hay doctores registrados.</td>
+                            <th scope="col" class="px-3 py-1 text-center">ID</th>
+                            <th scope="col" class="px-3 py-1 text-center">Nombre</th>
+                            <th scope="col" class="px-3 py-1 text-center">Especialidad</th>
+                            <th scope="col" class="px-3 py-1 text-center">Teléfono</th>
+                            <th scope="col" class="px-3 py-1 text-center">Dirección</th>
+                            <th scope="col" class="px-3 py-1 text-center">Licencia</th>
+                            <th scope="col" class="px-3 py-1 text-center">DNI</th>
+                            <th scope="col" class="px-3 py-1 text-center">Acciones</th>
                         </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($doctors as $doctor)
+                        <tr class="bg-gray-200 border-b">
+                            <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->id }}</td>
+                            <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->user->name }}</td>
+                            <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->specialty->specialty }}</td>
+                            <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->user->phone }}</td>
+                            <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->user->address }}</td>
+                            <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->license }}</td>
+                            <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->user->dni }}</td>
+                            <td class="px-3 py-2 text-center text-gray-900">
+                                <a wire:navigate href="{{ route('edit.doctor', ['id' => $doctor->id]) }}"
+                                    class="text-xl"><i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i></a>
+                                <a wire:navigate href="{{ route('edit.doctor_schedule', ['id' => $doctor->id]) }}"
+                                    title="Modificar dia de trabajo"
+                                    class="text-xl"><i class="fas fa-calendar ml-4 text-orange-700 hover:text-orange-400 duration-300"></i></a>
+                                <button @click="confirmDeleteVisible = true; doctorId = {{ $doctor->id }}" class="text-xl">
+                                    <i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                    @else
+                    <tr>
+                        <td colspan="8" class="text-gray-600 text-2xl text-center">No hay doctores registrados.</td>
+                    </tr>
                     @endif
                 </table>
             </div>
@@ -90,7 +93,7 @@
             <h2 class="text-xl font-semibold mb-4">¿Estás seguro?</h2>
             <p class="mb-4">El doctor será eliminado</p>
             <button @click="confirmDeleteVisible = false; Livewire.dispatch('deleteConfirmed', { doctorId }); doctorId = null"
-                    class="bg-red-500 text-white px-4 py-2 rounded-md mr-2">Sí, eliminar</button>
+                class="bg-red-500 text-white px-4 py-2 rounded-md mr-2">Sí, eliminar</button>
             <button @click="confirmDeleteVisible = false" class="bg-gray-300 px-4 py-2 rounded-md">Cancelar</button>
         </div>
     </div>

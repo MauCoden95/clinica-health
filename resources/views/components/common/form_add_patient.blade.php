@@ -1,17 +1,6 @@
 <div>
     <div class="text-center mt-12 text-2xl">Registrar nuevo paciente</div>
-    <script>
-        document.addEventListener('livewire:initialized', () => {
-            @this.on('showAlert', (data) => {
-                Swal.fire({
-                    title: data[0].title,
-                    text: data[0].text,
-                    icon: data[0].type,
-                    confirmButtonText: 'Aceptar'
-                });
-            });
-        });
-    </script>
+    
   
     <form wire:submit.prevent="register" class="w-full p-12 grid gap-3 grid-cols-2" autoComplete="off">
         <div>

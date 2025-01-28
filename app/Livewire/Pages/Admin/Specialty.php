@@ -72,4 +72,8 @@ class Specialty extends Component
         $this->deleteSpecialty($specialtyId);
     }
 
+    
+
+   
+
 }
