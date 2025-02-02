@@ -68,6 +68,12 @@ class Doctor extends Component
 
     public function render()
     {
+        $this->filterDoctors();
+
+        return view('livewire.pages.admin.doctor');
+    }
+
+    public function filterDoctors(){
         $filteredDoctors = \App\Models\Doctor::with(['user.roles', 'specialty'])
             ->whereHas('user.roles', function ($query) {
                 $query->where('name', 'doctor');
@@ -80,8 +86,6 @@ class Doctor extends Component
             ->get();
 
         $this->doctors = $filteredDoctors; 
-
-        return view('livewire.pages.admin.doctor');
     }
 
 

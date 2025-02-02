@@ -12,6 +12,7 @@
             <div>
                 <h1 class="text-4xl my-12 text-center font-bold">Turnos de hoy</h1>
 
+                {{--
                 <table class="w-5/6 m-auto mb-20 border-collapse border border-gray-300">
                     <thead>
                         <tr class="bg-gray-200 text-left">
@@ -26,23 +27,23 @@
                         @forelse($turns as $turn)
                         <tr class="">
                             <td class="border border-gray-300 p-2 text-center">{{ $turn['name_patient'] ?? 'N/A' }}</td>
-                            <td class="border border-gray-300 p-2 text-center">{{ \Carbon\Carbon::parse($turn['time'])->format('H:i') ?? 'N/A' }}</td>
-                            <td class="border border-gray-300 p-2 text-center">Dr. {{ $turn['doctor_name'] ?? 'N/A' }}</td>
-                            <td class="border border-gray-300 p-2 text-center">{{ $turn['specialty'] ?? 'N/A' }}</td>
-                            <td class="border border-gray-300 p-2 text-center">
-                                <a wire:navigate 
-                                    class="text-xl"><i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i></a>
-                                <button class="text-xl">
-                                    <i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="4" class="text-center text-gray-500 p-4">No hay turnos para mostrar</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
+                <td class="border border-gray-300 p-2 text-center">{{ \Carbon\Carbon::parse($turn['time'])->format('H:i') ?? 'N/A' }}</td>
+                <td class="border border-gray-300 p-2 text-center">Dr. {{ $turn['doctor_name'] ?? 'N/A' }}</td>
+                <td class="border border-gray-300 p-2 text-center">{{ $turn['specialty'] ?? 'N/A' }}</td>
+                <td class="border border-gray-300 p-2 text-center">
+                    <a wire:navigate
+                        class="text-xl"><i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i></a>
+                    <button class="text-xl">
+                        <i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
+                    </button>
+                </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="4" class="w-full text-gray-500 p-4">No hay turnos para mostrar</td>
+                </tr>
+                @endforelse
+                </tbody>
                 </table>
 
 
@@ -51,7 +52,7 @@
 
 
                     <div id="calendar"></div>
-                </div>
+                </div>--}}
 
 
 
@@ -65,11 +66,44 @@
 
 
                 <div x-data="{ calendar: 'monthly' }" class="w-5/6 m-auto my-20">
-                    <h1 class="text-2xl my-7 text-center font-bold">Buscar turnos por médico o especialidad</h1>
+                    <h1 class="text-2xl my-7 text-center font-bold">Buscar turnos por paciente, médico o especialidad</h1>
 
 
-                    <input wire:model.live="filter" type="text" placeholder="Ingrese Nombre Médico o Especialidad"
+                    <input wire:model.live="inputSearch" type="text" placeholder="Ingrese Nombre Médico o Especialidad"
                         class="w-full p-2 border border-gray-300 active:border-red-500 rounded-md">
+
+                    <table class="w-full m-auto my-12 border-collapse border border-gray-300">
+                        <thead>
+                            <tr class="bg-gray-200 text-left">
+                                <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">PACIENTE</th>
+                                <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">HORA</th>
+                                <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">MEDICO</th>
+                                <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">ESPECIALIDAD</th>
+                                <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($turns as $turn)
+                            <tr class="">
+                                <td class="border border-gray-300 p-2 text-center">{{ $turn['name_patient'] ?? 'N/A' }}</td>
+                                <td class="border border-gray-300 p-2 text-center">{{ \Carbon\Carbon::parse($turn['time'])->format('H:i') ?? 'N/A' }}</td>
+                                <td class="border border-gray-300 p-2 text-center">Dr. {{ $turn['doctor_name'] ?? 'N/A' }}</td>
+                                <td class="border border-gray-300 p-2 text-center">{{ $turn['specialty'] ?? 'N/A' }}</td>
+                                <td class="border border-gray-300 p-2 text-center">
+                                    <a wire:navigate
+                                        class="text-xl"><i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i></a>
+                                    <button class="text-xl">
+                                        <i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="4" class="w-full text-gray-500 p-4">No hay turnos para mostrar</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
 
 
@@ -77,7 +111,9 @@
 
 
             </div>
-
+@foreach($turnsByPatient as $turn)
+{{$turn}}
+@endforeach
 
 
             <div class="w-5/6 m-auto">

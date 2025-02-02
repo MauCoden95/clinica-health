@@ -23,6 +23,7 @@ class Calendar extends Component
     public $topThreeSpecialties = [];
     public $topThreeDoctors = [];
     public $patients = [];
+    public $inputSearch = '';
 
     /**
      * Función que se ejecuta al montar el componente, carga los eventos (turnos) y 
@@ -67,6 +68,7 @@ class Calendar extends Component
             ->join('users', 'turns.user_id', '=', 'users.id')
             ->join('doctors', 'turns.doctor_id', '=', 'doctors.id')
             ->join('specialties', 'doctors.specialty_id', '=', 'specialties.id')
+            ->orderBy('turns.time', 'asc')
             ->get();
     }
 
@@ -76,6 +78,8 @@ class Calendar extends Component
      */
     public function render()
     {
+        $this->filterTurnsByDoctorOrSpecialty();
+
         return view('livewire.pages.admin.calendar', [
             'turns' => $this->turns,
             'occupation_day' => $this->occupation_day,
@@ -83,6 +87,28 @@ class Calendar extends Component
             'topThreeDoctors' => $this->topThreeDoctors,
             'patients' => $this->patients
         ]);
+    }
+
+
+    public function filterTurnsByDoctorOrSpecialty(){
+        $filteredTurns = Turn::with(['user', 'doctor.user', 'doctor.specialty'])
+            ->whereDate('date', Carbon::now()->format('Y-m-d'))
+            ->select('users.name as name_patient', 'turns.time', 'doctors.name as doctor_name', 'specialties.specialty')
+            ->join('users', 'turns.user_id', '=', 'users.id')
+            ->join('doctors', 'turns.doctor_id', '=', 'doctors.id')
+            ->join('specialties', 'doctors.specialty_id', '=', 'specialties.id')
+            ->orderBy('turns.time', 'asc')
+            ->when($this->inputSearch, function ($query) {
+                $query->where(function ($query) {
+                    $query->where('doctors.name', 'like', '%' . $this->inputSearch . '%')
+                          ->orWhere('specialties.specialty', 'like', '%' . $this->inputSearch . '%')
+                          ->orWhere('users.name', 'like', '%' . $this->inputSearch . '%');
+                });
+            })
+            ->get();
+
+
+        $this->turns = $filteredTurns;
     }
 
     /**

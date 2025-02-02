@@ -61,7 +61,7 @@
                                 </tr>
                             @endforeach
                         @else
-                            <p class="text-gray-600 text-2xl">No hay doctores registrados.</p>
+                            <p class="text-gray-600 text-2xl">No hay especialidades registradas.</p>
                     @endif
                     </tbody>
                 </table>

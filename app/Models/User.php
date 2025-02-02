@@ -62,6 +62,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(TurnExamination::class);
     }
+
+
+    public function posts()
+    {
+        return $this->hasMany(Suggestion::class);
+    }
 }
 
 

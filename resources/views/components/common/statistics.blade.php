@@ -5,7 +5,7 @@
         <div class="bg-white rounded-lg p-4 shadow-md">
             <h2 class="text-lg font-bold mb-2">Ocupación Diaria</h2>
             <div class="flex flex-col">
-                <span class="text-xl font-bold"> {{$occupationDay}}%</span>
+                <span class="text-xl font-bold"> {{ ceil($occupationDay) }}%</span>
                 <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                     <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{$occupationDay ?? 0}}%"></div>
                 </div>
