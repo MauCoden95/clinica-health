@@ -14,6 +14,9 @@ class Suggestions extends Component
     public $suggestions;
     public $user_id;
 
+
+  
+    public $suggestionId;
     public $affair;
     public $description;
     public $date;
@@ -88,7 +91,6 @@ class Suggestions extends Component
             ]);
 
             $this->loadSuggestions($this->user_id);
-            
         }
     }
 
@@ -100,7 +102,8 @@ class Suggestions extends Component
     }
 
 
-    public function deleteSuggestion($suggestionId){
+    public function deleteSuggestion($suggestionId)
+    {
         $suggestion = Suggestion::find($suggestionId);
 
         if ($suggestion) {
@@ -115,5 +118,36 @@ class Suggestions extends Component
             $this->loadSuggestions($this->user_id);
         }
     }
- 
+
+
+    public function editSuggestion()
+    {
+        $this->validate([
+            'affair' => 'required|string',
+            'description' => 'required|string'
+        ]);
+
+        $suggestion = Suggestion::where('id', $this->suggestionId)
+            ->where('user_id', $this->user_id)
+            ->first();
+
+        if ($suggestion) {
+            $suggestion->update([
+                'affair' => $this->affair,
+                'description' => $this->description,
+            ]);
+
+            $this->dispatch('showAlert', [
+                'type' => 'success',
+                'title' => '¡Éxito!',
+                'text' => 'Queja/sugerencia actualizada correctamente'
+            ]);
+
+            
+            $this->loadSuggestions($this->user_id);
+
+            
+            
+        }
+    }
 }

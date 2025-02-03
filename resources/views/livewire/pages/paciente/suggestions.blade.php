@@ -1,4 +1,4 @@
-<div x-data="{ sidebarOpen: false, confirmDeleteVisible: false, showModal: false, suggestionId: null }" class="relative flex h-screen bg-gray-100 overflow-hidden">
+<div x-data="{ sidebarOpen: false, editSuggestionModal: false, confirmDeleteVisible: false, showModal: false, suggestionId: null, affair: '', description: ''  }" class="relative flex h-screen bg-gray-100 overflow-hidden">
 
     <x-common.sidebar />
 
@@ -62,9 +62,18 @@
                                 {{ $suggestion->response ?? 'Sin respuesta' }}
                             </td>
                             <td class="px-3 py-2 text-center text-gray-900">
-                                <a>
+                                <button
+                                    @click="
+                                    editSuggestionModal = true;
+                                    suggestionId = {{ $suggestion->id }};
+                                    affair = '{{ $suggestion->affair }}';
+                                    description = '{{ $suggestion->description }}';
+                                    $nextTick(() => { $wire.suggestionId = suggestionId; $wire.affair = affair; $wire.description = description; });
+                                ">
                                     <i class="fas fa-edit text-xl text-blue-600 hover:text-blue-400 duration-300"></i>
-                                </a>
+                                </button>
+
+
                                 <button @click="confirmDeleteVisible = true; suggestionId = {{ $suggestion->id }}">
                                     <i class="fas fa-trash ml-3 text-xl text-red-600 hover:text-red-400 duration-300"></i>
                                 </button>
@@ -91,6 +100,8 @@
     </div>
 
 
+
+
     {{-- Modal para confirmar eliminacion de queja o sugerencia --}}
     <div x-show="confirmDeleteVisible" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
         <div class="bg-white p-6 rounded-lg text-center">
@@ -99,6 +110,37 @@
             <button @click="confirmDeleteVisible = false; Livewire.dispatch('deleteConfirmed', { suggestionId }); suggestionId = null"
                 class="bg-red-500 text-white px-4 py-2 rounded-md mr-2">Sí, eliminar</button>
             <button @click="confirmDeleteVisible = false" class="bg-gray-300 px-4 py-2 rounded-md">Cancelar</button>
+        </div>
+    </div>
+
+
+
+    {{-- Modal para editar sugerencia --}}
+    <div x-show="editSuggestionModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+        <div class="w-3/6 bg-white p-6 rounded-lg text-center">
+            <button @click="editSuggestionModal = false" class="btn_close absolute top-5 right-5 text-5xl text-white">
+                <i class="fas fa-times"></i>
+            </button>
+            <form wire:submit.prevent="editSuggestion">
+                <h3 class="my-4 text-center text-xl">Editar queja/sugerencia</h3>
+
+                <input type="number" wire:model.defer="suggestionId" x-model="suggestionId">
+
+                <input type="text" id="affair" wire:model.defer="affair" x-model="affair" class="mb-5 shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+
+                
+               
+
+                <textarea id="description" rows="8" cols="30" wire:model.defer="description" x-model="description" class="h-96 shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+
+                <div class="flex items-center justify-between">
+                    <button type="submit" class="bg-red-500 hover:bg-red-700 duration-300 m-auto mt-8 text-black hover:text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+
+
         </div>
     </div>
 
