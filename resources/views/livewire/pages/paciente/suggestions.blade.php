@@ -68,7 +68,7 @@
                                     suggestionId = {{ $suggestion->id }};
                                     affair = '{{ $suggestion->affair }}';
                                     description = '{{ $suggestion->description }}';
-                                    $nextTick(() => { $wire.suggestionId = suggestionId; $wire.affair = affair; $wire.description = description; });
+                                    $nextTick(() => { $wire.suggestionId = suggestionId; $wire.specialty = specialty });
                                 ">
                                     <i class="fas fa-edit text-xl text-blue-600 hover:text-blue-400 duration-300"></i>
                                 </button>
@@ -124,7 +124,7 @@
             <form wire:submit.prevent="editSuggestion">
                 <h3 class="my-4 text-center text-xl">Editar queja/sugerencia</h3>
 
-                <input type="number" wire:model.defer="suggestionId" x-model="suggestionId">
+                
 
                 <input type="text" id="affair" wire:model.defer="affair" x-model="affair" class="mb-5 shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
 

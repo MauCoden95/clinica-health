@@ -9,6 +9,7 @@ class Specialty extends Component
 {
     use LogoutTrait;
 
+    public $specialtyId;
     public $specialty;
     public $specialties;
     public $count_specialties;
@@ -73,6 +74,34 @@ class Specialty extends Component
     }
 
     
+
+    public function editSpecialty()
+    {
+        $this->validate([
+            'specialty' => 'required|string',
+        ]);
+
+        $specialty = \App\Models\Specialty::where('id', $this->specialtyId)
+            ->first();
+
+        if ($specialty) {
+            $specialty->update([
+                'specialty' => $this->specialty,
+            ]);
+
+            $this->dispatch('showAlert', [
+                'type' => 'success',
+                'title' => '¡Éxito!',
+                'text' => 'Especialidad actualizada correctamente'
+            ]);
+
+            
+            $this->loadSpecialties();
+
+            
+            
+        }
+    }
 
    
 

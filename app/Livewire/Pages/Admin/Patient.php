@@ -5,7 +5,6 @@ namespace App\Livewire\Pages\Admin;
 use Livewire\Component;
 use App\Models\User;
 use App\Traits\LogoutTrait;
-use Illuminate\Support\Facades\Redirect;
 
 
 class Patient extends Component
@@ -15,6 +14,8 @@ class Patient extends Component
     public $patients;
     public $count_patients;
 
+
+    public $patientId;
     public $name;
     public $email;
     public $address;
@@ -37,7 +38,7 @@ class Patient extends Component
 
 
 
-    
+
 
     public function mount()
     {
@@ -75,7 +76,7 @@ class Patient extends Component
         $this->patients = User::with('roles')->whereHas('roles', function ($query) {
             $query->where('name', 'paciente');
         })->get();
-        
+
         $this->count_patients = $this->patients->count();
     }
 
@@ -92,10 +93,10 @@ class Patient extends Component
             $patient->removeRole('paciente');
             $patient->delete();
 
-           
+
             $this->loadPatients();
 
-         
+
 
             session()->flash('successDelete', 'Paciente eliminado exitosamente.');
         } else {
@@ -112,7 +113,7 @@ class Patient extends Component
     {
         $this->deletePatient($patientId);
     }
-   
+
 
 
 
@@ -137,31 +138,54 @@ class Patient extends Component
 
             $this->loadPatients();
 
-            
+
             $this->dispatch('showAlert', [
                 'type' => 'success',
                 'title' => '¡Éxito!',
                 'text' => 'Usuario registrado correctamente'
             ]);
 
-           
+
             $this->reset(['name', 'email', 'address', 'phone', 'dni', 'obra_social']);
 
-            session()->flash("success","Usuario registrado correctamente");    
+            session()->flash("success", "Usuario registrado correctamente");
         }
-
-        
     }
 
 
 
 
-    public function editPatient($patientId)
+
+
+
+    public function editPatient()
     {
-        return Redirect::route('admin.edit-patient', ['id' => $patientId]);
+       
+        $patient = User::find($this->patientId);
+
+
+
+        if ($patient) {
+            $patient->update([
+                'name' => $this->name,
+                'email' => $this->email,
+                'address' => $this->address,
+                'phone' => $this->phone,
+                'dni' => $this->dni,
+                'obra_social' => $this->obra_social,
+            ]);
+
+            $this->dispatch('showAlert', [
+                'type' => 'success',
+                'title' => '¡Éxito!',
+                'text' => 'Paciente actualizado correctamente'
+            ]);
+
+            $this->loadPatients();
+
+            session()->flash('success', 'Paciente actualizado correctamente.');
+        } else {
+            session()->flash('error', 'No se pudo encontrar el paciente.');
+        }
     }
-
-
-
-    
 }
