@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Suggestion extends Model
 {
-    protected $fillable = ['user_id','affair','description','response','date','time'];
+    protected $fillable = ['user_id','affair','description','response','date','time','useful'];
 
     use HasFactory;
 

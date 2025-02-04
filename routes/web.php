@@ -18,6 +18,7 @@ use App\Livewire\Pages\Admin\EditDoctor;
 use App\Livewire\Pages\Admin\EditDoctorSchedule;
 use App\Livewire\Pages\Admin\Specialty;
 use App\Livewire\Pages\Admin\Calendar;
+use App\Livewire\Pages\Admin\SuggestionsAdmin;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Index::class)->name('index');
@@ -43,6 +44,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/admin/editar-jornada-medico/{id}', EditDoctorSchedule::class)->name('edit.doctor_schedule');
     Route::get('/admin/especialidades', Specialty::class)->name('admin.specialty');
     Route::get('/admin/calendario-de-turnos', Calendar::class)->name('admin.calendar');
+    Route::get('/admin/quejas-y-sugerencias', SuggestionsAdmin::class)->name('admin.suggestions');
 });
 
 
