@@ -27,6 +27,7 @@ class User extends Authenticatable
         'obra_social',
         'dni',
         'password',
+        'verification_token'
     ];
 
     /**

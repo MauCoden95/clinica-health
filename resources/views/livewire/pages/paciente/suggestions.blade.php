@@ -10,7 +10,12 @@
 
 
         <main class="w-full flex-1 overflow-x-hidden overflow-y-auto bg-white">
-            <div class="relative w-full px-14 m-auto overflow-x-auto mt-20">
+
+        @if(session('user')->verify == 0)
+            <h1 class="text-2xl text-center mt-12 mb-5">No puede realizar quejas o sugerencias hasta que no confirme su cuenta</h1>
+            <h2 class="text-xl text-center my-5">Por favor, revise su bandeja de correo</h2>
+        @else
+        <div class="relative w-full px-14 m-auto overflow-x-auto mt-20">
                 <div class="flex justify-between">
                     <div class="relative w-full overflow-x-auto flex justify-between">
                         <x-common.count :item="'Quejas o sugerencias realizadas'" :quantity="$count_suggestions" :icon="'fas fa-comment'" />
@@ -92,6 +97,8 @@
             </div>
 
 
+        @endif
+            
 
 
 

@@ -23,6 +23,7 @@ use App\Livewire\Pages\Admin\Specialty;
 use App\Livewire\Pages\Admin\Calendar;
 use App\Livewire\Pages\Admin\SuggestionsAdmin;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 
 
@@ -38,6 +39,24 @@ Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('register');
 Route::get('/login-admin', LoginAdmin::class)->name('login.admin');
 Route::get('/dash', Dash::class)->name('dash');
+Route::get('/verify/{token}', function ($token) {
+    $user = User::where('verification_token', $token)->first();
+
+    if ($user) {
+        $user->verify = 1; 
+        $user->verification_token = null; 
+        $user->save();
+
+        return redirect('/verified-account')->with('message', 'Cuenta verificada con éxito');
+    }
+
+    return redirect('/login')->with('error', 'Token de verificación no válido');
+})->name('verify');
+
+
+Route::get('/verified-account', function () {
+    return view('account-verified');
+})->name('account-verified');
 
 
 

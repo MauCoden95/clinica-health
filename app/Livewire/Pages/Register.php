@@ -4,6 +4,9 @@ namespace App\Livewire\Pages;
 
 use Livewire\Component;
 use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AccountVerification;
 
 class Register extends Component
 {
@@ -43,9 +46,12 @@ class Register extends Component
             'dni' => $this->dni,
             'obra_social' => $this->obra_social,
             'password' => bcrypt($this->password),
+            'verification_token' => Str::random(32),
         ]);
 
         $user->assignRole('paciente');
+
+        Mail::to($user->email)->send(new AccountVerification($user));
 
         session()->flash("success","Usuario registrado correctamente");
     }

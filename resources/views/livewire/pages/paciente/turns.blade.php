@@ -10,144 +10,153 @@
 
 
         <main class="w-full flex-1 overflow-x-hidden overflow-y-auto bg-white">
-            <div class="relative w-full px-14 overflow-x-auto mt-20 flex justify-between">
-                <x-common.count :item="'Turnos asignados'" :quantity="$count_turns" :icon="'fas fa-calendar'" />
-            </div>
+            @if(session('user')->verify == 0)
+                <h1 class="text-2xl text-center mt-12 mb-5">No puede solicitar turnos hasta que no confirme su cuenta</h1>
+                <h2 class="text-xl text-center my-5">Por favor, revise su bandeja de correo</h2>
+            @else
+                <div class="relative w-full px-14 overflow-x-auto mt-20 flex justify-between">
+                    <x-common.count :item="'Turnos asignados'" :quantity="$count_turns" :icon="'fas fa-calendar'" />
+                </div>
 
 
-            <div class="relative w-full px-14 overflow-x-auto mb-7">
-                <h3 class="px-3 py-1 text-center text-2xl mt-16 font-bold">Turnos programados</h3>
+                
+
+                <div class="relative w-full px-14 overflow-x-auto mb-7">
+                    <h3 class="px-3 py-1 text-center text-2xl mt-16 font-bold">Turnos programados</h3>
 
 
 
-                {{-- Tabla de turnos agendados --}}
-                <table class="w-full m-auto mt-6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    {{-- Tabla de turnos agendados --}}
+                    <table class="w-full m-auto mt-6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
 
-                    @if (count($turns) > 0)
-                    <thead class="text-xs text-white uppercase bg-red-600 ">
-                        <tr>
-                            <th scope="col" class="px-3 py-1 text-center">
-                                ID
-                            </th>
-                            <th scope="col" class="px-3 py-1 text-center">
-                                Especialidad
-                            </th>
-                            <th scope="col" class="px-3 py-1 text-center">
-                                Nombre del Doctor
-                            </th>
-                            <th scope="col" class="px-3 py-1 text-center">
-                                Fecha
-                            </th>
-                            <th scope="col" class="px-3 py-1 text-center">
-                                Hora
-                            </th>
-                            <th scope="col" class="px-3 py-1 text-center">
-                                Acciones
-                            </th>
-                        </tr>
-                    </thead>
+                        @if (count($turns) > 0)
+                        <thead class="text-xs text-white uppercase bg-red-600 ">
+                            <tr>
+                                <th scope="col" class="px-3 py-1 text-center">
+                                    ID
+                                </th>
+                                <th scope="col" class="px-3 py-1 text-center">
+                                    Especialidad
+                                </th>
+                                <th scope="col" class="px-3 py-1 text-center">
+                                    Nombre del Doctor
+                                </th>
+                                <th scope="col" class="px-3 py-1 text-center">
+                                    Fecha
+                                </th>
+                                <th scope="col" class="px-3 py-1 text-center">
+                                    Hora
+                                </th>
+                                <th scope="col" class="px-3 py-1 text-center">
+                                    Acciones
+                                </th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        @foreach ($turns as $turn)
-                        <tr class="bg-gray-200 border-b ">
-                            <td class="px-3 py-2 text-center text-gray-900">
-                                {{ $turn['id'] }}
-                            </td>
-                            <td class="px-3 py-2 text-center text-gray-900">
-                                {{ $turn['specialty'] }}
-                            </td>
-                            <td class="px-3 py-2 text-center text-gray-900">
-                                {{ $turn['doctor_name'] }}
-                            </td>
-                            <td class="px-3 py-2 text-center text-gray-900">
-                                {{ \Carbon\Carbon::parse($turn['date'])->format('d-m-Y') }}
-                            </td>
-                            <td class="px-3 py-2 text-center text-gray-900">
-                                {{ \Carbon\Carbon::parse($turn['time'])->format('H:i') }}
-                            </td>
-                            <td class="px-3 py-2 text-center text-gray-900">
-                                <button
-                                    @click="showModalTurn = true, Livewire.dispatch('showTurnsAvailables', { doctorId: {{ $turn['doctor_id'] }} } ); oldTurnId = {{ $turn['id'] }};">
-                                    <i
-                                        class="fas fa-calendar text-xl duration-300 text-blue-500 hover:text-blue-700"></i>
-                                </button>
+                        <tbody>
+                            @foreach ($turns as $turn)
+                            <tr class="bg-gray-200 border-b ">
+                                <td class="px-3 py-2 text-center text-gray-900">
+                                    {{ $turn['id'] }}
+                                </td>
+                                <td class="px-3 py-2 text-center text-gray-900">
+                                    {{ $turn['specialty'] }}
+                                </td>
+                                <td class="px-3 py-2 text-center text-gray-900">
+                                    {{ $turn['doctor_name'] }}
+                                </td>
+                                <td class="px-3 py-2 text-center text-gray-900">
+                                    {{ \Carbon\Carbon::parse($turn['date'])->format('d-m-Y') }}
+                                </td>
+                                <td class="px-3 py-2 text-center text-gray-900">
+                                    {{ \Carbon\Carbon::parse($turn['time'])->format('H:i') }}
+                                </td>
+                                <td class="px-3 py-2 text-center text-gray-900">
+                                    <button
+                                        @click="showModalTurn = true, Livewire.dispatch('showTurnsAvailables', { doctorId: {{ $turn['doctor_id'] }} } ); oldTurnId = {{ $turn['id'] }};">
+                                        <i
+                                            class="fas fa-calendar text-xl duration-300 text-blue-500 hover:text-blue-700"></i>
+                                    </button>
 
-                                <button>
-                                    <i @click="showModal = true, turnId = {{ $turn['id'] }}"
-                                        class="fas fa-trash text-xl ml-3 duration-300 text-red-500 hover:text-red-700"></i>
+                                    <button>
+                                        <i @click="showModal = true, turnId = {{ $turn['id'] }}"
+                                            class="fas fa-trash text-xl ml-3 duration-300 text-red-500 hover:text-red-700"></i>
 
-                                </button>
-                            </td>
-                        </tr>
+                                    </button>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                            <p class="text-gray-600 text-2xl">No hay turnos agendados.</p>
+                            @endif
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+                <div class="w-full px-14 my-20">
+                    <h2 class="text-center my-7 text-3xl">Buscar médico por especialidad</h2>
+
+                    <h4 class="text-center my-5">En cada medico podrá ver los turnos disponibles</h4>
+
+
+                    <select id="options" wire:model.change="specialtyId" name="specialtyName"
+                        class="w-3/6 p-3 border-b border-red-500">
+                        <option value="">--Especialidad--</option>
+                        @foreach ($specialties as $specialty)
+                        <option value="{{ $specialty->id }}">{{ $specialty->specialty }}</option>
                         @endforeach
-                        @else
-                        <p class="text-gray-600 text-2xl">No hay turnos agendados.</p>
-                        @endif
-
-                    </tbody>
-                </table>
-            </div>
-
-
-
-            <div class="w-full px-14 my-20">
-                <h2 class="text-center my-7 text-3xl">Buscar médico por especialidad</h2>
-
-                <h4 class="text-center my-5">En cada medico podrá ver los turnos disponibles</h4>
-
-
-                <select id="options" wire:model.change="specialtyId" name="specialtyName"
-                    class="w-3/6 p-3 border-b border-red-500">
-                    <option value="">--Especialidad--</option>
-                    @foreach ($specialties as $specialty)
-                    <option value="{{ $specialty->id }}">{{ $specialty->specialty }}</option>
-                    @endforeach
-                </select>
+                    </select>
 
 
 
 
-                @if ($doctors && count($doctors) > 0)
-                {{-- Tabla de doctores --}}
-                <table class="w-full mt-5 m-auto border">
-                    <thead>
-                        <tr class="bg-red-500 text-white">
-                            <th scope="col" class="px-3 py-1 text-center">
-                                Nombre
-                            </th>
-                            <th scope="col" class="px-3 py-1 text-center">
-                                Especialidad
-                            </th>
-                            <th scope="col" class="px-3 py-1 text-center">
-                                Matrícula
-                            </th>
-                            <th scope="col" class="px-3 py-1 text-center">
+                    @if ($doctors && count($doctors) > 0)
+                    {{-- Tabla de doctores --}}
+                    <table class="w-full mt-5 m-auto border">
+                        <thead>
+                            <tr class="bg-red-500 text-white">
+                                <th scope="col" class="px-3 py-1 text-center">
+                                    Nombre
+                                </th>
+                                <th scope="col" class="px-3 py-1 text-center">
+                                    Especialidad
+                                </th>
+                                <th scope="col" class="px-3 py-1 text-center">
+                                    Matrícula
+                                </th>
+                                <th scope="col" class="px-3 py-1 text-center">
 
 
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($doctors as $doctor)
-                        <tr class="bg-gray-200 border-b">
-                            <td class="border p-2 text-center">{{ $doctor->user->name }}</td>
-                            <td class="border p-2 text-center">{{ $doctor->specialty->specialty }}</td>
-                            <td class="border p-2 text-center">{{ $doctor->license }}</td>
-                            <td class="border p-2 text-center">
-                                <a href="http://localhost:8000/pacientes/turnos-medico/{{ $doctor->id }}"
-                                    wire:navigate
-                                    class="text-red-700 hover:text-red-500 hover:underline duration-300">
-                                    Turnos disponibles
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($doctors as $doctor)
+                            <tr class="bg-gray-200 border-b">
+                                <td class="border p-2 text-center">{{ $doctor->user->name }}</td>
+                                <td class="border p-2 text-center">{{ $doctor->specialty->specialty }}</td>
+                                <td class="border p-2 text-center">{{ $doctor->license }}</td>
+                                <td class="border p-2 text-center">
+                                    <a href="http://localhost:8000/pacientes/turnos-medico/{{ $doctor->id }}"
+                                        wire:navigate
+                                        class="text-red-700 hover:text-red-500 hover:underline duration-300">
+                                        Turnos disponibles
+                                    </a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 @else
-                <p class="mt-5">No hay doctores disponibles para esta especialidad.</p>
+                    <p class="mt-5">No hay doctores disponibles para esta especialidad.</p>
                 @endif
             </div>
+            @endif
+
+
 
 
 
@@ -210,7 +219,7 @@
                 </div>
                 @endforeach
                 @else
-                    <p>No hay turnos disponibles.</p>
+                <p>No hay turnos disponibles.</p>
                 @endif
             </div>
         </div>
@@ -243,7 +252,7 @@
             <h2 class="text-center my-2 text-xl font-bold">¿Confirmar turno?</h2>
             <h4 class="text-center my-2">
                 <span x-text="dateEdit.split('-').reverse().join('-')"></span> a las <span x-text="timeEdit"></span>
-                
+
             </h4>
             <div class="w-full py-3 flex items-center justify-between">
                 <button
