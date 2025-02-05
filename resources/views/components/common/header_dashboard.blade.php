@@ -11,8 +11,9 @@
         </button>
         <div class="absolute top-full w-24 md:w-full ml-5 md:ml-0" x-bind:class="{ 'active': isActive, 'inactive': !isActive }">
             <ul class="flex flex-col items-center justify-between">
-                <li class="w-full cursor-pointer text-center p-2 bg-orange-400 hover:bg-orange-500 duration-300">
-                    <a class="w-full h-full text-xs md:text-base">Configuración <i class="fas fa-cogs ml-2"></i></a>
+                <li class="w-full cursor-pointer text-center p-2 bg-gray-200 hover:bg-gray-500 duration-300">
+                    <a wire:navigate href="http://localhost:8000/configuracion"
+                    class="w-full h-full text-xs md:text-base">Configuración <i class="fas fa-cogs ml-2"></i></a>
                 </li>
                 <li class="w-full cursor-pointer text-center text-white p-2 bg-red-600 hover:bg-red-700 duration-300">
                     <a wire:click="logout" class="w-full h-full text-xs md:text-base">

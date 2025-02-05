@@ -1,5 +1,7 @@
 <?php
 
+
+//Importacion de clases
 use App\Livewire\Pages\Index;
 use App\Livewire\Pages\Services;
 use App\Livewire\Pages\Contact;
@@ -8,6 +10,7 @@ use App\Livewire\Pages\Register;
 use App\Livewire\Pages\Dashboard;
 use App\Livewire\Pages\Dash;
 use App\Livewire\Pages\LoginAdmin;
+use App\Livewire\Pages\Settings;
 use App\Livewire\Pages\Paciente\Turns;
 use App\Livewire\Pages\Paciente\TurnsDoctor;
 use App\Livewire\Pages\Paciente\Suggestions;
@@ -21,6 +24,13 @@ use App\Livewire\Pages\Admin\Calendar;
 use App\Livewire\Pages\Admin\SuggestionsAdmin;
 use Illuminate\Support\Facades\Route;
 
+
+
+
+
+
+
+//Rutas sin middlewares
 Route::get('/', Index::class)->name('index');
 Route::get('/servicios', Services::class)->name('services');
 Route::get('/contacto', Contact::class)->name('contact');
@@ -32,10 +42,20 @@ Route::get('/dash', Dash::class)->name('dash');
 
 
 
+
+
+//Rutas para usuarios en general
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/configuracion', Settings::class)->name('settings');
 });
 
+
+
+
+
+
+//Rutas para administradores
 Route::group(['middleware' => ['role:admin']], function () { 
     Route::get('/admin/pacientes', Patient::class)->name('admin.pacientes');
     Route::get('/admin/editar-paciente/{id}', EditPatient::class)->name('edit.patient');
@@ -48,6 +68,10 @@ Route::group(['middleware' => ['role:admin']], function () {
 });
 
 
+
+
+
+//Rutas para pacientes
 Route::group(['middleware' => ['role:paciente']], function () { 
     Route::get('/pacientes/turnos', Turns::class)->name('paciente.turns');
     Route::get('/pacientes/turnos-medico/{id}', TurnsDoctor::class)->name('paciente.turns_doctor');
