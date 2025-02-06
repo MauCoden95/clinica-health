@@ -11,7 +11,7 @@
 
         <main class="w-full flex-1 overflow-x-hidden overflow-y-auto bg-white">
             @if(session('user')->verify == 0)
-                <h1 class="text-2xl text-center mt-12 mb-5">No puede solicitar turnos hasta que no confirme su cuenta</h1>
+                <h1 class="text-2xl text-center mt-12 mb-5">No puede solicitar turnos hasta que confirme su cuenta</h1>
                 <h2 class="text-xl text-center my-5">Por favor, revise su bandeja de correo</h2>
             @else
                 <div class="relative w-full px-14 overflow-x-auto mt-20 flex justify-between">

@@ -9,17 +9,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AccountVerification extends Mailable
+class EmailPasswordRecovery extends Mailable
 {
     use Queueable, SerializesModels;
-    public $user;
-
+    public $resetUrl;
     /**
      * Create a new message instance.
      */
-    public function __construct($user)
+    public function __construct($resetUrl)
     {
-        $this->user = $user;
+        $this->resetUrl = $resetUrl;
     }
 
     /**
@@ -28,7 +27,7 @@ class AccountVerification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Confirma tu cuenta',
+            subject: 'Clinica Health - Recuperar contraseña',
         );
     }
 
@@ -38,9 +37,10 @@ class AccountVerification extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.account_verification',
+            view: 'emails.email-recovery-password',
             with: [
-                'verificationUrl' => route('verify', ['token' => $this->user->verification_token])
+                'recovery' => route('password.recovery'),
+                'resetUrl' => $this->resetUrl
             ],
         );
     }
