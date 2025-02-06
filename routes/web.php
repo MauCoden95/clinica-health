@@ -17,13 +17,13 @@ use App\Livewire\Pages\Paciente\Turns;
 use App\Livewire\Pages\Paciente\TurnsDoctor;
 use App\Livewire\Pages\Paciente\Suggestions;
 use App\Livewire\Pages\Admin\Patient;
-use App\Livewire\Pages\Admin\EditPatient;
 use App\Livewire\Pages\Admin\Doctor;
 use App\Livewire\Pages\Admin\EditDoctor;
 use App\Livewire\Pages\Admin\EditDoctorSchedule;
 use App\Livewire\Pages\Admin\Specialty;
 use App\Livewire\Pages\Admin\Calendar;
 use App\Livewire\Pages\Admin\SuggestionsAdmin;
+use App\Livewire\Pages\Admin\Products; 
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Http\Controllers\AccountVerifyController;
@@ -75,13 +75,13 @@ Route::middleware('auth')->group(function () {
 //Rutas para administradores
 Route::group(['middleware' => ['role:admin']], function () { 
     Route::get('/admin/pacientes', Patient::class)->name('admin.pacientes');
-    Route::get('/admin/editar-paciente/{id}', EditPatient::class)->name('edit.patient');
     Route::get('/admin/doctores', Doctor::class)->name('admin.doctor');
     Route::get('/admin/editar-doctor/{id}', EditDoctor::class)->name('edit.doctor');
     Route::get('/admin/editar-jornada-medico/{id}', EditDoctorSchedule::class)->name('edit.doctor_schedule');
     Route::get('/admin/especialidades', Specialty::class)->name('admin.specialty');
     Route::get('/admin/calendario-de-turnos', Calendar::class)->name('admin.calendar');
     Route::get('/admin/quejas-y-sugerencias', SuggestionsAdmin::class)->name('admin.suggestions');
+    Route::get('/admin/inventario', Products::class)->name('admin.products');
 });
 
 

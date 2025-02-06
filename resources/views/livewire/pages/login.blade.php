@@ -29,6 +29,11 @@
                     <a href="{{ route('register') }}" class="text-red-600 hover:text-red-800 font-semibold transition duration-200" wire:navigate>Regístrese acá</a>
                 </span>
             </div>
+            <div class="text-center">
+                <span class="text-gray-600">¿Predio su contraseña? 
+                    <a href="http://localhost:8000/recuperar-contraseña" class="text-red-600 hover:text-red-800 font-semibold transition duration-200" wire:navigate>Recupérela acá</a>
+                </span>
+            </div>
         </form>
 
         <!-- Imagen -->

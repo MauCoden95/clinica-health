@@ -78,10 +78,10 @@
                                         $wire.dni = dni; 
                                         $wire.obra_social = obra_social; 
                                     });" class="text-xl">
-                                    <i class="fas fa-edit ml-4 text-blue-600 hover:text-blue-400 duration-300"></i>
+                                    <i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i>
                                 </button>
                                 <button @click="deleteModalOpen = true; patientIdToDelete = {{ $patient->id }}" class="text-xl">
-                                    <i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
+                                    <i class="fas fa-trash-alt ml-2 text-red-600 hover:text-red-400 duration-300"></i>
                                 </button>
                             </td>
                         </tr>

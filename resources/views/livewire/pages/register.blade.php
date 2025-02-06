@@ -77,11 +77,7 @@
                 </span>
             </div>
         </form>
-        <div class="text-center">
-                <span class="text-gray-600">¿Predio su contraseña? 
-                    <a href="http://localhost:8000/recuperar-contraseña" class="text-red-600 hover:text-red-800 font-semibold transition duration-200" wire:navigate>Recupérela acá</a>
-                </span>
-            </div>
+       
     </div>
     <img class="w-2/4 h-full mt-10 md:mt-0" src="http://localhost:8000/img/Register.jpg" alt="Dos médicos" />
 </div>

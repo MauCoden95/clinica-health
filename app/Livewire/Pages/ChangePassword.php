@@ -44,7 +44,9 @@ class ChangePassword extends Component
                         'type' => 'success',
                         'title' => '¡Contraseña cambiada!',
                         'text' => 'Su contraseña ha sido cambiada exitosamente'
-                    ]);    
+                    ]);  
+                    
+                    DB::table('password_reset_tokens')->where('token', $this->token)->delete();
                 }
                
             }

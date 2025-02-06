@@ -43,7 +43,7 @@ class SuggestionsAdmin extends Component
 
     public function deleteSuggestion($id)
     {
-        $suggestion = \App\Models\Suggestion::find($id);
+        $suggestion = Suggestion::find($id);
 
         if ($suggestion) {
             $delete = $suggestion->delete();
