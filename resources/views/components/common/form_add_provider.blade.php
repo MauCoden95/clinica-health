@@ -14,7 +14,7 @@
         </div>
 
         <div>
-            <input wire:model="phone" class="w-full p-3 border-b border-red-500" type="text" name="phone" placeholder="Telefono..."/>    
+            <input wire:model="phone" class="w-full p-3 border-b border-red-500" type="number" name="phone" placeholder="Telefono..."/>    
             @error('phone') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
 

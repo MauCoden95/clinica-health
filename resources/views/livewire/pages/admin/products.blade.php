@@ -13,8 +13,8 @@
 
                 <div class="flex flex-col">
                     <button @click="showProviders = true" class="w-auto h-12 mb-6 rounded-md p-2 duration-300 bg-green-400 hover:bg-green-500">
-                        <i class="fas fa-warehouse mr-3"></i>
                         Ver proveedores
+                        <i class="fas fa-warehouse"></i>
                     </button>
 
                     <button @click="showFormCreate = true"
