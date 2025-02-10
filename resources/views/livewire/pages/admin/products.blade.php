@@ -1,4 +1,4 @@
-<div x-data="{ sidebarOpen: false, showProviders: false }" class="flex h-screen bg-gray-100 overflow-hidden">
+<div x-data="{ sidebarOpen: false, showProviders: false, showFormCreate: false }" class="flex h-screen bg-gray-100 overflow-hidden">
 
     <x-common.sidebar />
 
@@ -11,10 +11,19 @@
                 <x-common.count :item="'Cantidad de productos'" :quantity="$count_products" :icon="'fas fa-syringe'" />
 
 
-                <button @click="showProviders = true" class="w-auto h-12 rounded-md p-2 text-white duration-300 bg-green-500 hover:bg-green-800">
-                    <i class="fas fa-warehouse mr-3"></i>
-                    Ver proveedores
-                </button>
+                <div class="flex flex-col">
+                    <button @click="showProviders = true" class="w-auto h-12 mb-6 rounded-md p-2 duration-300 bg-green-400 hover:bg-green-500">
+                        <i class="fas fa-warehouse mr-3"></i>
+                        Ver proveedores
+                    </button>
+
+                    <button @click="showFormCreate = true"
+                        class="btn_add h-12 p-3 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
+                        Nuevo <i class="fas fa-plus-circle"></i>
+                    </button>
+                </div>
+
+
             </div>
 
             <div class="relative w-full px-14 overflow-x-auto mb-7">
@@ -29,7 +38,6 @@
                     @if (count($products) > 0)
                     <thead class="text-xs text-white uppercase bg-red-600 ">
                         <tr>
-                            <th scope="col" class="px-3 py-1 text-center">ID</th>
                             <th scope="col" class="px-3 py-1 text-center">Producto</th>
                             <th scope="col" class="px-3 py-1 text-center">Descripcion</th>
                             <th scope="col" class="px-3 py-1 text-center">Precio</th>
@@ -42,7 +50,6 @@
                     <tbody>
                         @foreach ($products as $product)
                         <tr class="bg-gray-200 border-b ">
-                            <td class="px-3 py-2 text-center text-gray-900">{{ $product->id }}</td>
                             <td class="px-3 py-2 text-center text-gray-900">{{ $product->name }}</td>
                             <td class="px-3 py-2 text-center text-gray-900">{{ $product->description }}</td>
                             <td class="px-3 py-2 text-center text-gray-900">{{ $product->price }}</td>
@@ -74,6 +81,19 @@
                     <h2 class="text-xl font-semibold mb-4">Listado de proveedores</h2>
                     <x-common.supplier_list />
                     <button class="px-3 py-2 rounded-sm text-white bg-red-500" @click="showProviders = false">
+                        Cerrar
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+
+
+            {{-- Modal para crear proveedor --}}
+            <div x-show="showFormCreate" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                <div @click.outside="showFormCreate = false" class="w-3/6 bg-white p-6 rounded-lg text-center">
+                    <livewire:create-supplier-form />
+                    <button class="px-3 py-2 rounded-sm text-white bg-red-500" @click="showFormCreate = false">
                         Cerrar
                         <i class="fas fa-times"></i>
                     </button>
