@@ -43,7 +43,7 @@ class TurnsDoctor extends Component
 
     public function getDoctorName()
     {
-        $doctor = $this->doctorRepository->getDoctorById($this->id);  // Suponiendo que añades un método en el repositorio para obtener el doctor por ID
+        $doctor = $this->doctorRepository->getDoctorById($this->id);  
         $this->name = $doctor->user->name;
     }
 

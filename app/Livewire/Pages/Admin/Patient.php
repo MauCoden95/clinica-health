@@ -30,11 +30,11 @@ class Patient extends Component
         'obra_social' => 'required|string|max:255'
     ];
 
-    protected $patientRepo;
+    protected $patientRepository;
 
     public function __construct()
     {
-        $this->patientRepo = new PatientRepository();
+        $this->patientRepository = new PatientRepository();
     }
 
     public function mount()
@@ -44,19 +44,19 @@ class Patient extends Component
 
     public function render()
     {
-        $this->patients = $this->patientRepo->getAllPatients($this->dniFilter);
+        $this->patients = $this->patientRepository->getAllPatients($this->dniFilter);
         return view('livewire.pages.admin.patient');
     }
 
     public function loadPatients()
     {
-        $this->patients = $this->patientRepo->getAllPatients();
+        $this->patients = $this->patientRepository->getAllPatients();
         $this->count_patients = $this->patients->count();
     }
 
     public function deletePatient($patientId)
     {
-        if ($this->patientRepo->deletePatient($patientId)) {
+        if ($this->patientRepository->deletePatient($patientId)) {
             $this->loadPatients();
             session()->flash('successDelete', 'Paciente eliminado exitosamente.');
         } else {
@@ -72,7 +72,7 @@ class Patient extends Component
     public function register()
     {
         $this->validate();
-        $this->patientRepo->createPatient([  
+        $this->patientRepository->createPatient([  
             'name' => $this->name,
             'email' => $this->email,
             'address' => $this->address,
@@ -82,14 +82,18 @@ class Patient extends Component
         ]);
 
         $this->loadPatients();
-        $this->dispatch('showAlert', ['type' => 'success', 'title' => '¡Éxito!', 'text' => 'Usuario registrado correctamente']);
+        $this->dispatch('showAlert', [
+            'type' => 'success', 
+            'title' => '¡Éxito!', 
+            'text' => 'Usuario registrado correctamente'
+        ]);
         $this->reset(['name', 'email', 'address', 'phone', 'dni', 'obra_social']);
         session()->flash("success", "Usuario registrado correctamente");
     }
 
     public function editPatient()
     {
-        if ($this->patientRepo->updatePatient($this->patientId, [
+        if ($this->patientRepository->updatePatient($this->patientId, [
             'name' => $this->name,
             'email' => $this->email,
             'address' => $this->address,

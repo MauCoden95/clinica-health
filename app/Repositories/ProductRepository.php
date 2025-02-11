@@ -18,6 +18,12 @@ class ProductRepository
         return Product::find($id);
     }
 
+    public function create($data){
+        $product = Product::create($data);
+
+        return $product;
+    }
+
     public function getProductsToReposition()
     {
         return Product::whereColumn('stock', '<=', 'stock_reposition')->get();

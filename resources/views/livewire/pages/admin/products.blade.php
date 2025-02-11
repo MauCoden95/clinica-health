@@ -1,4 +1,4 @@
-<div x-data="{ sidebarOpen: false, showProviders: false, showFormCreate: false, showConfirmDelete: false, productToDeleteId: null }" class="flex h-screen bg-gray-100 overflow-hidden">
+<div x-data="{ sidebarOpen: false, showCreateProduct: false, showProviders: false, showFormCreate: false, showConfirmDelete: false, productToDeleteId: null }" class="flex h-screen bg-gray-100 overflow-hidden">
 
     <x-common.sidebar />
 
@@ -17,7 +17,7 @@
                         <i class="fas fa-warehouse"></i>
                     </button>
 
-                    <button @click="showProviders = true" class="w-auto h-12 mb-6 rounded-md p-2 duration-300 bg-green-400 hover:bg-green-500">
+                    <button @click="showCreateProduct = true" class="w-auto h-12 mb-6 rounded-md p-2 duration-300 bg-green-400 hover:bg-green-500">
                         Nuevo
                         <i class="fas fa-plus-circle"></i>
                     </button>
@@ -133,6 +133,21 @@
                     </div>
                 </div>
             </div>
+
+
+
+
+            {{-- Modal para crear producto --}}
+            <div x-show="showCreateProduct" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                <div class="bg-white p-6 rounded-lg shadow-lg w-1/3 max-h-[80vh] overflow-y-auto">
+                    <x-common.form_add_product :suppliers="$suppliers" />
+                    <div class="flex justify-center">
+                        <button @click="showCreateProduct = false" class="px-4 py-2 mr-2 text-white bg-gray-600 hover:bg-gray-400 rounded">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+
+
         </main>
 
 
