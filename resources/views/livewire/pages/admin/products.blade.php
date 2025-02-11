@@ -1,4 +1,4 @@
-<div x-data="{ sidebarOpen: false, showProviders: false, showFormCreate: false }" class="flex h-screen bg-gray-100 overflow-hidden">
+<div x-data="{ sidebarOpen: false, showProviders: false, showFormCreate: false, showConfirmDelete: false, productToDeleteId: null }" class="flex h-screen bg-gray-100 overflow-hidden">
 
     <x-common.sidebar />
 
@@ -17,10 +17,11 @@
                         <i class="fas fa-warehouse"></i>
                     </button>
 
-                    <button @click="showFormCreate = true"
-                        class="btn_add h-12 p-3 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
-                        Nuevo <i class="fas fa-plus-circle"></i>
+                    <button @click="showProviders = true" class="w-auto h-12 mb-6 rounded-md p-2 duration-300 bg-green-400 hover:bg-green-500">
+                        Nuevo
+                        <i class="fas fa-plus-circle"></i>
                     </button>
+
                 </div>
 
 
@@ -59,7 +60,14 @@
                                 <button ">
                                     <i class=" fas fa-edit text-xl text-blue-600 hover:text-blue-400 duration-300"></i>
                                 </button>
-                                <button>
+                                <button @click="
+                                        showConfirmDelete = true;
+                                        productToDeleteId = {{ $product->id }};
+                                        $nextTick(() => { 
+                                            $wire.productId = productToDeleteId
+                                        });
+                                        
+                                    ">
                                     <i
                                         class="fas fa-trash-alt text-xl ml-4 text-red-600 hover:text-red-400 duration-300"></i>
                                 </button>
@@ -77,10 +85,33 @@
 
             {{-- Modal para ver los proveedores --}}
             <div x-show="showProviders" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
-                <div class="w-5/6 bg-white p-6 rounded-lg text-center">
-                    <h2 class="text-xl font-semibold mb-4">Listado de proveedores</h2>
+                <div class="relative w-5/6 bg-white p-6 rounded-lg text-center max-h-[80vh] overflow-y-auto">
+                    <h2 class="text-2xl font-semibold mb-4">Listado de proveedores</h2>
+
+                    <div class="flex justify-start mb-4">
+                        <button @click="showFormCreate = true"
+                            class="h-12 p-3 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
+                            Registrar nuevo proveedor <i class="fas fa-plus-circle"></i>
+                        </button>
+                    </div>
+
                     <x-common.supplier_list />
+
                     <button class="px-3 py-2 rounded-sm text-white bg-red-500" @click="showProviders = false">
+                        Cerrar <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+
+
+
+
+            {{-- Modal para crear proveedor --}}
+            <div x-show="showFormCreate" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                <div @click.outside="showFormCreate = false" class="w-3/6 bg-white p-6 rounded-lg text-center">
+                    <livewire:create-supplier-form />
+                    <button class="px-3 py-2 rounded-sm text-white bg-gray-600" @click="showFormCreate = false">
                         Cerrar
                         <i class="fas fa-times"></i>
                     </button>
@@ -89,14 +120,17 @@
 
 
 
-            {{-- Modal para crear proveedor --}}
-            <div x-show="showFormCreate" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
-                <div @click.outside="showFormCreate = false" class="w-3/6 bg-white p-6 rounded-lg text-center">
-                    <livewire:create-supplier-form />
-                    <button class="px-3 py-2 rounded-sm text-white bg-red-500" @click="showFormCreate = false">
-                        Cerrar
-                        <i class="fas fa-times"></i>
-                    </button>
+
+
+            {{-- Modal para confirmar eliminacion del producto --}}
+            <div x-show="showConfirmDelete" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+                    <h2 class="text-xl font-semibold mb-4">¿Estás seguro?</h2>
+                    <p class="text-gray-700 mb-6">El producto será eliminado de forma permanente.</p>
+                    <div class="flex justify-end">
+                        <button @click="showConfirmDelete = false" class="px-4 py-2 mr-2 bg-gray-300 hover:bg-gray-400 rounded">Cancelar</button>
+                        <button @click="showConfirmDelete = false" wire:click="deleteProduct" class="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded">Eliminar</button>
+                    </div>
                 </div>
             </div>
         </main>

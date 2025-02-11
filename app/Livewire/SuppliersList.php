@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\Supplier;
+use App\Repositories\SupplierRepository;
 
 class SuppliersList extends Component
 {
@@ -24,15 +24,20 @@ class SuppliersList extends Component
         'providerUpdated' => 'loadSuppliers'
     ];
 
-
     protected $rules = [
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255|unique:suppliers',
         'address' => 'required|string|max:255',
         'phone' => 'required|numeric|min:1000000',
-        'email' => 'required|string|max:255'
+        'cuil' => 'required|string|max:255'
     ];
 
+    protected $supplierRepository;
+
+    public function __construct()
+    {
+        $this->supplierRepository = new SupplierRepository();
+    }
 
     public function mount()
     {
@@ -44,19 +49,15 @@ class SuppliersList extends Component
         return view('livewire.suppliers-list');
     }
 
-
-
     public function loadSuppliers()
     {
-        $this->suppliers = Supplier::all();
-        $this->count_suppliers = Supplier::count();
+        $this->suppliers = $this->supplierRepository->getAll();
+        $this->count_suppliers = count($this->suppliers);
     }
 
     public function deleteSupplier()
     {
-        $supplier = Supplier::find($this->supplierId);
-        if ($supplier) {
-            $supplier->delete();
+        if ($this->supplierRepository->delete($this->supplierId)) {
             $this->dispatch('providerDeleted');
             $this->dispatch('showAlert', [
                 'type' => 'success',
@@ -66,35 +67,29 @@ class SuppliersList extends Component
         }
     }
 
+    public function editSupplier()
+    {
+        $update = $this->supplierRepository->update($this->supplierId, [
+            'name' => $this->name,
+            'email' => $this->email,
+            'address' => $this->address,
+            'phone' => $this->phone,
+            'cuil' => $this->cuil
+        ]);
 
-
-    public function editSupplier() {
-        $supplier = Supplier::find($this->supplierId);
-        
-        if ($supplier) {
-            $update = $supplier->update([
-                'name' => $this->name,
-                'email' => $this->email,
-                'address' => $this->address,
-                'phone' => $this->phone,
-                'cuil' => $this->cuil
+        if ($update) {
+            $this->dispatch('providerUpdated');
+            $this->dispatch('showAlert', [
+                'type' => 'success',
+                'title' => '¡Éxito!',
+                'text' => 'Proveedor actualizado correctamente'
             ]);
-
-
-            if ($update) {
-                $this->dispatch('providerUpdated');
-                $this->dispatch('showAlert', [
-                    'type' => 'success',
-                    'title' => '¡Éxito!',
-                    'text' => 'Proveedor actualizado correctamente'
-                ]);
-            } else {
-                $this->dispatch('showAlert', [
-                    'type' => 'error',
-                    'title' => '¡Error!',
-                    'text' => 'No se pudo actualizar el proveedor'
-                ]);
-            }
+        } else {
+            $this->dispatch('showAlert', [
+                'type' => 'error',
+                'title' => '¡Error!',
+                'text' => 'No se pudo actualizar el proveedor'
+            ]);
         }
     }
 }

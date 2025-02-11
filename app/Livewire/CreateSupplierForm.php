@@ -3,9 +3,9 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\Supplier;
 use Illuminate\Database\QueryException;
 use App\Traits\DuplicateField;
+use App\Repositories\SupplierRepository;
 
 class CreateSupplierForm extends Component
 {
@@ -17,15 +17,20 @@ class CreateSupplierForm extends Component
     public $cuil;
     public $email;
 
-
     protected $rules = [
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255|unique:suppliers',
         'address' => 'required|string|max:255',
         'phone' => 'required|numeric|min:1000000',
-        'email' => 'required|string|max:255'
+        'cuil' => 'required|numeric|min:1000000'
     ];
 
+    protected $supplierRepository;
+
+    public function __construct()
+    {
+        $this->supplierRepository = new SupplierRepository();
+    }
 
     public function render()
     {
@@ -37,23 +42,20 @@ class CreateSupplierForm extends Component
         $this->validate();
 
         try {
-            $supplier = new Supplier();
-            $supplier->name = $this->name;
-            $supplier->email = $this->email;
-            $supplier->address = $this->address;
-            $supplier->phone = $this->phone;
-            $supplier->cuil = $this->cuil;
-
-            $supplier->save();
+            $this->supplierRepository->create([
+                'name' => $this->name,
+                'email' => $this->email,
+                'address' => $this->address,
+                'phone' => $this->phone,
+                'cuil' => $this->cuil
+            ]);
 
             $this->dispatch('supplierAdded');
-
             $this->dispatch('showAlert', [
                 'type' => 'success',
                 'title' => '¡Éxito!',
                 'text' => 'Proveedor registrado correctamente'
             ]);
-
 
             $this->reset();
         } catch (QueryException $e) {
@@ -74,7 +76,4 @@ class CreateSupplierForm extends Component
             }
         }
     }
-
-
-    
 }

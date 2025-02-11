@@ -3,12 +3,11 @@
 namespace App\Livewire\Pages\Admin;
 
 use Livewire\Component;
-use App\Models\Turn;
-use App\Models\Doctor;
-use App\Models\User;
 use Carbon\Carbon;
 use App\Traits\LogoutTrait;
-use Illuminate\Support\Facades\DB;
+use App\Repositories\TurnRepository;
+use App\Repositories\DoctorRepository;
+use App\Repositories\UserRepository;
 
 class Calendar extends Component
 {
@@ -25,57 +24,51 @@ class Calendar extends Component
     public $patients = [];
     public $inputSearch = '';
 
-    /**
-     * Función que se ejecuta al montar el componente, carga los eventos (turnos) y 
-     * asigna la fecha de hoy a la variable $todayDate
-     */
+    protected $turnRepository;
+    protected $doctorRepository;
+    protected $userRepository;
+
+    public function __construct()
+    {
+        $this->turnRepository = new TurnRepository();
+        $this->doctorRepository = new DoctorRepository();
+        $this->userRepository = new UserRepository();
+    }
+
     public function mount()
     {
         $this->loadEvents();
         $this->todayDate = Carbon::now()->format('d-m-y');
-        $this->occupationDay();
-        $this->getTopThreeSpecialties();
-        $this->getTopThreeDoctors();
-        $this->patientsWithRepeatedTurns();
+        $this->occupation_day = $this->turnRepository->getOccupationPercentage();
+        $this->topThreeSpecialties = $this->doctorRepository->getTopThreeSpecialties();
+        $this->topThreeDoctors = $this->doctorRepository->getTopThreeDoctors();
+        $this->patients = $this->userRepository->getPatientsWithRepeatedTurns();
         $this->showTurnsToday();
     }
 
-    /**
-     * Función que carga los turnos y los formatea para mostrarlos en la vista
-     */
     public function loadEvents()
     {
-        $this->events = Turn::with(['user', 'doctor.user', 'doctor.specialty'])
-                            ->where('status', 'unavailable')
-                            ->get()
-                            ->map(function ($turn) {
-                                return [
-                                    'name_patient' => $turn->user->name,
-                                    'name_doctor' => $turn->doctor->user->name,
-                                    'specialty' => $turn->doctor->specialty->specialty,
-                                    'date' => $turn->date,
-                                    'time' => $turn->time,
-                                ];
-                            });
+        $this->events = $this->turnRepository->getUnavailableTurns()->map(function ($turn) {
+            return [
+                'name_patient' => $turn->user->name,
+                'name_doctor' => $turn->doctor->user->name,
+                'specialty' => $turn->doctor->specialty->specialty,
+                'date' => $turn->date,
+                'time' => $turn->time,
+            ];
+        });
     }
 
-    
-
-    public function showTurnsToday(){
-        $this->turns = Turn::with(['user', 'doctor.user', 'doctor.specialty'])
-            ->whereDate('date', Carbon::now()->format('Y-m-d'))
-            ->select('users.name as name_patient', 'turns.time', 'doctors.name as doctor_name', 'specialties.specialty')
-            ->join('users', 'turns.user_id', '=', 'users.id')
-            ->join('doctors', 'turns.doctor_id', '=', 'doctors.id')
-            ->join('specialties', 'doctors.specialty_id', '=', 'specialties.id')
-            ->orderBy('turns.time', 'asc')
-            ->get();
+    public function showTurnsToday()
+    {
+        $this->turns = $this->turnRepository->getTurnsToday();
     }
 
-    /**
-     * Función que se encarga de renderizar la vista del componente, 
-     * y pasa como parámetro los turnos cargados en la función showTurns
-     */
+    public function getTurnsByPatient($user_id)
+    {
+        $this->turnsByPatient = $this->turnRepository->getTurnsByPatient($user_id);
+    }
+
     public function render()
     {
         $this->filterTurnsByDoctorOrSpecialty();
@@ -89,86 +82,12 @@ class Calendar extends Component
         ]);
     }
 
-
-    public function filterTurnsByDoctorOrSpecialty(){
-        $filteredTurns = Turn::with(['user', 'doctor.user', 'doctor.specialty'])
-            ->whereDate('date', Carbon::now()->format('Y-m-d'))
-            ->select('users.name as name_patient', 'turns.time', 'doctors.name as doctor_name', 'specialties.specialty')
-            ->join('users', 'turns.user_id', '=', 'users.id')
-            ->join('doctors', 'turns.doctor_id', '=', 'doctors.id')
-            ->join('specialties', 'doctors.specialty_id', '=', 'specialties.id')
-            ->orderBy('turns.time', 'asc')
-            ->when($this->inputSearch, function ($query) {
-                $query->where(function ($query) {
-                    $query->where('doctors.name', 'like', '%' . $this->inputSearch . '%')
-                          ->orWhere('specialties.specialty', 'like', '%' . $this->inputSearch . '%')
-                          ->orWhere('users.name', 'like', '%' . $this->inputSearch . '%');
-                });
-            })
-            ->get();
-
-
-        $this->turns = $filteredTurns;
+    public function filterTurnsByDoctorOrSpecialty()
+    {
+        $this->turns = $this->turnRepository->getTurnsToday()->filter(function ($turn) {
+            return str_contains(strtolower($turn->doctor->user->name), strtolower($this->inputSearch)) ||
+                   str_contains(strtolower($turn->doctor->specialty->specialty), strtolower($this->inputSearch)) ||
+                   str_contains(strtolower($turn->user->name), strtolower($this->inputSearch));
+        });
     }
-
-    /**
-     * Función que carga los turnos de un paciente en particular
-     */
-    public function getTurnsByPatient($user_id){
-        $turnsByPatient = Turn::with(['user', 'doctor.specialty'])
-            ->where('user_id', $user_id)
-            ->get();
-    }
-
-
-    public function occupationDay(){
-        $today = Carbon::now()->format('Y-m-d');
-        $total = Turn::whereDate('date', $today)->count();
-        $occupied = Turn::whereDate('date', $today)->where('status', 'unavailable')->count();
-        if ($total > 0) {
-            $this->occupation_day = ($occupied * 100) / $total;
-        } else {
-            $this->occupation_day = 0;
-        }
-    }
-
-    
-    public function getTopThreeSpecialties(){
-        $this->topThreeSpecialties = Doctor::select('specialties.specialty', DB::raw('count(*) as total'))
-            ->join('turns', 'doctors.id', '=', 'turns.doctor_id')
-            ->join('specialties', 'doctors.specialty_id', '=', 'specialties.id')
-            ->where('turns.status', 'unavailable')
-            ->groupBy('specialties.specialty')
-            ->orderBy('total', 'desc')
-            ->limit(3)
-            ->get();
-    }
-
-
-    
-    public function getTopThreeDoctors(){
-        $this->topThreeDoctors = Doctor::select('users.name', DB::raw('count(*) as total'))
-            ->join('turns', 'doctors.id', '=', 'turns.doctor_id')
-            ->join('users', 'doctors.user_id', '=', 'users.id')
-            ->where('turns.status', 'unavailable')
-            ->groupBy('users.name')
-            ->orderBy('total', 'desc')
-            ->limit(3)
-            ->get();
-    }
-
-    
-    
-    public function patientsWithRepeatedTurns(){
-        $startDate = Carbon::now()->startOfMonth()->subMonths(3);
-        $endDate = Carbon::now()->endOfMonth();
-        $this->patients = User::select('users.name', DB::raw('count(*) as total'))
-            ->join('turns', 'users.id', '=', 'turns.user_id')
-            ->whereBetween('turns.date', [$startDate, $endDate])
-            ->groupBy('users.name')
-            ->having('total', '>', 1)
-            ->get();
-    }
-    
-
 }

@@ -3,9 +3,8 @@
 namespace App\Livewire\Pages\Admin;
 
 use Livewire\Component;
-use App\Models\Suggestion;
+use App\Repositories\SuggestionAdminRepository;
 use App\Traits\LogoutTrait;
-
 
 class SuggestionsAdmin extends Component
 {
@@ -17,11 +16,14 @@ class SuggestionsAdmin extends Component
     public $response;
     public $showUsefuls = false;
 
-
-
     protected $listeners = ['deleteConfirmed'];
 
+    protected $suggestionRepository;
 
+    public function __construct()
+    {
+        $this->suggestionRepository = new SuggestionAdminRepository();
+    }
 
     public function mount()
     {
@@ -33,21 +35,15 @@ class SuggestionsAdmin extends Component
         return view('livewire.pages.admin.suggestions-admin');
     }
 
-
     public function loadSuggestions()
     {
-        $this->suggestions = Suggestion::with(['user:id,name'])->orderBy('date', 'desc')->orderBy('time', 'desc')->get();
-        $this->count_suggestions = $this->suggestions->count();
+        $this->suggestions = $this->suggestionRepository->getAll();
+        $this->count_suggestions = $this->suggestionRepository->getCount();
     }
-
 
     public function deleteSuggestion($id)
     {
-        $suggestion = Suggestion::find($id);
-
-        if ($suggestion) {
-            $delete = $suggestion->delete();
-
+        if ($this->suggestionRepository->delete($id)) {
             $this->loadSuggestions();
         }
     }
@@ -57,61 +53,34 @@ class SuggestionsAdmin extends Component
         $this->deleteSuggestion($suggestionId);
     }
 
-
     public function replySuggestion()
     {
-
         $this->validate([
             'response' => 'required|string',
         ]);
 
-        $suggestion = Suggestion::where('id', $this->suggestionId)
-            ->first();
-
-        if ($suggestion) {
-            $suggestion->update([
-                'response' => $this->response,
-            ]);
-
+        if ($this->suggestionRepository->updateResponse($this->suggestionId, $this->response)) {
             $this->dispatch('showAlert', [
                 'type' => 'success',
                 'title' => '¡Éxito!',
                 'text' => 'Respuesta realizada correctamente'
             ]);
 
-
             $this->loadSuggestions();
         }
     }
-
 
     public function toggleUseful($suggestionId)
     {
-        
-
-        $suggestion = Suggestion::find($suggestionId);
-
-        
-
-        if ($suggestion) {
-            $suggestion->update([
-                'useful' => !$suggestion->useful
-            ]);
-
-            
-            
+        if ($this->suggestionRepository->toggleUseful($suggestionId)) {
             $this->loadSuggestions();
         }
     }
 
-
     public function showUsefulsSuggestions()
     {
-        if ($this->showUsefuls) {
-            $this->suggestions = Suggestion::where('useful', 1)->get();
-        } else {
-            $this->suggestions = Suggestion::all();
-        }
+        $this->suggestions = $this->showUsefuls
+            ? $this->suggestionRepository->getUsefulSuggestions()
+            : $this->suggestionRepository->getAll();
     }
-    
 }

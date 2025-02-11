@@ -4,6 +4,7 @@ namespace App\Livewire\Pages\Admin;
 
 use Livewire\Component;
 use App\Traits\LogoutTrait;
+use App\Repositories\SpecialtyRepository;
 
 class Specialty extends Component 
 {
@@ -14,12 +15,18 @@ class Specialty extends Component
     public $specialties;
     public $count_specialties;
 
-
     protected $listeners = ['deleteConfirmed'];
 
     protected $rules = [
         'specialty' => 'required|string|max:255',
     ];
+
+    protected $specialtyRepo;
+
+    public function boot(SpecialtyRepository $specialtyRepo)
+    {
+        $this->specialtyRepo = $specialtyRepo;
+    }
 
     public function mount()
     {
@@ -33,37 +40,28 @@ class Specialty extends Component
 
     public function loadSpecialties()
     {
-        $this->specialties = \App\Models\Specialty::all();
+        $this->specialties = $this->specialtyRepo->getAll();
         $this->count_specialties = $this->specialties->count();
     }
 
-
-    public function create(){
+    public function create()
+    {
         $this->validate();
 
-        $specialty = \App\Models\Specialty::create([
-            'specialty' => $this->specialty
-        ]);
-
-        if ($specialty) {
+        if ($this->specialtyRepo->create(['specialty' => $this->specialty])) {
             $this->dispatch('showAlert', [
                 'type' => 'success',
                 'title' => '¡Éxito!',
                 'text' => 'Especialidad registrada correctamente'
             ]);
 
-
             $this->loadSpecialties();
         }
     }
 
-
-    public function deleteSpecialty($id){
-        $specialty = \App\Models\Specialty::find($id);
-
-        if ($specialty) {
-            $delete = $specialty->delete();
-
+    public function deleteSpecialty($id)
+    {
+        if ($this->specialtyRepo->delete($id)) {
             $this->loadSpecialties();
         }
     }
@@ -73,36 +71,20 @@ class Specialty extends Component
         $this->deleteSpecialty($specialtyId);
     }
 
-    
-
     public function editSpecialty()
     {
         $this->validate([
             'specialty' => 'required|string',
         ]);
 
-        $specialty = \App\Models\Specialty::where('id', $this->specialtyId)
-            ->first();
-
-        if ($specialty) {
-            $specialty->update([
-                'specialty' => $this->specialty,
-            ]);
-
+        if ($this->specialtyRepo->update($this->specialtyId, ['specialty' => $this->specialty])) {
             $this->dispatch('showAlert', [
                 'type' => 'success',
                 'title' => '¡Éxito!',
                 'text' => 'Especialidad actualizada correctamente'
             ]);
 
-            
             $this->loadSpecialties();
-
-            
-            
         }
     }
-
-   
-
 }

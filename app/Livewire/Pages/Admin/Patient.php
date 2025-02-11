@@ -3,9 +3,8 @@
 namespace App\Livewire\Pages\Admin;
 
 use Livewire\Component;
-use App\Models\User;
+use App\Repositories\PatientRepository;
 use App\Traits\LogoutTrait;
-
 
 class Patient extends Component
 {
@@ -13,8 +12,6 @@ class Patient extends Component
 
     public $patients;
     public $count_patients;
-
-
     public $patientId;
     public $name;
     public $email;
@@ -22,11 +19,8 @@ class Patient extends Component
     public $phone;
     public $dni;
     public $obra_social;
-
     public $dniFilter = '';
-
     protected $listeners = ['deleteConfirmed'];
-
     protected $rules = [
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255|unique:users',
@@ -36,153 +30,75 @@ class Patient extends Component
         'obra_social' => 'required|string|max:255'
     ];
 
+    protected $patientRepo;
 
-
-
+    public function __construct()
+    {
+        $this->patientRepo = new PatientRepository();
+    }
 
     public function mount()
     {
         $this->loadPatients();
     }
 
-
-
-
-
-
     public function render()
     {
-        $filteredPatients = User::with('roles')
-            ->whereHas('roles', function ($query) {
-                $query->where('name', 'paciente');
-            })
-            ->when($this->dniFilter, function ($query) {
-                return $query->where('dni', 'like', $this->dniFilter . '%');
-            })
-            ->get();
-
-        $this->patients = $filteredPatients;
-
+        $this->patients = $this->patientRepo->getAllPatients($this->dniFilter);
         return view('livewire.pages.admin.patient');
     }
 
-
-
-
-
-
     public function loadPatients()
     {
-        $this->patients = User::with('roles')->whereHas('roles', function ($query) {
-            $query->where('name', 'paciente');
-        })->get();
-
+        $this->patients = $this->patientRepo->getAllPatients();
         $this->count_patients = $this->patients->count();
     }
 
-
-
-
-
-
     public function deletePatient($patientId)
     {
-        $patient = User::find($patientId);
-
-        if ($patient) {
-            $patient->removeRole('paciente');
-            $patient->delete();
-
-
+        if ($this->patientRepo->deletePatient($patientId)) {
             $this->loadPatients();
-
-
-
             session()->flash('successDelete', 'Paciente eliminado exitosamente.');
         } else {
             session()->flash('error', 'No se pudo encontrar el paciente.');
         }
     }
 
-
-
-
-
-
     public function deleteConfirmed($patientId)
     {
         $this->deletePatient($patientId);
     }
 
-
-
-
-
-
     public function register()
     {
         $this->validate();
-
-        $user = User::create([
+        $this->patientRepo->createPatient([  
             'name' => $this->name,
             'email' => $this->email,
             'address' => $this->address,
             'phone' => $this->phone,
             'dni' => $this->dni,
             'obra_social' => $this->obra_social,
-            'password' => bcrypt(env('DEFAULT_PASSWORD')),
         ]);
 
-        if ($user) {
-            $user->assignRole('paciente');
-
-            $this->loadPatients();
-
-
-            $this->dispatch('showAlert', [
-                'type' => 'success',
-                'title' => '¡Éxito!',
-                'text' => 'Usuario registrado correctamente'
-            ]);
-
-
-            $this->reset(['name', 'email', 'address', 'phone', 'dni', 'obra_social']);
-
-            session()->flash("success", "Usuario registrado correctamente");
-        }
+        $this->loadPatients();
+        $this->dispatch('showAlert', ['type' => 'success', 'title' => '¡Éxito!', 'text' => 'Usuario registrado correctamente']);
+        $this->reset(['name', 'email', 'address', 'phone', 'dni', 'obra_social']);
+        session()->flash("success", "Usuario registrado correctamente");
     }
-
-
-
-
-
-
 
     public function editPatient()
     {
-       
-        $patient = User::find($this->patientId);
-
-
-
-        if ($patient) {
-            $patient->update([
-                'name' => $this->name,
-                'email' => $this->email,
-                'address' => $this->address,
-                'phone' => $this->phone,
-                'dni' => $this->dni,
-                'obra_social' => $this->obra_social,
-            ]);
-
-            $this->dispatch('showAlert', [
-                'type' => 'success',
-                'title' => '¡Éxito!',
-                'text' => 'Paciente actualizado correctamente'
-            ]);
-
+        if ($this->patientRepo->updatePatient($this->patientId, [
+            'name' => $this->name,
+            'email' => $this->email,
+            'address' => $this->address,
+            'phone' => $this->phone,
+            'dni' => $this->dni,
+            'obra_social' => $this->obra_social,
+        ])) {
+            $this->dispatch('showAlert', ['type' => 'success', 'title' => '¡Éxito!', 'text' => 'Paciente actualizado correctamente']);
             $this->loadPatients();
-
             session()->flash('success', 'Paciente actualizado correctamente.');
         } else {
             session()->flash('error', 'No se pudo encontrar el paciente.');

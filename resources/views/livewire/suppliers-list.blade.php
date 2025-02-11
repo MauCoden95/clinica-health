@@ -125,7 +125,10 @@
                     Editar <i class="fas fa-edit"></i>
                 </button>
             </form>
-            <button @click="editSupplierVisible = false" class="bg-gray-300 px-4 py-2 rounded-md">Cancelar</button>
+            <button @click="editSupplierVisible = false" class="bg-gray-300 px-4 py-2 rounded-md">
+                Cerrar
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     </div>
 </div>

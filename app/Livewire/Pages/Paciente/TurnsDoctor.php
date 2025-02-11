@@ -3,14 +3,9 @@
 namespace App\Livewire\Pages\Paciente;
 
 use Livewire\Component;
-use App\Models\Doctor;
-use App\Models\Turn;
-use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use App\Repositories\TurnRepository;
+use App\Repositories\DoctorRepository;
 use App\Traits\LogoutTrait;
-
-
-
 
 class TurnsDoctor extends Component
 {
@@ -18,21 +13,26 @@ class TurnsDoctor extends Component
 
     public $id;
     public $name;
-    public $turns_availables;
+    public $turns_availables = [];
     public $user_id;
-    public $turns;
-    
+    protected $turnRepository;
+    protected $doctorRepository;
 
     protected $listeners = ['scheduleAppointmentConfirm'];
 
-    public function mount($id){
-        $this->id = $id;
+    public function __construct()
+    {
+        $this->turnRepository = new TurnRepository();
+        $this->doctorRepository = new DoctorRepository();
+    }
 
+    public function mount($id)
+    {
+        $this->id = $id;
         $this->user_id = session('user_id');
 
-        $this->getDoctorName($this->id);
-        $this->getTurnsAvailables($this->id);
-        
+        $this->getDoctorName();
+        $this->getTurnsAvailables();
     }
 
     public function render()
@@ -40,41 +40,43 @@ class TurnsDoctor extends Component
         return view('livewire.pages.paciente.turns-doctor');
     }
 
-    
-    // Obtiene el nombre del doctor
-    public function getDoctorName($id){
-        $doctorName = Doctor::find($id)->user->name;
 
-        $this->name = $doctorName;
+    public function getDoctorName()
+    {
+        $doctor = $this->doctorRepository->getDoctorById($this->id);  // Suponiendo que añades un método en el repositorio para obtener el doctor por ID
+        $this->name = $doctor->user->name;
     }
 
     // Obtiene los turnos disponibles del doctor
-    public function getTurnsAvailables($id){
-        $turns = DB::table('turns')
-                ->select('id','date', 'time', 'status')
-                ->where('status', 'available')
-                ->where('doctor_id', $id)
-                ->whereDate('date', '>=', Carbon::now()->toDateString()) 
-                ->orderBy('date')
-                ->get();
+    public function getTurnsAvailables()
+    {
+        $turns = $this->turnRepository->getAvailableTurnsForDoctor($this->id);
 
 
-        $turns_group = $turns->groupBy('date');
+        $groupedTurns = $turns->groupBy('date');
 
-        $this->turns_availables = $turns_group;
+
+        $this->turns_availables = [];
+        foreach ($groupedTurns as $date => $turnsForDate) {
+            $this->turns_availables[$date] = $turnsForDate;
+        }
     }
 
+
     // Confirma la cita programada
-    public function scheduleAppointmentConfirm($turnId){
+    public function scheduleAppointmentConfirm($turnId)
+    {
         $this->scheduleAppointment($turnId);
     }
 
     // Programa una cita
-    public function scheduleAppointment($turnId){
-        $turn = Turn::find($turnId);
+    public function scheduleAppointment($turnId)
+    {
+        $turn = $this->turnRepository->getTurnById($turnId);
+        
 
         if ($turn) {
-             $update = $turn->update([
+            $update = $turn->update([
                 'user_id' => $this->user_id,
                 'status' => 'unavailable'
             ]);

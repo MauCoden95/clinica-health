@@ -154,7 +154,7 @@ class Doctor extends Component
            
            
 
-            session()->flash("success","Usuario registrado correctamente");    
+             
         }
 
        
@@ -173,6 +173,11 @@ class Doctor extends Component
 
             $user->delete();
 
+            $this->dispatch('showAlert', [
+                'type' => 'success',
+                'title' => '¡Éxito!',
+                'text' => 'Doctor eliminado correctamente'
+            ]);
            
             $this->loadDoctors();
 
