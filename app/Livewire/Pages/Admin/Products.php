@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages\Admin;
 
 use App\Models\Supplier;
+use App\Models\Product;
 use Livewire\Component;
 use App\Traits\LogoutTrait;
 use App\Repositories\ProductRepository;
@@ -23,6 +24,8 @@ class Products extends Component
     public $price;
     public $stock;
     public $stock_reposition;
+
+    public $productsBySupplier;
 
     public $suppliers;
 
@@ -49,10 +52,13 @@ class Products extends Component
     {
         $this->loadProducts();
         $this->getSuppliers();
+        $this->productsBySupplier = [];
     }
 
     public function render()
     {
+        $this->getProductsBySupplier($this->supplierId);
+
         return view('livewire.pages.admin.products');
     }
 
@@ -70,7 +76,8 @@ class Products extends Component
     }
 
 
-    public function create(){
+    public function create()
+    {
         $this->validate();
 
 
@@ -83,7 +90,7 @@ class Products extends Component
             'stock_reposition' => $this->stock_reposition
         ]);
 
-        
+
 
         if ($create) {
             $this->dispatch('showAlert', [
@@ -95,7 +102,7 @@ class Products extends Component
             $this->reset(['name', 'supplierId', 'description', 'price', 'stock', 'stock_reposition']);
 
             $this->loadProducts();
-        }else{
+        } else {
             $this->dispatch('showAlert', [
                 'type' => 'error',
                 'title' => 'Error!',
@@ -118,9 +125,48 @@ class Products extends Component
         }
     }
 
-    public function getSuppliers(){
+    public function getSuppliers()
+    {
         $this->suppliers = $this->supplierRepository->getAll();
+    }
 
+    public function getProductsBySupplier($supplierId)
+    {
+        if ($supplierId) {
+            $this->productsBySupplier = $this->productRepository->productsBySupplier($supplierId);    
+        }else{
+            $this->productsBySupplier = [];
+        }
         
     }
+
+
+
+    public function edit()
+    {
+        $this->validate();
+
+
+        $update = $this->productRepository->update($this->productId, [
+            'name' => $this->name,
+            'supplier_id' => $this->supplierId,
+            'description' => $this->description,
+            'price' => $this->price,
+            'stock' => $this->stock,
+            'stock_reposition' => $this->stock_reposition
+        ]);
+
+        if ($update) {
+            $this->loadProducts();
+
+            $this->dispatch('showAlert', [
+                'type' => 'success',
+                'title' => '¡Éxito!',
+                'text' => 'Producto editado correctamente'
+            ]);
+        }
+    }
+
+
+    
 }

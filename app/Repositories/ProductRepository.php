@@ -34,4 +34,19 @@ class ProductRepository
         $product = Product::find($id);
         return $product ? $product->delete() : false;
     }
+
+    public function productsBySupplier($supplierId){
+        $products = Product::where('supplier_id',$supplierId)->get();
+
+        return $products;
+    }
+
+    public function update($id,array $data)
+    {
+        $product = $this->getById($id);
+               
+
+        return $product ? $product->update($data): false;
+
+    }
 }
