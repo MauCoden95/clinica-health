@@ -29,6 +29,9 @@ class Products extends Component
 
     public $suppliers;
 
+    public $nameFilter = '';
+    public $countProductsReposition;
+
     protected $rules = [
         'name' => 'required|string|max:255',
         'description' => 'required|string|max:255',
@@ -50,21 +53,37 @@ class Products extends Component
 
     public function mount()
     {
+        $this->countProductsReposition = count($this->productRepository->getProductsToReposition());
+        if ($this->countProductsReposition >= 1) {
+            $this->dispatch('showAlert', [
+                'type' => 'info',
+                'title' => 'Aviso',
+                'text' => 'Hay productos que necesitan reposición'
+            ]);
+        }
+
+        
         $this->loadProducts();
         $this->getSuppliers();
         $this->productsBySupplier = [];
+        
     }
 
     public function render()
     {
         $this->getProductsBySupplier($this->supplierId);
 
-        return view('livewire.pages.admin.products');
+
+
+        return view('livewire.pages.admin.products', [
+            'products' => $this->productRepository->getAll($this->nameFilter)
+        ]);
     }
+
 
     public function loadProducts()
     {
-        $this->products = $this->productRepository->getAll();
+        $this->products = $this->productRepository->getAll($this->nameFilter);
         $this->count_products = count($this->products);
     }
 
@@ -72,7 +91,7 @@ class Products extends Component
     {
         $this->products = $this->showProductsReposition
             ? $this->productRepository->getProductsToReposition()
-            : $this->productRepository->getAll();
+            : $this->productRepository->getAll($this->nameFilter);
     }
 
 
@@ -133,11 +152,10 @@ class Products extends Component
     public function getProductsBySupplier($supplierId)
     {
         if ($supplierId) {
-            $this->productsBySupplier = $this->productRepository->productsBySupplier($supplierId);    
-        }else{
+            $this->productsBySupplier = $this->productRepository->productsBySupplier($supplierId);
+        } else {
             $this->productsBySupplier = [];
         }
-        
     }
 
 
@@ -167,6 +185,10 @@ class Products extends Component
         }
     }
 
+    public function updatedNameFilter()
+    {
+        $this->loadProducts();
+    }
 
-    
+   
 }

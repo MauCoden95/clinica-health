@@ -31,7 +31,7 @@ class DoctorRepository
             ->get();
     }
 
-    // Método para obtener un doctor por su ID
+ 
     public function getDoctorById($doctorId)
     {
         return Doctor::find($doctorId);

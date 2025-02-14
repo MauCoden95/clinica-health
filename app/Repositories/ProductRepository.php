@@ -8,17 +8,23 @@ use App\Models\Product;
 
 class ProductRepository
 {
-    public function getAll()
+    public function getAll($name = '')
     {
-        return Product::all();
+        return Product::query()
+            ->when(trim($name), function ($query) use ($name) {
+                return $query->where('name', 'like', '%' . $name . '%');
+            })
+            ->get();
     }
+
 
     public function getById($id)
     {
         return Product::find($id);
     }
 
-    public function create($data){
+    public function create($data)
+    {
         $product = Product::create($data);
 
         return $product;
@@ -35,18 +41,18 @@ class ProductRepository
         return $product ? $product->delete() : false;
     }
 
-    public function productsBySupplier($supplierId){
-        $products = Product::where('supplier_id',$supplierId)->get();
+    public function productsBySupplier($supplierId)
+    {
+        $products = Product::where('supplier_id', $supplierId)->get();
 
         return $products;
     }
 
-    public function update($id,array $data)
+    public function update($id, array $data)
     {
         $product = $this->getById($id);
-               
 
-        return $product ? $product->update($data): false;
 
+        return $product ? $product->update($data) : false;
     }
 }

@@ -1,4 +1,4 @@
-<div x-data="{ sidebarOpen: false, showCreateProduct: false, showEditProduct: false, showProviders: false, showFormCreate: false, showConfirmDelete: false, productToDeleteId: null, productToEditId: null, name: null, productId: 0, supplier_id: 0, description: null, price: 0, stock: 0, stock_reposition: 0 }" class="flex h-screen bg-gray-100 overflow-hidden">
+<div x-data="{ sidebarOpen: false, showCategories: false, showCreateProduct: false, showEditProduct: false, showProviders: false, showFormCreate: false, showConfirmDelete: false, productToDeleteId: null, productToEditId: null, name: null, productId: 0, supplier_id: 0, description: null, price: 0, stock: 0, stock_reposition: 0 }" class="flex h-screen bg-gray-100 overflow-hidden">
 
     <x-common.sidebar />
 
@@ -11,7 +11,8 @@
                 <x-common.count :item="'Cantidad de productos'" :quantity="$count_products" :icon="'fas fa-syringe'" />
 
 
-                <div class="flex flex-col">
+
+                <div class="grid gap-7 grid-cols-2">
                     <button @click="showProviders = true" class="w-auto h-12 mb-6 rounded-md p-2 duration-300 bg-green-400 hover:bg-green-500">
                         Ver proveedores
                         <i class="fas fa-warehouse"></i>
@@ -22,10 +23,22 @@
                         <i class="fas fa-plus-circle"></i>
                     </button>
 
+
+                    <button @click="showCategories = true" class="w-auto h-12 mb-6 rounded-md p-2 duration-300 bg-green-400 hover:bg-green-500">
+                        Categorias de productos
+                        <i class="fas fa-th-large"></i>
+                    </button>
+
+                    <button @click="showCreateProduct = true" class="w-auto h-12 mb-6 rounded-md p-2 duration-300 bg-green-400 hover:bg-green-500">
+                        Nuevo
+                        <i class="fas fa-plus-circle"></i>
+                    </button>
                 </div>
 
 
+
             </div>
+
 
 
 
@@ -50,6 +63,11 @@
                     Ver productos a reponer
                     <input class="ml-2" type="checkbox" wire:model="showProductsReposition" wire:click="showProductsToReposition">
                 </span>
+
+                <div class="mt-4 mb-6">
+                    <input wire:model.live="nameFilter" type="text" placeholder="Buscar por nombre..." class="w-full p-2 border border-gray-300 rounded-md">
+                </div>
+
                 <table class="w-full m-auto mt-6 mb-12 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     @if (count($products) > 0)
                     <thead class="text-xs text-white uppercase bg-red-600 ">
@@ -400,6 +418,20 @@
                     <div class="flex justify-center">
                         <button @click="showEditProduct = false" class="px-4 py-2 mr-2 text-white bg-gray-600 hover:bg-gray-400 rounded">Cerrar</button>
                     </div>
+                </div>
+            </div>
+
+
+
+
+            {{-- Modal para ver las categorias de los productos --}}
+            <div x-show="showCategories" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                <div class="w-2/5 bg-white p-6 rounded-lg shadow-lg max-h-[80vh] overflow-y-auto">
+                    <livewire:category-list />
+                    <button @click="showCategories = false" class="block m-auto mt-5 px-5 bg-gray-600 hover:bg-gray-700 text-white p-2">
+                        Cerrar
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
             </div>
 
