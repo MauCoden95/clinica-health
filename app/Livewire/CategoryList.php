@@ -12,6 +12,7 @@ class CategoryList extends Component
     public $categories;
     public $count_categories;
     public $name;
+    
 
     protected $rules = [
         'name' => 'required|string|max:255',
@@ -40,7 +41,7 @@ class CategoryList extends Component
             $this->dispatch('showAlert', [
                 'type' => 'success',
                 'title' => '¡Éxito!',
-                'text' => 'Proveedor eliminado correctamente'
+                'text' => 'Categoría eliminada correctamente'
             ]);
 
             $this->getCategories();
@@ -48,17 +49,58 @@ class CategoryList extends Component
     }
 
     public function create(){
-        //dd($this->name);
+        if ($this->name == '') {
+            $this->dispatch('showAlert', [
+                'type' => 'error',
+                'title' => '¡Error!',
+                'text' => 'Campos vacíos'
+                ]);
+
+            return;
+        }
 
         $create = Category::create([
             'name' => $this->name,
         ]);
+
 
         if ($create) {
             $this->dispatch('showAlert', [
             'type' => 'success',
             'title' => '¡Éxito!',
             'text' => 'Categoría creada correctamente'
+            ]);
+
+            $this->name = '';
+            $this->getCategories();
+        }
+
+    }
+
+
+    public function editCategory(){
+        if ($this->name == '') {
+            $this->dispatch('showAlert', [
+                'type' => 'error',
+                'title' => '¡Error!',
+                'text' => 'Campos vacíos'
+                ]);
+
+            return;
+        }
+
+        $category = Category::find($this->categoryId);
+
+        $update = $category->update([
+            'name' => $this->name,
+        ]);
+
+
+        if ($update) {
+            $this->dispatch('showAlert', [
+            'type' => 'success',
+            'title' => '¡Éxito!',
+            'text' => 'Categoría editada correctamente'
             ]);
 
             $this->name = '';

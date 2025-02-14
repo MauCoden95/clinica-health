@@ -1,4 +1,4 @@
-<div x-data="{categoryId: null, deleteConfirm: false, addCategory: false}">
+<div x-data="{categoryId: null, name: null, categoryIdToEdit: null, deleteConfirm: false, addCategory: false, editCategory: false}">
     <h2 class="text-2xl text-center my-4">Listado de categorías</h2>
     <h2 class="text-center my-3">Cantidad de categorías: {{ $count_categories }}</h2>
     <div class="flex justify-start mb-4">
@@ -19,13 +19,21 @@
             <tr>
                 <td class="text-center bg-gray-200 border-gray-500">{{ $category->name }}</td>
                 <td class="text-center bg-gray-200 border-gray-500">
-                    <button>
+                    <button @click="
+                        editCategory = true;
+                        categoryIdToEdit = {{ $category->id }};
+                        name = '{{ $category->name }}';
+                        $nextTick(() => { 
+                            $wire.categoryId = categoryIdToEdit;
+                            $wire.name = name
+                         })
+                        ">
                         <i class="fas fa-edit text-xl text-blue-500 hover:text-blue-700"></i>
                     </button>
 
                     <button @click="
-
                         categoryId = {{ $category->id }};
+                        
                         deleteConfirm = true;
                         $nextTick(() => { $wire.categoryId = categoryId });
                     ">
@@ -58,6 +66,31 @@
         <div @click.outside="addCategory = false" class="w-3/6 bg-white p-6 rounded-lg text-center">
             <x-common.form_add_category />
             <button class="px-3 py-2 rounded-sm text-white bg-gray-600" @click="addCategory = false">
+                Cerrar
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+
+
+    {{-- Modal para editar categoría --}}
+    <div x-show="editCategory" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+        <div @click.outside="editCategory = false" class="w-3/6 bg-white p-6 rounded-lg text-center">
+            <h2 class="text-center my-2 text-2xl">Editar categoría</h2>
+            <form wire:submit.prevent="editCategory" class="w-full p-5 flex flex-col" autoComplete="off">
+                <div>
+                    <input wire:model="name" x-bind:value="name" class="w-full p-3 my-5 border-b border-red-500" type="text" name="name" placeholder="Nombre..." />
+                    @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+
+
+                <button class="w-full p-2 mb-5 text-xl bg-red-500 hover:bg-red-400 duration-300">
+                    Guardar <i class="fas fa-save"></i>
+                </button>
+            </form>
+
+            <button class="px-3 py-2 rounded-sm text-white bg-gray-600" @click="editCategory = false">
                 Cerrar
                 <i class="fas fa-times"></i>
             </button>
