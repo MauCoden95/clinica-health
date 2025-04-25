@@ -24,6 +24,7 @@ use App\Livewire\Pages\Admin\Specialty;
 use App\Livewire\Pages\Admin\Calendar;
 use App\Livewire\Pages\Admin\SuggestionsAdmin;
 use App\Livewire\Pages\Admin\Products; 
+use App\Livewire\Pages\Admin\PurchaseOrders; 
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Http\Controllers\AccountVerifyController;
@@ -82,6 +83,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/admin/calendario-de-turnos', Calendar::class)->name('admin.calendar');
     Route::get('/admin/quejas-y-sugerencias', SuggestionsAdmin::class)->name('admin.suggestions');
     Route::get('/admin/inventario', Products::class)->name('admin.products');
+    Route::get('/admin/ordenes-compra', PurchaseOrders::class)->name('admin.purchase_orders');
 });
 
 

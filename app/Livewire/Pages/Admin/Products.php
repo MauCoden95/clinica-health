@@ -40,7 +40,10 @@ class Products extends Component
         'stock_reposition' => 'required|numeric',
     ];
 
-    protected $listeners = ['productDeleted' => 'loadProducts'];
+    protected $listeners = [
+        'productDeleted' => 'loadProducts',
+        'supplierAdded' => 'getSuppliers', 
+    ];
 
     protected $productRepository;
     protected $supplierRepository;
