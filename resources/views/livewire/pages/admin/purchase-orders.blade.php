@@ -29,12 +29,10 @@
 
 
 
+            <x-common.products-replanished :productsToReplenished="$productsToReplenished"/>
 
 
-
-
-
-
+      
          
 
 
