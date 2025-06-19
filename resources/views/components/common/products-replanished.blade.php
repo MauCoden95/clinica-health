@@ -1,7 +1,7 @@
 <div>
     <h2 class="text-center text-2xl my-12">Productos que hay que reponer</h2>
 
-    <table class="w-11/12 m-auto mt-6 mb-12 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <table class="w-5/6 m-auto mt-6 mb-12 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         @if (count($productsToReplenished) > 0)
         <thead class="text-xs text-white uppercase bg-red-600 ">
             <tr>

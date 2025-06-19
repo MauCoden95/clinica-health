@@ -48,11 +48,20 @@ class Products extends Component
     protected $productRepository;
     protected $supplierRepository;
 
+
+
+
+
     public function __construct()
     {
         $this->productRepository = new ProductRepository();
         $this->supplierRepository = new SupplierRepository();
     }
+
+
+
+
+
 
     public function mount()
     {
@@ -72,6 +81,12 @@ class Products extends Component
         
     }
 
+
+
+
+
+
+
     public function render()
     {
         $this->getProductsBySupplier($this->supplierId);
@@ -84,11 +99,21 @@ class Products extends Component
     }
 
 
+
+
+
+
+
     public function loadProducts()
     {
         $this->products = $this->productRepository->getAll($this->nameFilter);
         $this->count_products = count($this->products);
     }
+
+
+
+
+
 
     public function showProductsToReposition()
     {
@@ -96,6 +121,11 @@ class Products extends Component
             ? $this->productRepository->getProductsToReposition()
             : $this->productRepository->getAll($this->nameFilter);
     }
+
+
+
+
+
 
 
     public function create()
@@ -124,6 +154,8 @@ class Products extends Component
             $this->reset(['name', 'supplierId', 'description', 'price', 'stock', 'stock_reposition']);
 
             $this->loadProducts();
+
+           
         } else {
             $this->dispatch('showAlert', [
                 'type' => 'error',
