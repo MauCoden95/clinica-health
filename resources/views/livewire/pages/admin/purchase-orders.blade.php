@@ -52,7 +52,6 @@
                     <div class="mt-5">
                         @forelse($groupedBySupplier as $supplier)
                         <div class="mb-8">
-
                             <form wire:submit.prevent="generatePurchaseOrder({{ $supplier->id }})">
                                 <div class="w-full flex items-center justify-between">
                                     <h2 class="text-lg font-bold text-gray-700 mb-3">Proveedor: {{ $supplier->name }}</h2>
@@ -75,26 +74,33 @@
 
 
                                             <td class="text-center text-sm w-1/3">
+                                                @if(isset($product_name[$product->id]))
                                                 <input
                                                     type="text"
                                                     wire:model="product_name.{{ $product->id }}"
                                                     class="w-full block m-auto rounded-md border-2 border-gray-300 text-center text-sm"
                                                     readonly>
+                                                @endif
                                             </td>
                                             <td class="text-center text-sm w-1/3">
+                                                @if(isset($product_price[$product->id]))
                                                 <input
                                                     type="number"
                                                     wire:model="product_price.{{ $product->id }}"
                                                     class="w-full block m-auto rounded-md border-2 border-gray-300 text-center text-sm"
                                                     readonly>
+                                                @endif
                                             </td>
                                             <td>
+                                                @if(isset($product_stock_reposition[$product->id]))
                                                 <input
                                                     class="w-24 block m-auto placeholder:text-gray-500 rounded-md border-2 border-red-400"
                                                     type="number"
                                                     wire:model="product_stock_reposition.{{ $product->id }}"
                                                     min="{{ $product->stock_reposition }}">
+                                                @endif
                                             </td>
+
 
                                         </tr>
                                         @endforeach

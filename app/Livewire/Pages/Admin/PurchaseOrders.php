@@ -82,6 +82,13 @@ class PurchaseOrders extends Component
             'total' => $total,
         ]);
 
-       
+        $this->dispatch('showAlert', [
+            'type' => 'success',
+            'title' => '¡Éxito!',
+            'text' => 'Orden #' . $purchaseOrder->id . ' creada correctamente',
+        ]);
+
+
+        
     }
 }
