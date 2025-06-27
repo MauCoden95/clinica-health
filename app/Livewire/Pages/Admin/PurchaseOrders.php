@@ -8,6 +8,7 @@ use App\Models\Supplier;
 use App\Models\PurchaseOrder;
 use Carbon\Carbon;
 use App\Traits\SavePurchaseOrderProductTrait;
+use PDF;
 
 class PurchaseOrders extends Component
 {
@@ -67,7 +68,6 @@ class PurchaseOrders extends Component
             $query->whereColumn('stock', '<=', 'stock_reposition');
         }])->findOrFail($supplierId);
 
-
         foreach ($supplier->products as $product) {
             $productId = $product->id;
 
@@ -75,7 +75,7 @@ class PurchaseOrders extends Component
             $price =  $this->product_price[$productId];
 
             $productsToOrderData[] = [
-                'product_id' => $productId,
+                'product_name' => $this->product_name[$productId], 
                 'quantity' => $quantity,
                 'unit_price' => $price,
             ];
@@ -83,19 +83,53 @@ class PurchaseOrders extends Component
             $total += $quantity * $price;
         }
 
-
-
         $purchaseOrder = $this->purchaseOrderSave($supplierId, $total);
-
         $this->savePurchaseOrderProducts($purchaseOrder, $productsToOrderData);
 
-        $this->dispatch('showAlert', [
-            'type' => 'success',
-            'title' => '¡Éxito!',
-            'text' => 'Orden #' . $purchaseOrder->id . ' creada correctamente',
-        ]);
+        return $this->generatePurchaseOrderPdf($purchaseOrder, $productsToOrderData, $supplier, $total);
     }
 
+
+
+
+    private function generatePurchaseOrderPdf($purchaseOrder, $products, $supplier, $total)
+    {
+        $data = [
+            'purchaseOrder' => $purchaseOrder,
+            'products' => $products,
+            'supplier' => $supplier,
+            'total' => $total,
+            'date' => now(),
+            'time' => now()->format('H:i')
+        ];
+
+        
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('livewire.pages.admin.purchase-order-pdf', $data)
+            ->setPaper('a4', 'portrait')
+            ->setOptions([
+                'defaultFont' => 'Helvetica',
+                'isHtml5ParserEnabled' => true,
+                'isRemoteEnabled' => true,
+                'isPhpEnabled' => true,
+                'chroot' => base_path(),
+                'tempDir' => storage_path('app/temp')
+            ]);
+
+       
+        if (!file_exists(storage_path('app/temp'))) {
+            mkdir(storage_path('app/temp'), 0755, true);
+        }
+
+        
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, 'orden-compra-' . $purchaseOrder->id . '.pdf');
+    }
+
+
+
+    
 
     public function purchaseOrderSave($supplierId, $total)
     {
