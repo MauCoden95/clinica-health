@@ -7,9 +7,12 @@ use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\PurchaseOrder;
 use Carbon\Carbon;
+use App\Traits\SavePurchaseOrderProductTrait;
 
 class PurchaseOrders extends Component
 {
+    use SavePurchaseOrderProductTrait;
+
     public $productsToReplenished = [];
     public $groupedBySupplier = [];
 
@@ -30,9 +33,9 @@ class PurchaseOrders extends Component
         }
 
         $this->groupedBySupplier = Supplier::whereHas('products', function ($query) {
-            $query->whereColumn('stock', '<=', 'stock_reposition'); 
+            $query->whereColumn('stock', '<=', 'stock_reposition');
         })->with(['products' => function ($query) {
-            $query->whereColumn('stock', '<=', 'stock_reposition'); 
+            $query->whereColumn('stock', '<=', 'stock_reposition');
         }])->get();
 
 
@@ -58,6 +61,7 @@ class PurchaseOrders extends Component
     public function generatePurchaseOrder($supplierId)
     {
         $total = 0;
+        $productsToOrderData = [];
 
         $supplier = Supplier::with(['products' => function ($query) {
             $query->whereColumn('stock', '<=', 'stock_reposition');
@@ -70,8 +74,31 @@ class PurchaseOrders extends Component
             $quantity =  $this->product_stock_reposition[$productId];
             $price =  $this->product_price[$productId];
 
+            $productsToOrderData[] = [
+                'product_id' => $productId,
+                'quantity' => $quantity,
+                'unit_price' => $price,
+            ];
+
             $total += $quantity * $price;
         }
+
+
+
+        $purchaseOrder = $this->purchaseOrderSave($supplierId, $total);
+
+        $this->savePurchaseOrderProducts($purchaseOrder, $productsToOrderData);
+
+        $this->dispatch('showAlert', [
+            'type' => 'success',
+            'title' => '¡Éxito!',
+            'text' => 'Orden #' . $purchaseOrder->id . ' creada correctamente',
+        ]);
+    }
+
+
+    public function purchaseOrderSave($supplierId, $total)
+    {
 
         $now = Carbon::now()->setTimezone('America/Argentina/Buenos_Aires');
 
@@ -82,13 +109,6 @@ class PurchaseOrders extends Component
             'total' => $total,
         ]);
 
-        $this->dispatch('showAlert', [
-            'type' => 'success',
-            'title' => '¡Éxito!',
-            'text' => 'Orden #' . $purchaseOrder->id . ' creada correctamente',
-        ]);
-
-
-        
+        return $purchaseOrder;
     }
 }
