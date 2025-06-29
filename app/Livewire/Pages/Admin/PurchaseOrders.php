@@ -8,10 +8,13 @@ use App\Models\Supplier;
 use App\Models\PurchaseOrder;
 use Carbon\Carbon;
 use App\Traits\SavePurchaseOrderProductTrait;
-use PDF;
+use App\Traits\LogoutTrait;
+use App\Repositories\SupplierRepository;
 
 class PurchaseOrders extends Component
 {
+    use LogoutTrait;
+
     use SavePurchaseOrderProductTrait;
 
     public $productsToReplenished = [];
@@ -21,10 +24,21 @@ class PurchaseOrders extends Component
     public $product_price = [];
     public $product_stock_reposition = [];
 
+    public $suppliers;
+    protected $supplierRepository;
+
+
+
+    public function __construct()
+    {
+        $this->supplierRepository = new SupplierRepository();
+    }
+
 
 
     public function mount()
     {
+        $this->suppliers = $this->supplierRepository->getAll();
         $products = Product::whereColumn('stock', '<=', 'stock_reposition')->get();
 
         foreach ($products as $product) {
@@ -75,7 +89,7 @@ class PurchaseOrders extends Component
             $price =  $this->product_price[$productId];
 
             $productsToOrderData[] = [
-                'product_name' => $this->product_name[$productId], 
+                'product_name' => $this->product_name[$productId],
                 'quantity' => $quantity,
                 'unit_price' => $price,
             ];
@@ -86,6 +100,14 @@ class PurchaseOrders extends Component
         $purchaseOrder = $this->purchaseOrderSave($supplierId, $total);
         $this->savePurchaseOrderProducts($purchaseOrder, $productsToOrderData);
 
+
+        $this->dispatch('showAlert', [
+            'type' => 'success',
+            'title' => 'Exito',
+            'text' => 'Orden de compra #' . $purchaseOrder->id . ' generada exitosamente'
+        ]);
+
+
         return $this->generatePurchaseOrderPdf($purchaseOrder, $productsToOrderData, $supplier, $total);
     }
 
@@ -94,42 +116,49 @@ class PurchaseOrders extends Component
 
     private function generatePurchaseOrderPdf($purchaseOrder, $products, $supplier, $total)
     {
-        $data = [
-            'purchaseOrder' => $purchaseOrder,
-            'products' => $products,
-            'supplier' => $supplier,
-            'total' => $total,
-            'date' => now(),
-            'time' => now()->format('H:i')
-        ];
+        try {
+            $data = [
+                'purchaseOrder' => $purchaseOrder,
+                'products' => $products,
+                'supplier' => $supplier,
+                'total' => $total,
+                'date' => now(),
+                'time' => now()->format('H:i')
+            ];
 
-        
-        $pdf = app('dompdf.wrapper');
-        $pdf->loadView('livewire.pages.admin.purchase-order-pdf', $data)
-            ->setPaper('a4', 'portrait')
-            ->setOptions([
-                'defaultFont' => 'Helvetica',
-                'isHtml5ParserEnabled' => true,
-                'isRemoteEnabled' => true,
-                'isPhpEnabled' => true,
-                'chroot' => base_path(),
-                'tempDir' => storage_path('app/temp')
+
+            $pdf = app('dompdf.wrapper');
+            $pdf->loadView('livewire.pages.admin.purchase-order-pdf', $data)
+                ->setPaper('a4', 'portrait')
+                ->setOptions([
+                    'defaultFont' => 'Helvetica',
+                    'isHtml5ParserEnabled' => true,
+                    'isRemoteEnabled' => true,
+                    'isPhpEnabled' => true,
+                    'chroot' => base_path(),
+                    'tempDir' => storage_path('app/temp')
+                ]);
+
+
+            if (!file_exists(storage_path('app/temp'))) {
+                mkdir(storage_path('app/temp'), 0755, true);
+            }
+
+
+            return response()->streamDownload(function () use ($pdf) {
+                echo $pdf->output();
+            }, 'orden-compra-' . $purchaseOrder->id . '.pdf');
+        } catch (\Throwable $th) {
+            $this->dispatch('showAlert', [
+                'type' => 'error',
+                'message' => 'Hubo un error al generar la orden'
             ]);
-
-       
-        if (!file_exists(storage_path('app/temp'))) {
-            mkdir(storage_path('app/temp'), 0755, true);
         }
-
-        
-        return response()->streamDownload(function () use ($pdf) {
-            echo $pdf->output();
-        }, 'orden-compra-' . $purchaseOrder->id . '.pdf');
     }
 
 
 
-    
+
 
     public function purchaseOrderSave($supplierId, $total)
     {
