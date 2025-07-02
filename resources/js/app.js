@@ -26,6 +26,15 @@ function initEventListeners() {
     });
 
     
+    Livewire.on('showAlertConfirm', (data) => {
+        Swal.fire({
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            title: data[0].title,
+            text: data[0].text,
+            icon: data[0].type,
+        });
+    });
 }
 
 

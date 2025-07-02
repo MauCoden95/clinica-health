@@ -18,6 +18,7 @@ class PurchaseOrder extends Model
         'date',
         'time',
         'total',
+        'state'
     ];
         
 

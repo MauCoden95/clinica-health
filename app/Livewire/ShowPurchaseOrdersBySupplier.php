@@ -4,11 +4,11 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Supplier;
+use App\Models\Product;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderProduct;
 use App\Repositories\SupplierRepository;
 use App\Traits\GeneratePurchaseOrderPdf;
-use Illuminate\Support\Facades\DB;
 
 class ShowPurchaseOrdersBySupplier extends Component
 {
@@ -18,6 +18,7 @@ class ShowPurchaseOrdersBySupplier extends Component
     public $purchaseOrders = [];
     protected $supplierRepository;
     public $supplier;
+    public $state = [];
 
     public function __construct()
     {
@@ -60,11 +61,13 @@ class ShowPurchaseOrdersBySupplier extends Component
         $supplier = $this->getSupplier($purchaseOrder->supplier_id);
         $products = $this->getProductsByPurchaseOrder($purchaseOrderId);
 
-        
+
         $this->supplier = Supplier::find($this->supplierId);
-        
+
         return $this->generatePurchaseOrderPdf($purchaseOrder, $products, $supplier, $total);
     }
+
+
 
 
     public function getSupplier($supplierId)
@@ -75,6 +78,9 @@ class ShowPurchaseOrdersBySupplier extends Component
     }
 
 
+
+
+
     public function getPurchaseOrder($purchaseOrderId)
     {
         $purchaseOrder = PurchaseOrder::find($purchaseOrderId);
@@ -82,10 +88,14 @@ class ShowPurchaseOrdersBySupplier extends Component
         return $purchaseOrder;
     }
 
-    public function getProductsByPurchaseOrder($purchaseOrderId){
+
+
+
+    public function getProductsByPurchaseOrder($purchaseOrderId)
+    {
         $purchaseOrder = PurchaseOrder::with('products')
             ->find($purchaseOrderId);
-        
+
         if (!$purchaseOrder) {
             return collect([]);
         }
@@ -98,5 +108,57 @@ class ShowPurchaseOrdersBySupplier extends Component
             ];
         });
     }
-    
+
+
+
+    public function updatedState()
+    {
+        foreach ($this->state as $id => $value) {
+            if (!is_null($value)) {
+                $this->setStatePurchaseOrder($id, $value);
+            }
+        }
+    }
+
+    public function setStatePurchaseOrder($id, $state)
+    {
+        $purchaseOrder = PurchaseOrder::find($id);
+
+
+        if ($purchaseOrder) {
+
+
+            $update = $purchaseOrder->update([
+                'state' => $state
+            ]);
+
+            if ($update && $state == 'Entregado') {
+                $this->setStockProducts($purchaseOrder->id);
+            }
+        }
+    }
+
+
+    public function setStockProducts($id){
+        $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id','=', $id)->get();
+
+        foreach ($purchaseOrderProducts as $purchaseOrderProduct) {
+            $product = Product::find($purchaseOrderProduct->product_id);
+            $update = $product->update([
+                'stock' => $product->stock + $purchaseOrderProduct->quantity
+            ]);
+
+
+            if($update){
+                $this->dispatch('showAlert', [
+                    'type' => 'success',
+                    'title' => 'Exito',
+                    'text' => 'Stock actualizado exitosamente'
+                ]);
+            }
+           
+        }
+
+       
+    }
 }
