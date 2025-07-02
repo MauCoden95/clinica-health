@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Supplier;
+use App\Models\Product;
+use App\Models\PurchaseOrderProduct;
 
 class PurchaseOrder extends Model
 {
@@ -26,8 +28,9 @@ class PurchaseOrder extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class)
-                    ->withPivot('quantity') 
+        return $this->belongsToMany(Product::class, 'purchase_order_products')
+                    ->withPivot(['quantity', 'unit_price'])
                     ->withTimestamps();
     }
+    
 }
