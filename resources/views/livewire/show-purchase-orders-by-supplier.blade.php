@@ -6,6 +6,11 @@
         @endforeach
     </select>
 
+    <div class="mb-12">
+        <input type="checkbox" wire:model.live="showOnlyPending">
+        <label for="supplierId">Mostrar solo las órdenes de compra pendientes</label>
+    </div>
+
 
     @if($purchaseOrders->count() > 0)
     <table class="w-full">

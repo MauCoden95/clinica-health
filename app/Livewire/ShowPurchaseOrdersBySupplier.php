@@ -20,6 +20,7 @@ class ShowPurchaseOrdersBySupplier extends Component
     protected $supplierRepository;
     public $supplier;
     public $state = [];
+    public $showOnlyPending = false;
 
     public function __construct()
     {
@@ -50,7 +51,15 @@ class ShowPurchaseOrdersBySupplier extends Component
 
     public function updateSupplierId()
     {
-        $this->purchaseOrders = PurchaseOrder::where('supplier_id', $this->supplierId)->get();
+        $query = PurchaseOrder::where('supplier_id', $this->supplierId)
+            ->orderBy('date', 'desc')
+            ->orderBy('time', 'desc');
+
+        if ($this->showOnlyPending) {
+            $query->where('state', 'Pendiente')->orWhere('state', 'Enviado');
+        }
+
+        $this->purchaseOrders = $query->get();
     }
 
 
@@ -171,4 +180,7 @@ class ShowPurchaseOrdersBySupplier extends Component
 
        
     }
+
+
+
 }
