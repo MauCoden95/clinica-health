@@ -6,11 +6,11 @@
         @endforeach
     </select>
 
-    
+
     @if($purchaseOrders->count() > 0)
     <table class="w-full">
         <thead>
-            <tr>    
+            <tr>
                 <th class="py-2 bg-red-500 text-white">#</th>
                 <th class="py-2 bg-red-500 text-white">FECHA</th>
                 <th class="py-2 bg-red-500 text-white">HORA</th>
@@ -28,13 +28,13 @@
                 <td class="py-2 text-center bg-gray-300">{{ $purchaseOrder->total }} $</td>
                 <td class="py-2 text-center bg-gray-300">
                     @if($purchaseOrder->state == 'Pendiente')
-                        <span class="bg-blue-600 text-white px-4 py-1 rounded">{{ $purchaseOrder->state }}</span>
+                    <span class="bg-blue-600 text-white px-4 py-1 rounded">{{ $purchaseOrder->state }}</span>
                     @elseif($purchaseOrder->state == 'Enviado')
-                        <span class="bg-violet-600 text-white px-4 py-1 rounded">{{ $purchaseOrder->state }}</span>
+                    <span class="bg-violet-600 text-white px-4 py-1 rounded">{{ $purchaseOrder->state }}</span>
                     @elseif($purchaseOrder->state == 'Entregado')
-                        <span class="bg-green-700 text-white px-4 py-1 rounded">{{ $purchaseOrder->state }}</span>
+                    <span class="bg-green-700 text-white px-4 py-1 rounded">{{ $purchaseOrder->state }}</span>
                     @else
-                        <span class="bg-red-600 text-white px-4 py-1 rounded">Cancelado</span>
+                    <span class="bg-red-600 text-white px-4 py-1 rounded">Cancelado</span>
                     @endif
                 </td>
                 <td class="py-2 text-center bg-gray-300">
@@ -42,13 +42,16 @@
                         <i class="fa-solid fa-download text-blue-500 hover:text-blue-700 text-xl"></i>
                     </button>
 
+                    @if($purchaseOrder->state == 'Pendiente' || $purchaseOrder->state == 'Enviado')
                     <select wire:model.live="state.{{ $purchaseOrder->id }}" class="bg-white text-gray-900 border border-gray-300 rounded">
                         <option value="">--Estado--</option>
                         <option value="Pendiente">Pendiente</option>
                         <option value="Enviado">Enviado</option>
                         <option value="Cancelado">Cancelado</option>
-                        <option  value="Entregado">Entregado</option>
+                        <option value="Entregado">Entregado</option>
+
                     </select>
+                    @endif
                 </td>
             </tr>
             @endforeach

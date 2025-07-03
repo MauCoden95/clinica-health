@@ -13,21 +13,24 @@
 
 
 
-                @if(count($groupedBySupplier) >= 1)
+
                 <div class="grid gap-7 grid-cols-2">
+
+                    @if(count($groupedBySupplier) >= 1)
                     <button @click="showPurchaseOrders = true" class="w-auto h-12 px-8 mb-6 rounded-md p-2 duration-300 bg-green-400 hover:bg-green-500">
                         Generar orden de compra
                         <i class="fas fa-file-invoice-dollar"></i>
 
                     </button>
 
+                    @endif
                     <button @click="showAllPurchaseOrders = true" class="w-auto h-12 px-4 mb-6 rounded-md p-2 duration-300 bg-green-400 hover:bg-green-500">
                         Ver todas las órdenes de compra
                         <i class="fas fa-list"></i>
 
                     </button>
                 </div>
-                @endif
+
 
 
 
@@ -133,7 +136,7 @@
             <div x-show="showAllPurchaseOrders" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                 <div class="w-4/5 bg-white p-6 rounded-lg shadow-lg max-h-[80vh] overflow-y-auto">
                     <h2 class="text-2xl text-center">Ordenes de compra por proveedor</h2>
-                    
+
                     @livewire('show-purchase-orders-by-supplier')
 
                     <button @click="showAllPurchaseOrders = false" class="block m-auto mt-5 px-5 bg-gray-600 hover:bg-gray-700 text-white p-2">

@@ -28,6 +28,10 @@ class PurchaseOrders extends Component
     public $suppliers;
     protected $supplierRepository;
 
+    protected $listeners = [
+        'updateProductsToReplenished' => 'updateProductsToReplenished'
+    ];
+
 
 
     public function __construct()
@@ -68,7 +72,10 @@ class PurchaseOrders extends Component
     }
 
 
-
+    public function updateProductsToReplenished()
+    {
+        $this->getProductsToReplenished();
+    }
 
 
 

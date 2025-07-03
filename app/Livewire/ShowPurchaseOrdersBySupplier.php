@@ -10,6 +10,7 @@ use App\Models\PurchaseOrderProduct;
 use App\Repositories\SupplierRepository;
 use App\Traits\GeneratePurchaseOrderPdf;
 
+
 class ShowPurchaseOrdersBySupplier extends Component
 {
     use GeneratePurchaseOrderPdf;
@@ -132,8 +133,17 @@ class ShowPurchaseOrdersBySupplier extends Component
                 'state' => $state
             ]);
 
+            $this->dispatch('updateProductsToReplenished');
+
+
             if ($update && $state == 'Entregado') {
                 $this->setStockProducts($purchaseOrder->id);
+            }else if($update && $state == 'Cancelado'){
+                $this->dispatch('showAlert', [
+                    'type' => 'error',
+                    'title' => 'Exito',
+                    'text' => 'Orden de compra cancelada'
+                ]);
             }
         }
     }
