@@ -26,10 +26,12 @@ use App\Livewire\Pages\Admin\SuggestionsAdmin;
 use App\Livewire\Pages\Admin\Products; 
 use App\Livewire\Pages\Admin\PurchaseOrders; 
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Pages\Admin\Users;
 use App\Models\User;
 use App\Http\Controllers\AccountVerifyController;
 use App\Http\Controllers\PasswordResetController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\ImportUsersController;
 
 
 
@@ -84,6 +86,8 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/admin/quejas-y-sugerencias', SuggestionsAdmin::class)->name('admin.suggestions');
     Route::get('/admin/inventario', Products::class)->name('admin.products');
     Route::get('/admin/ordenes-compra', PurchaseOrders::class)->name('admin.purchase_orders');
+    Route::get('/admin/usuarios', Users::class)->name('admin.users');
+    Route::post('/import', [ImportUsersController::class, 'import'])->name('import-users');
 });
 
 
@@ -99,4 +103,11 @@ Route::group(['middleware' => ['role:paciente']], function () {
 
 
 
+
+
+//Rutas para empleados
+Route::group(['middleware' => ['role:empleado']], function () { 
+    Route::get('/empleado/pacientes', Patient::class)->name('empleado.pacientes');
+    Route::get('/empleado/calendario-de-turnos', Calendar::class)->name('empleado.calendar');
+});
 

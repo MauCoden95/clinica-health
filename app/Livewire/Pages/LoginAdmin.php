@@ -29,7 +29,7 @@ class LoginAdmin extends Component
             $user = auth()->user();
 
            
-            if (!auth()->user()->hasRole('admin') && !auth()->user()->hasRole('doctor')) {
+            if (!auth()->user()->hasRole('admin') && !auth()->user()->hasRole('doctor') && !auth()->user()->hasRole('empleado')) {
                 auth()->logout(); 
                 $this->addError('email', 'Sólo profesionales pueden ingresar.'); 
                 return; 

@@ -20,4 +20,19 @@ class UserRepository
             ->having('total', '>', 1)
             ->get();
     }
+
+
+    public function getAll($name = '')
+    {
+        return User::query()
+            ->when(trim($name), function ($query) use ($name) {
+                return $query->where('name', 'like', '%' . $name . '%');
+            })
+            ->get();
+    }
+
+    public function create($data)
+    {
+        return User::create($data);
+    }
 }

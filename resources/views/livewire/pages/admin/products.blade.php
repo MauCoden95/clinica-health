@@ -23,13 +23,7 @@
                         <i class="fas fa-plus-circle"></i>
                     </button>
 
-
-                    <button @click="showReports = true" class="w-auto h-12 mb-6 text-sm rounded-md p-2 duration-300 bg-green-400 hover:bg-green-500">
-                        Reportes
-                        <i class="fas fa-th-large"></i>
-                    </button>
-
-                    <button wire:navigate href="http://127.0.0.1:8000/admin/ordenes-compra" class="w-auto h-12 mb-6 text-sm rounded-md p-2 duration-300 bg-green-400 hover:bg-green-500">
+                    <button wire:navigate href="http://127.0.0.1:8000/admin/ordenes-compra" class="w-auto col-span-2 h-12 mb-6 text-sm rounded-md p-2 duration-300 bg-green-400 hover:bg-green-500">
                         Órdenes de compra
                         <i class="fas fa-file-invoice-dollar"></i>
                     </button>

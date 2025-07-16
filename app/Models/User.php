@@ -7,12 +7,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Role;
+use App\Models\Turn;
 
 
 class User extends Authenticatable
 {
     use HasRoles;
     use HasFactory, Notifiable;
+
+   
 
     /**
      * The attributes that are mass assignable.
@@ -59,17 +63,23 @@ class User extends Authenticatable
         return $this->hasMany(Turn::class);
     }
 
-    public function turnsExaminations()
+   /* public function turnsExaminations()
     {
         return $this->hasMany(TurnExamination::class);
-    }
+    }*/
 
 
     public function posts()
     {
         return $this->hasMany(Suggestion::class);
     }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+
+
+    
 }
-
-
-

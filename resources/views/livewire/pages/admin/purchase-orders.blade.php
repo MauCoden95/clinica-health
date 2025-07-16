@@ -7,7 +7,12 @@
 
         <main class="w-full flex-1 overflow-x-hidden overflow-y-auto bg-white ">
 
-
+            <div class="relative w-full px-14 mt-8 flex justify-end">
+                <a wire:navigate href="{{ route('admin.products') }}" class="">
+                    <i class="fas fa-arrow-left"></i>
+                    Volver a productos
+                </a>
+            </div>
 
             <div class="relative w-full px-14 overflow-x-auto mt-20 flex justify-between">
 
