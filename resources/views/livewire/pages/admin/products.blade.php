@@ -256,7 +256,28 @@
 
                     <x-common.supplier_list />
 
-                    <button class="px-3 py-2 rounded-sm text-white bg-red-500" @click="showProviders = false">
+
+
+                    <form class="mt-24 flex flex-col" action="{{ route('import-products') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @if (session()->has('success'))
+                        <div class="bg-green-400 text-green-800 p-4 rounded-md mb-6">
+                            {{ session('success') }}
+                        </div>
+                        @elseif (session()->has('error'))
+                        <div class="bg-red-400 text-red-800 p-4 rounded-md mb-6">
+                            <p>¡Error al importar productos!</p>
+                        </div>
+                        @endif
+                        <h2 class="text-2xl font-bold mb-6">Importar y exportar proveedores</h2>
+                        <input type="file" name="excel_file" required>
+                        <div class="w-2/5 flex items-center justify-between">
+                            <button class="w-2/4 mt-6 mr-2 bg-red-500 hover:bg-red-600 duration-300 text-white px-5 py-2" type="submit">Importar</button>
+                            <a href="{{ route('export-suppliers') }}" class="block w-2/4 mt-6 bg-yellow-500 hover:bg-yellow-600 duration-300 text-white px-5 py-2 text-center">Exportar</a>
+                        </div>
+                    </form>
+
+                    <button class="px-3 mt-6 py-2 rounded-sm text-white bg-red-500" @click="showProviders = false">
                         Cerrar <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -443,6 +464,28 @@
                 </div>
             </div>
 
+
+
+            <div class="px-14 my-6">
+                <form class="mt-24 flex flex-col" action="{{ route('import-products') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @if (session()->has('success'))
+                    <div class="bg-green-400 text-green-800 p-4 rounded-md mb-6">
+                        {{ session('success') }}
+                    </div>
+                    @elseif (session()->has('error'))
+                    <div class="bg-red-400 text-red-800 p-4 rounded-md mb-6">
+                        <p>¡Error al importar productos!</p>
+                    </div>
+                    @endif
+                    <h2 class="text-2xl font-bold mb-6">Importar y exportar productos</h2>
+                    <input type="file" name="excel_file" required>
+                    <div class="w-2/5 flex items-center justify-between">
+                        <button class="w-2/4 mt-6 mr-2 bg-red-500 hover:bg-red-600 duration-300 text-white px-5 py-2" type="submit">Importar</button>
+                        <a href="{{ route('export-products') }}" class="block w-2/4 mt-6 bg-yellow-500 hover:bg-yellow-600 duration-300 text-white px-5 py-2 text-center">Exportar</a>
+                    </div>
+                </form>
+            </div>
         </main>
 
 

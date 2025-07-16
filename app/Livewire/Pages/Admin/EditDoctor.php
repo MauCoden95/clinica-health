@@ -6,11 +6,13 @@ use Livewire\Component;
 use App\Models\Doctor;
 use Illuminate\Validation\Rule;
 use App\Traits\LogoutTrait;
-
+use App\Repositories\SpecialtyRepository;
 
 class EditDoctor extends Component
 {
     use LogoutTrait;
+
+    protected $specialtyRepository;
 
     public $doctor;
 
@@ -25,7 +27,16 @@ class EditDoctor extends Component
     public $phone;
     public $dni;
 
+    public $specialties;
+
+    public function __construct()
+    {
+        $this->specialtyRepository = new SpecialtyRepository();
+    }
+    
+
     protected $rules = [
+        'specialty_id' => 'required',
         'name' => 'required|string|max:255',
         'email' => 'required|email|unique:users',
         'address' => 'required|string|max:255',
@@ -33,8 +44,9 @@ class EditDoctor extends Component
         'dni' => 'required|numeric|min:10000000',
         'license' => 'required|numeric|min:10000'
     ];
-    
-    
+
+
+   
 
     public function render()
     {
@@ -49,6 +61,7 @@ class EditDoctor extends Component
         $this->phone = $this->doctor->user->phone;
         $this->dni = $this->doctor->user->dni;
         $this->license = $this->doctor->license;
+        $this->specialties = $this->specialtyRepository->getAll();
     }
 
     
@@ -57,6 +70,7 @@ class EditDoctor extends Component
     {
         try {
             $validatedData = $this->validate([
+                'specialty_id' => 'required',
                 'name' => 'required|string|max:255',
                 'email' => ['required', 'email', Rule::unique('users')->ignore($this->doctor->user->id)],
                 'address' => 'required|string|max:255',
@@ -69,6 +83,7 @@ class EditDoctor extends Component
 
             if ($update) {
                 $this->doctor->update([
+                    'specialty_id' => $this->specialty_id,
                     'license' => $this->license,
                 ]);
     

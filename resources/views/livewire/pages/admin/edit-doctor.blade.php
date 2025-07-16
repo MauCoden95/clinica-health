@@ -20,8 +20,6 @@
 
 
 
-
-
                 <form wire:submit.prevent="editDoctor" class="grid grid-cols-2 gap-3">
                     <div class="mb-4">
                         <label for="name" class="block text-gray-700 font-bold mb-2">Nombre</label>
@@ -54,14 +52,24 @@
                     </div>
 
 
-                  
-
-
-                    <div class="mt-6 col-span-2">
-                        <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 duration-300">
+                    <div class="mb-4">
+                        <select wire:model="specialty_id" class="w-full px-3 py-2 border rounded-lg">
+                            <option value="">Seleccione una especialidad</option>
+                            @foreach($specialties as $specialty)
+                            <option value="{{ $specialty->id }}">{{ $specialty->specialty }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <button type="submit" class="w-full px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 duration-300">
                             Actualizar Doctor
                         </button>
                     </div>
+
+
+
+
+
                 </form>
             </div>
         </main>

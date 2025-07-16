@@ -23,8 +23,9 @@ use App\Livewire\Pages\Admin\EditDoctorSchedule;
 use App\Livewire\Pages\Admin\Specialty;
 use App\Livewire\Pages\Admin\Calendar;
 use App\Livewire\Pages\Admin\SuggestionsAdmin;
-use App\Livewire\Pages\Admin\Products; 
-use App\Livewire\Pages\Admin\PurchaseOrders; 
+use App\Livewire\Pages\Admin\Products;
+use App\Livewire\Pages\Admin\Suppliers;
+use App\Livewire\Pages\Admin\PurchaseOrders;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Pages\Admin\Users;
 use App\Models\User;
@@ -32,6 +33,8 @@ use App\Http\Controllers\AccountVerifyController;
 use App\Http\Controllers\PasswordResetController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ImportUsersController;
+use App\Http\Controllers\ImportProductsController;
+use App\Http\Controllers\ImportSuppliersController;
 
 
 
@@ -76,7 +79,7 @@ Route::middleware('auth')->group(function () {
 
 
 //Rutas para administradores
-Route::group(['middleware' => ['role:admin']], function () { 
+Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/admin/pacientes', Patient::class)->name('admin.pacientes');
     Route::get('/admin/doctores', Doctor::class)->name('admin.doctor');
     Route::get('/admin/editar-doctor/{id}', EditDoctor::class)->name('edit.doctor');
@@ -88,6 +91,13 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/admin/ordenes-compra', PurchaseOrders::class)->name('admin.purchase_orders');
     Route::get('/admin/usuarios', Users::class)->name('admin.users');
     Route::post('/import', [ImportUsersController::class, 'import'])->name('import-users');
+    Route::get('/export-users', [ImportUsersController::class, 'export'])->name('export-users');
+    Route::post('/import-products', [ImportProductsController::class, 'import'])->name('import-products');
+    Route::get('/export-products', [ImportProductsController::class, 'export'])->name('export-products');
+
+    Route::get('/admin/proveedores', Suppliers::class)->name('admin.suppliers');
+    Route::post('/import-suppliers', [ImportSuppliersController::class, 'import'])->name('import-suppliers');
+    Route::get('/export-suppliers', [ImportSuppliersController::class, 'export'])->name('export-suppliers');
 });
 
 
@@ -95,7 +105,7 @@ Route::group(['middleware' => ['role:admin']], function () {
 
 
 //Rutas para pacientes
-Route::group(['middleware' => ['role:paciente']], function () { 
+Route::group(['middleware' => ['role:paciente']], function () {
     Route::get('/pacientes/turnos', Turns::class)->name('paciente.turns');
     Route::get('/pacientes/turnos-medico/{id}', TurnsDoctor::class)->name('paciente.turns_doctor');
     Route::get('/pacientes/quejas-y-sugerencias', Suggestions::class)->name('paciente.suggestions');
@@ -106,8 +116,7 @@ Route::group(['middleware' => ['role:paciente']], function () {
 
 
 //Rutas para empleados
-Route::group(['middleware' => ['role:empleado']], function () { 
+Route::group(['middleware' => ['role:empleado']], function () {
     Route::get('/empleado/pacientes', Patient::class)->name('empleado.pacientes');
     Route::get('/empleado/calendario-de-turnos', Calendar::class)->name('empleado.calendar');
 });
-
