@@ -35,4 +35,14 @@ class UserRepository
     {
         return User::create($data);
     }
+
+    public function getUserById($id)
+    {
+        return User::find($id);
+    }
+
+    public function update($id, $data)
+    {
+        return User::find($id)->update($data);
+    }
 }

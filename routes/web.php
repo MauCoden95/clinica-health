@@ -35,6 +35,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\ImportUsersController;
 use App\Http\Controllers\ImportProductsController;
 use App\Http\Controllers\ImportSuppliersController;
+use App\Http\Controllers\ImportSpecialtiesController;
 
 
 
@@ -98,6 +99,9 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/admin/proveedores', Suppliers::class)->name('admin.suppliers');
     Route::post('/import-suppliers', [ImportSuppliersController::class, 'import'])->name('import-suppliers');
     Route::get('/export-suppliers', [ImportSuppliersController::class, 'export'])->name('export-suppliers');
+
+    Route::post('/import-specialties', [ImportSpecialtiesController::class, 'import'])->name('import-specialties');
+    Route::get('/export-specialties', [ImportSpecialtiesController::class, 'export'])->name('export-specialties');
 });
 
 

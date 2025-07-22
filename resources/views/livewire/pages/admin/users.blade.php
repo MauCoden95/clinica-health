@@ -1,4 +1,4 @@
-<div x-data="{ sidebarOpen: false, confirmUserCreateVisible: false }" class="relative flex h-screen bg-gray-100 overflow-hidden">
+<div x-data="{ sidebarOpen: false, confirmUserCreateVisible: false, editUserModal: false, userId: null, name: '', email: '', address: '', phone: '', dni: '', obra_social: '', role_name: null }" class="relative flex h-screen bg-gray-100 overflow-hidden">
     <x-common.sidebar />
 
     <div class="flex-1 flex flex-col overflow-hidden">
@@ -55,7 +55,7 @@
                                         {{ $user->getRoleNames()->first() ?: 'Sin rol asignado' }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium bg-gray-100 flex items-center justify-center">
-                                        <button class="text-base">
+                                        <button @click="editUserModal = true; userId = {{ $user->id }}; name = '{{ $user->name }}'; email = '{{ $user->email }}'; address = '{{ $user->address }}'; phone = '{{ $user->phone }}'; dni = '{{ $user->dni }}'; obra_social = '{{ $user->obra_social }}'; role_id = {{ $user->getRoleNames()->first() }}" class="text-base">
                                             <i class="fas fa-edit ml-4 text-blue-600 hover:text-blue-400 duration-300"></i>
                                         </button>
                                         <button class="text-base">
@@ -71,6 +71,9 @@
             </div>
 
 
+
+
+            {{-- Modal para importar y exportar usuarios --}}
             <div class="px-14 my-6">
                 <form class="mt-24 flex flex-col" action="{{ route('import-users') }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -92,12 +95,16 @@
                 </form>
             </div>
 
+
+
+
+
             {{-- Modal para crear usuarios --}}
             <div x-show="confirmUserCreateVisible" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
                 <button @click="confirmUserCreateVisible = false" class="btn_close absolute top-5 right-5 text-5xl text-white">
                     <i class="fas fa-times"></i>
                 </button>
-                <div class="w-4/6 bg-white p-6 rounded-lg text-center">
+                <div class="w-4/6 animated-div bg-white p-6 rounded-lg text-center">
                     <form wire:submit.prevent="createUser">
                         <div class="grid grid-cols-2 gap-4">
                             <input type="text" class="w-full p-2 mb-5 border border-red-500 rounded-md" placeholder="Nombre" wire:model="name">
@@ -115,6 +122,38 @@
 
                             <button type="submit" class="w-full h-11 text-xl bg-red-500 hover:bg-red-600 duration-300 text-white p-2 rounded-md">
                                 Guardar
+                                <i class="fas fa-save"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+
+            {{-- Modal para editar usuarios --}}
+            <div x-show="editUserModal" @close-edit-modal.window="editUserModal = false" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                <button @click="editUserModal = false" class="btn_close absolute top-5 right-5 text-5xl text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="w-4/6 animated-div bg-white p-6 rounded-lg text-center">
+                    <form wire:submit.prevent="updateUser(userId, name, email, address, phone, dni, obra_social)">
+                        <div class="grid grid-cols-2 gap-4">
+                            <input type="text" class="w-full p-2 mb-5 border border-red-500 rounded-md" placeholder="Nombre" x-model="name">
+                            <input type="text" class="w-full p-2 mb-5 border border-red-500 rounded-md" placeholder="Email" x-model="email">
+                            <input type="text" class="w-full p-2 mb-5 border border-red-500 rounded-md" placeholder="Dirección" x-model="address">
+                            <input type="text" class="w-full p-2 mb-5 border border-red-500 rounded-md" placeholder="Teléfono" x-model="phone">
+                            <input type="text" class="w-full p-2 mb-5 border border-red-500 rounded-md" placeholder="DNI" x-model="dni">
+                            <input type="text" class="w-full p-2 mb-5 border border-red-500 rounded-md" placeholder="Obra Social" x-model="obra_social">
+                            <select wire:model="role_id" class="w-full p-2 mb-5 border border-red-500 rounded-md" name="" id="">
+                                <option value="">Seleccione un rol</option>
+                                @foreach($roles as $role)
+                                <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                @endforeach
+                            </select>
+
+                            <button type="submit" class="w-full h-11 text-xl bg-red-500 hover:bg-red-600 duration-300 text-white p-2 rounded-md">
+                                Editar
                                 <i class="fas fa-save"></i>
                             </button>
                         </div>

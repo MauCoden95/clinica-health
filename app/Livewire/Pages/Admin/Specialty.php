@@ -71,7 +71,7 @@ class Specialty extends Component
         $this->deleteSpecialty($specialtyId);
     }
 
-    public function editSpecialty()
+    public function editSpecialty($specialty)
     {
         $this->validate([
             'specialty' => 'required|string',
@@ -87,4 +87,6 @@ class Specialty extends Component
             $this->loadSpecialties();
         }
     }
+
+
 }

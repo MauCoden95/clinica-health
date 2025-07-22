@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Specialty;
 use Illuminate\Http\Request;
+use App\Exports\SpecialtiesExport;
+use App\Imports\SpecialtiesImport;
+use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SpecialtyController extends Controller
 {
@@ -61,5 +65,24 @@ class SpecialtyController extends Controller
     public function destroy(Specialty $specialty)
     {
         //
+    }
+
+    public function import(Request $request)
+    {
+        try {
+            Excel::import(new SpecialtiesImport, $request->file('excel_file'));
+
+            return redirect()->route('admin.specialty')->with('success', '¡Especialidades importadas correctamente!');
+        } catch (\Throwable $th) {
+
+            Log::error('Error al importar especialidades: ' . $th->getMessage());
+
+            return redirect()->route('admin.specialty')->with('error', '¡Error al importar especialidades!');
+        }
+    }
+
+    public function export()
+    {
+        return Excel::download(new SpecialtiesExport, 'especialidades.xlsx');
     }
 }

@@ -7,8 +7,12 @@
 
         <main class="w-full flex-1 overflow-x-hidden overflow-y-auto bg-white ">
 
-            <div class="relative w-full px-14 overflow-x-auto mt-20 flex justify-between">
-                <x-common.count :item="'Cantidad de especialidades'" :quantity="$count_specialties" :icon="'fas fa-user-md'" />
+            <div class="relative w-full px-14 overflow-x-auto mt-10 flex justify-between">
+                <div class="flex">
+                    <x-common.count :item="'Cantidad de especialidades'" :quantity="$count_specialties" :icon="'fas fa-user-md'" />
+
+                </div>
+
 
 
                 <div x-data="{ visible: false }">
@@ -96,7 +100,7 @@
                     <button @click="editSpecialtyModal = false" class="btn_close absolute top-5 right-5 text-5xl text-white">
                         <i class="fas fa-times"></i>
                     </button>
-                    <form wire:submit.prevent="editSpecialty">
+                    <form wire:submit.prevent="editSpecialty(specialty)">
                         <h3 class="my-4 text-center text-xl">Editar especialidad</h3>
 
 
@@ -106,7 +110,7 @@
 
 
 
-                       
+
 
                         <div class="flex items-center justify-between">
                             <button type="submit" class="bg-red-500 hover:bg-red-700 duration-300 m-auto mt-8 text-black hover:text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
@@ -120,6 +124,26 @@
             </div>
 
 
+            <div class="px-14 my-6">
+                <form class="mt-24 flex flex-col" action="{{ route('import-specialties') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @if (session()->has('success'))
+                    <div class="bg-green-400 text-green-800 p-4 rounded-md mb-6">
+                        {{ session('success') }}
+                    </div>
+                    @elseif (session()->has('error'))
+                    <div class="bg-red-400 text-red-800 p-4 rounded-md mb-6">
+                        <p>¡Error al importar especialidades!</p>
+                    </div>
+                    @endif
+                    <h2 class="text-2xl font-bold mb-6">Importar y exportar especialidades</h2>
+                    <input type="file" name="excel_file" required>
+                    <div class="w-2/5 flex items-center justify-between">
+                        <button class="w-2/4 mt-6 mr-2 bg-red-500 hover:bg-red-600 duration-300 text-white px-5 py-2" type="submit">Importar</button>
+                        <a href="{{ route('export-specialties') }}" class="block w-2/4 mt-6 bg-yellow-500 hover:bg-yellow-600 duration-300 text-white px-5 py-2 text-center">Exportar</a>
+                    </div>
+                </form>
+            </div>
         </main>
     </div>
 </div>
