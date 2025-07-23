@@ -30,6 +30,8 @@ class Users extends Component
     public $dni = '';
     public $user_id;
 
+    protected $listeners = ['deleteConfirmed'];
+
 
 
     public function __construct()
@@ -181,5 +183,20 @@ class Users extends Component
                 ]
             );
         }
+    }
+
+
+    public function deleteConfirmed($id){
+        dd($id);
+        $this->userRepository->delete($this->user_id);
+        $this->getUsers();
+        $this->dispatch(
+            'showAlert',
+            [
+                'type' => 'success',
+                'title' => '¡Éxito!',
+                'text' => 'Usuario eliminado correctamente'
+            ]
+        );
     }
 }

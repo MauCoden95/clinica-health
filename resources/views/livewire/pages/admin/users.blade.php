@@ -1,4 +1,4 @@
-<div x-data="{ sidebarOpen: false, confirmUserCreateVisible: false, editUserModal: false, userId: null, name: '', email: '', address: '', phone: '', dni: '', obra_social: '', role_name: null }" class="relative flex h-screen bg-gray-100 overflow-hidden">
+<div x-data="{ sidebarOpen: false, confirmUserCreateVisible: false, deleteUserVisible: false, editUserModal: false, userId: null, name: '', email: '', address: '', phone: '', dni: '', obra_social: '', role_name: null }" class="relative flex h-screen bg-gray-100 overflow-hidden">
     <x-common.sidebar />
 
     <div class="flex-1 flex flex-col overflow-hidden">
@@ -58,7 +58,7 @@
                                         <button @click="editUserModal = true; userId = {{ $user->id }}; name = '{{ $user->name }}'; email = '{{ $user->email }}'; address = '{{ $user->address }}'; phone = '{{ $user->phone }}'; dni = '{{ $user->dni }}'; obra_social = '{{ $user->obra_social }}'; role_id = {{ $user->getRoleNames()->first() }}" class="text-base">
                                             <i class="fas fa-edit ml-4 text-blue-600 hover:text-blue-400 duration-300"></i>
                                         </button>
-                                        <button class="text-base">
+                                        <button @click="deleteUserVisible = true" class="text-base">
                                             <i class="fas fa-trash-alt ml-2 text-red-600 hover:text-red-400 duration-300"></i>
                                         </button>
                                     </td>
@@ -132,7 +132,7 @@
 
 
             {{-- Modal para editar usuarios --}}
-            <div x-show="editUserModal" @close-edit-modal.window="editUserModal = false" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+            <div x-show="editUserModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
                 <button @click="editUserModal = false" class="btn_close absolute top-5 right-5 text-5xl text-white">
                     <i class="fas fa-times"></i>
                 </button>
@@ -158,6 +158,19 @@
                             </button>
                         </div>
                     </form>
+                </div>
+            </div>
+
+
+
+            {{-- Modal para confirmar eliminacion de usuario --}}
+            <div x-show="deleteUserVisible" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                <div class="bg-white p-6 rounded-lg text-center">
+                    <h2 class="text-xl font-semibold mb-4">¿Estás seguro?</h2>
+                    <p class="mb-4">El usuario será eliminado</p>
+                    <button @click="deleteUserVisible = false; Livewire.dispatch('deleteConfirmed', { userId }); userId = null"
+                        class="bg-red-500 text-white px-4 py-2 rounded-md mr-2">Sí, eliminar</button>
+                    <button @click="deleteUserVisible = false" class="bg-gray-300 px-4 py-2 rounded-md">Cancelar</button>
                 </div>
             </div>
         </main>

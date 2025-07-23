@@ -36,6 +36,9 @@ use App\Http\Controllers\ImportUsersController;
 use App\Http\Controllers\ImportProductsController;
 use App\Http\Controllers\ImportSuppliersController;
 use App\Http\Controllers\ImportSpecialtiesController;
+use App\Livewire\Pages\Admin\Statistics\TurnsStatistics;
+use App\Livewire\Pages\Admin\Stadistics;
+
 
 
 
@@ -102,6 +105,8 @@ Route::group(['middleware' => ['role:admin']], function () {
 
     Route::post('/import-specialties', [ImportSpecialtiesController::class, 'import'])->name('import-specialties');
     Route::get('/export-specialties', [ImportSpecialtiesController::class, 'export'])->name('export-specialties');
+
+    Route::get('/admin/estadisticas', Stadistics::class)->name('admin.stadistics');
 });
 
 

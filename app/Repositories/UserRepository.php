@@ -45,4 +45,9 @@ class UserRepository
     {
         return User::find($id)->update($data);
     }
+
+
+    public function delete($id){
+        return User::find($id)->delete();
+    }
 }
