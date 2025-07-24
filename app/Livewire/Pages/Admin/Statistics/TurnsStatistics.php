@@ -5,6 +5,7 @@ namespace App\Livewire\Pages\Admin\Statistics;
 use Livewire\Component;
 use App\Models\Turn;
 use App\Models\Doctor;
+use App\Models\User;
 use Carbon\Carbon;
 
 class TurnsStatistics extends Component
@@ -18,8 +19,10 @@ class TurnsStatistics extends Component
         $turnsByDoctor = $this->turns_by_doctor()->toArray();
         $patientsByDoctor = $this->patients_by_doctor()->toArray();
         $rankingDoctors = $this->ranking_doctors_by_turns()->toArray();
-        
-        
+        $workHoursVsAppointments = $this->getWorkHoursVsAppointments();
+        $patientsActive = $this->getPatientsActive();
+        $newPatients = $this->getNewPatients();
+        $averageAppointmentsPerPatient = $this->getAverageAppointmentsPerPatient();
 
         return view('livewire.pages.admin.statistics.turns-statistics', compact(
             'turnsToday',
@@ -28,7 +31,11 @@ class TurnsStatistics extends Component
             'turnsBySpecialty',
             'turnsByDoctor',
             'patientsByDoctor',
-            'rankingDoctors'
+            'rankingDoctors',
+            'workHoursVsAppointments',
+            'patientsActive',
+            'newPatients',
+            'averageAppointmentsPerPatient'
         ));
     }
 
@@ -135,5 +142,82 @@ class TurnsStatistics extends Component
 
 
         return $ranking;
+    }
+
+
+    public function getWorkHoursVsAppointments()
+    {
+        $doctors = Doctor::with(['schedules', 'turns' => function ($query) {
+            $query->where('status', 'unavailable');
+        }])->get();
+
+        $estadisticas = $doctors->map(function ($doctor) {
+            $workHours = $doctor->schedules->sum(function ($schedule) {
+                $start = \Carbon\Carbon::parse($schedule->start_time);
+                $end = \Carbon\Carbon::parse($schedule->end_time);
+                return $end->diffInMinutes($start) / 60;
+            });
+
+
+            $turns = $doctor->turns->count();
+
+            return [
+                'doctor' => $doctor->name,
+                'work_hours' => $workHours,
+                'turns' => $turns,
+            ];
+        });
+    }
+
+
+    public function getPatientsActive()
+    {
+        $oneYearAgo = Carbon::now()->subYear();
+
+        $active = User::whereHas('roles', fn($q) => $q->where('name', 'paciente'))
+            ->whereHas('turns', fn($q) => $q->where('date', '>=', $oneYearAgo))
+            ->count();
+
+        $total = User::whereHas('roles', fn($q) => $q->where('name', 'paciente'))->count();
+
+        return [
+            'activos' => $active,
+            'inactivos' => $total - $active,
+        ];
+    }
+
+
+    public function getAverageAppointmentsPerPatient()
+    {
+        $totalAppointments = Turn::where('status', 'unavailable')->count();
+        $totalPatients = User::whereHas('roles', fn($q) => $q->where('name', 'paciente'))->count();
+
+        if ($totalPatients === 0) {
+            return 0;
+        }
+
+        return round($totalAppointments / $totalPatients, 2);
+    }
+
+
+    public function getNewPatients()
+    {
+        $patientsLastDay = User::whereHas('roles', fn($q) => $q->where('name', 'paciente'))
+            ->where('created_at', '>=', Carbon::now()->subDay())
+            ->count();
+
+        $patientsLastWeek = User::whereHas('roles', fn($q) => $q->where('name', 'paciente'))
+            ->where('created_at', '>=', Carbon::now()->subWeek())
+            ->count();
+
+        $patientsLastMonth = User::whereHas('roles', fn($q) => $q->where('name', 'paciente'))
+            ->where('created_at', '>=', Carbon::now()->subMonth())
+            ->count();
+
+        return [
+            'patientsLastDay' => $patientsLastDay,
+            'patientsLastWeek' => $patientsLastWeek,
+            'patientsLastMonth' => $patientsLastMonth,
+        ];
     }
 }
