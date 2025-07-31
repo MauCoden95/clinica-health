@@ -29,9 +29,39 @@ class Finance extends Component
 
     public function render()
     {
-        $lastSixMonths = $this->getLastSixMonthIncomes();
-        return view('livewire.pages.admin.finance', compact('lastSixMonths'));
+        setlocale(LC_TIME, 'es_ES.UTF-8');
+        \Carbon\Carbon::setLocale('es');
+
+
+        $rawIncomes = $this->getLastSixMonthRaw('income');
+        $rawExpenses = $this->getLastSixMonthRaw('expense');
+
+
+        $monthKeys = collect($rawIncomes)
+            ->merge($rawExpenses)
+            ->keys()
+            ->unique()
+            ->sort()
+            ->values();
+
+
+        $months = [];
+        $incomes = [];
+        $expenses = [];
+
+        foreach ($monthKeys as $key) {
+            $months[] = \Carbon\Carbon::parse($key)->translatedFormat('F Y');
+            $incomes[] = $rawIncomes[$key] ?? 0;
+            $expenses[] = $rawExpenses[$key] ?? 0;
+        }
+
+        return view('livewire.pages.admin.finance', [
+            'months' => $months,
+            'incomes' => $incomes,
+            'expenses' => $expenses
+        ]);
     }
+
 
 
     public function mount()
@@ -39,17 +69,16 @@ class Finance extends Component
         $this->getTodaysIncomesProperty();
         $this->getTodaysExpensesProperty();
         $this->getPaymentMethods();
-        $this->getLastSixMonthIncomes();
     }
 
     public function getTodaysIncomesProperty()
     {
-        $this->todayIncomes = Income::whereDate('created_at', today())->get();
+        $this->todayIncomes = Income::whereDate('date', today())->get();
     }
 
     public function getTodaysExpensesProperty()
     {
-        $this->todayExpenses = Expense::whereDate('created_at', today())->get();
+        $this->todayExpenses = Expense::whereDate('date', today())->get();
     }
 
     public function getPaymentMethods()
@@ -87,27 +116,25 @@ class Finance extends Component
 
 
 
-    public function getLastSixMonthIncomes()
+ 
+
+
+    public function getLastSixMonthRaw($type = 'income')
     {
+        $model = $type === 'income' ? Income::class : Expense::class;
         $lastSixMonths = [];
 
         for ($i = 5; $i >= 0; $i--) {
-            $date = \Carbon\Carbon::createFromDate(null, null, 1)->subMonths($i); // siempre día 1
+            $date = \Carbon\Carbon::createFromDate(null, null, 1)->subMonths($i);
             $monthKey = $date->format('Y-m');
 
-            $amount = Income::whereYear('date', $date->year)
+            $amount = $model::whereYear('date', $date->year)
                 ->whereMonth('date', $date->month)
                 ->sum('amount');
 
             $lastSixMonths[$monthKey] = $amount;
         }
 
-        $formattedResult = [];
-        foreach ($lastSixMonths as $key => $amount) {
-            $formattedMonth = \Carbon\Carbon::parse($key)->translatedFormat('F Y');
-            $formattedResult[$formattedMonth] = $amount;
-        }
-
-        return $formattedResult;
+        return $lastSixMonths;
     }
 }
