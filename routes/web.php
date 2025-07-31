@@ -38,6 +38,7 @@ use App\Http\Controllers\ImportSuppliersController;
 use App\Http\Controllers\ImportSpecialtiesController;
 use App\Livewire\Pages\Admin\Statistics\TurnsStatistics;
 use App\Livewire\Pages\Admin\Stadistics;
+use App\Livewire\Pages\Admin\Finance;
 
 
 
@@ -107,6 +108,8 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/export-specialties', [ImportSpecialtiesController::class, 'export'])->name('export-specialties');
 
     Route::get('/admin/estadisticas', Stadistics::class)->name('admin.stadistics');
+    Route::get('/admin/finanzas', Finance::class)->name('admin.finance');
+
 });
 
 
