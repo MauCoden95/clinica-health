@@ -1,4 +1,4 @@
-<div x-data="{ editPaymentMethodShow: false, id: 0, name: '', description: '' }">
+<div x-data="{ editPaymentMethodShow: false, confirmDelete: false, id: 0, name: '', description: '' }">
     <table class="w-full m-auto my-6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         @if (count($paymentMethods) > 0)
         <thead class="text-xs text-white uppercase bg-red-600">
@@ -30,7 +30,7 @@
                     </button>
 
 
-                    <button>
+                    <button @click="confirmDelete = true; id = {{ $paymentMethod->id }}">
                         <i class="fas fa-trash ml-3 text-red-500 text-xl"></i>
                     </button>
                 </td>
@@ -60,4 +60,16 @@
         </div>
     </div>
 
+
+
+    <div x-show="confirmDelete" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+        <div class="bg-white p-6 rounded-lg text-center">
+            <h2 class="text-xl font-semibold mb-4">¿Estás seguro de eliminar este método de pago?</h2>
+       
+            <button wire:click="deletePaymentMethod(id)" @click="confirmDelete = false" type="button" class="h-12 p-3 bg-green-400 hover:bg-green-500 duration-300 rounded-md">Confirmar</button>
+            <button type="button" @click="confirmDelete = false" class="h-12 p-3 mt-6 bg-gray-300 hover:bg-gray-400 duration-300 rounded-md">Cancelar</button>
+
+
+        </div>
+    </div>
 </div>

@@ -19,7 +19,7 @@ class IncomeFactory extends Factory
         return [
             'description' => $this->faker->sentence(3),
             'amount' => $this->faker->numberBetween(100, 5000),
-            'date' => $this->faker->dateTimeBetween('-14 days', 'now')->format('Y-m-d'),
+            'date' => $this->faker->dateTimeBetween('-6 months', 'now')->format('Y-m-d'),
             'time' => $this->faker->time(),
         ];
     }

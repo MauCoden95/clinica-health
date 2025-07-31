@@ -18,8 +18,8 @@ class ExpenseFactory extends Factory
     {
         return [
             'description' => $this->faker->sentence(3),
-            'amount' => $this->faker->numberBetween(0, 50, 1500),
-            'date' => $this->faker->dateTimeBetween('-14 days', 'now')->format('Y-m-d'),
+            'amount' => $this->faker->numberBetween(100, 2000),
+            'date' => $this->faker->dateTimeBetween('-6 months', 'now')->format('Y-m-d'),
             'time' => $this->faker->time(),
         ];
     }

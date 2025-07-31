@@ -4,13 +4,14 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\PaymentMethod;
+use App\Models\Income;
 
 class PaymentMethodList extends Component
 {
     public $paymentMethods;
     public $name;
     public $description;
-
+    public $incomes;
 
     protected $listeners = [
         'payment-method-added' => 'getPaymentMethods',
@@ -58,8 +59,8 @@ class PaymentMethodList extends Component
                 'text' => 'Método de pago editado correctamente'
             ]);
 
-            $this->dispatch('payment-method-added'); // Para cerrar el modal
-            $this->getPaymentMethods(); // Refresca la lista
+            $this->dispatch('payment-method-added'); 
+            $this->getPaymentMethods(); 
         }
     }
 
@@ -74,4 +75,27 @@ class PaymentMethodList extends Component
             $this->description = $paymentMethod->description;
         }
     }
+
+
+    public function deletePaymentMethod($id)
+    {
+        $paymentMethod = PaymentMethod::find($id);
+
+        if ($paymentMethod) {
+            $paymentMethod->delete();
+            $this->dispatch('showAlert', [
+                'type' => 'success',
+                'title' => '¡Éxito!',
+                'text' => 'Método de pago eliminado correctamente'
+            ]);
+            $this->getPaymentMethods();
+        }
+    }
+
+
+    
+   
+
+   
+
 }
