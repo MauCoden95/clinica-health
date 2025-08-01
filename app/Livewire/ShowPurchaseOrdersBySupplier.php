@@ -9,11 +9,12 @@ use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderProduct;
 use App\Repositories\SupplierRepository;
 use App\Traits\GeneratePurchaseOrderPdf;
+use App\Traits\AddExpenseTrait;
 
 
 class ShowPurchaseOrdersBySupplier extends Component
 {
-    use GeneratePurchaseOrderPdf;
+    use GeneratePurchaseOrderPdf, AddExpenseTrait;
     public $suppliers = [];
     public $supplierId;
     public $purchaseOrders = [];
@@ -147,6 +148,9 @@ class ShowPurchaseOrdersBySupplier extends Component
 
             if ($update && $state == 'Entregado') {
                 $this->setStockProducts($purchaseOrder->id);
+                $this->addExpense($purchaseOrder->total);
+
+
             }else if($update && $state == 'Cancelado'){
                 $this->dispatch('showAlert', [
                     'type' => 'error',
