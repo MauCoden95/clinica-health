@@ -5,16 +5,19 @@ namespace App\Livewire\Pages\Admin;
 use App\Models\Supplier;
 use App\Models\Product;
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Traits\LogoutTrait;
 use App\Repositories\ProductRepository;
 use App\Repositories\SupplierRepository;
 
+
 class Products extends Component
 {
     use LogoutTrait;
+    use WithPagination;
 
     public $productId;
-    public $products;
+    //public $products;
     public $count_products;
     public $showProductsReposition = false;
 
@@ -42,7 +45,7 @@ class Products extends Component
 
     protected $listeners = [
         'productDeleted' => 'loadProducts',
-        'supplierAdded' => 'getSuppliers', 
+        'supplierAdded' => 'getSuppliers',
     ];
 
     protected $productRepository;
@@ -74,11 +77,10 @@ class Products extends Component
             ]);
         }
 
-        
+
         $this->loadProducts();
         $this->getSuppliers();
         $this->productsBySupplier = [];
-        
     }
 
 
@@ -89,12 +91,12 @@ class Products extends Component
 
     public function render()
     {
-        $this->getProductsBySupplier($this->supplierId);
-
-
+        $products = $this->showProductsReposition
+            ? collect($this->productRepository->getProductsToReposition())
+            : $this->productRepository->getAllPaginated($this->nameFilter, 10);
 
         return view('livewire.pages.admin.products', [
-            'products' => $this->productRepository->getAll($this->nameFilter)
+            'products' => $products
         ]);
     }
 
@@ -104,11 +106,12 @@ class Products extends Component
 
 
 
+
     public function loadProducts()
     {
-        $this->products = $this->productRepository->getAll($this->nameFilter);
-        $this->count_products = count($this->products);
+        $this->count_products = $this->productRepository->getAll($this->nameFilter)->count();
     }
+    
 
 
 
@@ -117,10 +120,9 @@ class Products extends Component
 
     public function showProductsToReposition()
     {
-        $this->products = $this->showProductsReposition
-            ? $this->productRepository->getProductsToReposition()
-            : $this->productRepository->getAll($this->nameFilter);
+        $this->showProductsReposition = !$this->showProductsReposition;
     }
+    
 
 
 
@@ -154,8 +156,6 @@ class Products extends Component
             $this->reset(['name', 'supplierId', 'description', 'price', 'stock', 'stock_reposition']);
 
             $this->loadProducts();
-
-           
         } else {
             $this->dispatch('showAlert', [
                 'type' => 'error',
@@ -220,10 +220,20 @@ class Products extends Component
         }
     }
 
+    /*
     public function updatedNameFilter()
     {
         $this->loadProducts();
+    }*/
+
+
+    public function updatingNameFilter()
+    {
+        $this->resetPage();
     }
 
-   
+    public function updatingShowProductsReposition()
+    {
+        $this->resetPage();
+    }
 }

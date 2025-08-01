@@ -8,13 +8,15 @@ use App\Models\Product;
 
 class ProductRepository
 {
-    public function getAll($name = '')
+    public function getAll($nameFilter = null, $perPage = 10)
     {
-        return Product::query()
-            ->when(trim($name), function ($query) use ($name) {
-                return $query->where('name', 'like', '%' . $name . '%');
-            })
-            ->get();
+        $query = Product::query();
+
+        if ($nameFilter) {
+            $query->where('name', 'like', '%' . $nameFilter . '%');
+        }
+
+        return $query->paginate($perPage);
     }
 
 
@@ -54,5 +56,14 @@ class ProductRepository
 
 
         return $product ? $product->update($data) : false;
+    }
+
+    public function getAllPaginated($nameFilter = null, $perPage = 10)
+    {
+        return Product::when(
+            $nameFilter,
+            fn($q) =>
+            $q->where('name', 'like', '%' . $nameFilter . '%')
+        )->paginate($perPage);
     }
 }

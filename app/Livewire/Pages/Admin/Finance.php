@@ -11,6 +11,8 @@ use App\Models\Doctor;
 use App\Models\Specialty;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
 
 class Finance extends Component
 {
@@ -41,10 +43,8 @@ class Finance extends Component
         setlocale(LC_TIME, 'es_ES.UTF-8');
         \Carbon\Carbon::setLocale('es');
 
-
         $rawIncomes = $this->getLastSixMonthRaw('income');
         $rawExpenses = $this->getLastSixMonthRaw('expense');
-
 
         $monthKeys = collect($rawIncomes)
             ->merge($rawExpenses)
@@ -52,7 +52,6 @@ class Finance extends Component
             ->unique()
             ->sort()
             ->values();
-
 
         $months = [];
         $incomes = [];
@@ -64,18 +63,29 @@ class Finance extends Component
             $expenses[] = $rawExpenses[$key] ?? 0;
         }
 
-
         $this->doctor_earnings = $this->calculateDoctorEarnings();
         $this->specialty_earnings = $this->calculateEarningsBySpecialty();
 
-        //dd($this->specialty_earnings);
-
-        return view('livewire.pages.admin.finance', [
-            'months' => $months,
-            'incomes' => $incomes,
-            'expenses' => $expenses,
-            'doctor_earnings' => $this->doctor_earnings
-        ]);
+        // Verificar si es una petición para generar PDF
+        if (request()->hasHeader('X-Livewire')) {
+            // Si es una petición de Livewire, devolver datos para la vista normal
+            return view('livewire.pages.admin.finance', [
+                'months' => $months,
+                'incomes' => $incomes,
+                'expenses' => $expenses,
+                'doctor_earnings' => $this->doctor_earnings,
+                'isPdf' => false
+            ]);
+        } else {
+            // Si no es una petición de Livewire, probablemente sea para el PDF
+            return view('livewire.pages.admin.finance', [
+                'months' => $months,
+                'incomes' => $incomes,
+                'expenses' => $expenses,
+                'doctor_earnings' => $this->doctor_earnings,
+                'isPdf' => true
+            ]);
+        }
     }
 
 
@@ -304,4 +314,13 @@ class Finance extends Component
 
         return $specialties;
     }
+
+
+
+
+
+
+
+
+   
 }

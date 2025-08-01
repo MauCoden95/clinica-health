@@ -12,7 +12,7 @@
                 <x-common.count_finance :item="'Egresos de hoy'" :background="'red'" :quantity="$todayExpenses->sum('amount')" :icon="'fas fa-money-bill-wave-alt'" />
 
                 <div class="flex flex-col">
-                    <button @click="showPaymentMethods = true" class="btn_add h-12 p-3 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
+                    <button @click="showPaymentMethods = true" class="btn_add h-12 p-3 bg-cyan-400 hover:bg-cyan-500 duration-300 rounded-md">
                         Métodos de pago <i class="fas fa-credit-card"></i>
                     </button>
 
@@ -23,6 +23,8 @@
                     <button @click="showExpensesMoney = true" class="btn_add h-12 p-3 mt-2 bg-red-400 hover:bg-red-500 duration-300 rounded-md">
                         Nuevo Egreso <i class="fas fa-minus-circle"></i>
                     </button>
+
+                  
                 </div>
             </div>
 
@@ -42,8 +44,8 @@
 
 
             <div class="relative w-full px-14 overflow-x-auto mb-7 flex gap-7 justify-between">
-                <div>
-                    <h2 class="text-center mt-12 mb-3 text-xl">Total facturado por médico este mes</h2>
+                <div class="w-1/2">
+                    <h2 class="text-center mt-12 mb-3">Total facturado por médico este mes</h2>
                     <table class="m-auto mt-6">
                         <thead>
                             <tr>
@@ -65,8 +67,8 @@
                 </div>
 
 
-                <div>
-                    <h2 class="text-center mt-12 mb-3 text-xl">Total facturado por especialidad este mes</h2>   
+                <div class="w-1/2">
+                    <h2 class="text-center mt-12 mb-3">Total facturado por especialidad este mes</h2>   
                     <table class="m-auto mt-6">
                         <thead>
                             <tr>
