@@ -53,11 +53,7 @@
                 <h3 class="px-3 py-1 text-center text-2xl mt-16 font-bold">Todos los productos</h3>
 
 
-                <span class="">
-                    Ver productos a reponer
-                    <input class="ml-2" type="checkbox" wire:model="showProductsReposition" wire:click="showProductsToReposition">
-                </span>
-
+     
                 <div class="mt-4 mb-6">
                     <input wire:model.live="nameFilter" type="text" placeholder="Buscar por nombre..." class="w-full p-2 border border-gray-300 rounded-md">
                 </div>

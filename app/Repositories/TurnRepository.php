@@ -19,6 +19,7 @@ class TurnRepository
     {
         return Turn::with(['user', 'doctor.user', 'doctor.specialty'])
                     ->whereDate('date', Carbon::now()->format('Y-m-d'))
+                    ->where('status', 'unavailable')
                     ->orderBy('time', 'asc')
                     ->get();
     }
@@ -54,4 +55,7 @@ class TurnRepository
     {
         return Turn::find($turnId);
     }
+
+
+    
 }

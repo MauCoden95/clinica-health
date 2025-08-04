@@ -1,4 +1,4 @@
-<div x-data="{ sidebarOpen: false }" class="relative flex h-screen bg-gray-100 overflow-hidden">
+<div x-data="{ sidebarOpen: false, editTurn: false, old_turn: null }" class="relative flex h-screen bg-gray-100 overflow-hidden">
 
 
     <x-common.sidebar />
@@ -12,8 +12,8 @@
             <div>
                 <h1 class="text-4xl my-12 text-center font-bold">Turnos de hoy</h1>
 
-                {{--
-                <table class="w-5/6 m-auto mb-20 border-collapse border border-gray-300">
+
+                <table class="w-6/6 m-auto mb-20 border-collapse border border-gray-300">
                     <thead>
                         <tr class="bg-gray-200 text-left">
                             <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">PACIENTE</th>
@@ -27,34 +27,34 @@
                         @forelse($turns as $turn)
                         <tr class="">
                             <td class="border border-gray-300 p-2 text-center">{{ $turn['name_patient'] ?? 'N/A' }}</td>
-                <td class="border border-gray-300 p-2 text-center">{{ \Carbon\Carbon::parse($turn['time'])->format('H:i') ?? 'N/A' }}</td>
-                <td class="border border-gray-300 p-2 text-center">Dr. {{ $turn['doctor_name'] ?? 'N/A' }}</td>
-                <td class="border border-gray-300 p-2 text-center">{{ $turn['specialty'] ?? 'N/A' }}</td>
-                <td class="border border-gray-300 p-2 text-center">
-                    <a wire:navigate
-                        class="text-xl"><i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i></a>
-                    <button class="text-xl">
-                        <i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
-                    </button>
-                </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="4" class="w-full text-gray-500 p-4">No hay turnos para mostrar</td>
-                </tr>
-                @endforelse
-                </tbody>
+                            <td class="border border-gray-300 p-2 text-center">{{ \Carbon\Carbon::parse($turn['time'])->format('H:i') ?? 'N/A' }}</td>
+                            <td class="border border-gray-300 p-2 text-center">Dr. {{ $turn['doctor_name'] ?? 'N/A' }}</td>
+                            <td class="border border-gray-300 p-2 text-center">{{ $turn['specialty'] ?? 'N/A' }}</td>
+                            <td class="border border-gray-300 p-2 text-center">
+                                <button @click="editTurn = true, old_turn = {{ $turn['id'] }}" wire:click="getTurnsAvailables({{ $turn['doctor_id'] }})" class="text-xl">
+                                    <i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i></button>
+                                <button class="text-xl">
+                                    <i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="4" class="w-full text-gray-500 p-4">No hay turnos para mostrar</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
                 </table>
 
-
+                {{--
                 <div x-data="{ calendar: 'monthly' }" class="w-5/6 m-auto mb-7">
 
 
 
                     <div id="calendar"></div>
-                </div>--}}
+                </div>
 
-
+--}}
 
 
 
@@ -65,7 +65,7 @@
             <div>
 
 
-                <div x-data="{ calendar: 'monthly' }" class="w-5/6 m-auto my-20">
+                <div x-data="{ calendar: 'monthly' }" class="w-6/6 m-auto my-20">
                     <h1 class="text-2xl my-7 text-center font-bold">Buscar turnos por paciente, médico o especialidad</h1>
 
 
@@ -111,9 +111,9 @@
 
 
             </div>
-@foreach($turnsByPatient as $turn)
-{{$turn}}
-@endforeach
+            @foreach($turnsByPatient as $turn)
+            {{$turn}}
+            @endforeach
 
 
             <div class="w-5/6 m-auto">
@@ -124,6 +124,37 @@
             </div>
 
 
+
+            {{-- Modal para editar turno --}}
+            <div x-show="editTurn" class="w-full fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-start justify-center py-10">
+                <div class="w-5/6 max-h-[80vh] bg-white rounded-lg text-center flex flex-col">
+                    <h2 class="text-xl font-semibold p-4 border-b sticky top-0 bg-white z-10">Editar turno</h2>
+                    <div class="w-full p-6 overflow-y-auto flex-1">
+                        <div class="grid gap-4 grid-cols-3 justify-items-center">
+                        @foreach ($turns_availables as $date => $turns)
+                        <div class="mb-6">
+                            <h3 class="text-2xl my-3 font-bold text-center">
+                                {{ \Carbon\Carbon::parse($date)->format('d-m-Y') }}
+                            </h3>
+                            <div class="list-none pl-5 grid gap-3 grid-cols-2">
+                                @foreach ($turns as $turn)
+                                <button wire:click="editTurn({{ $turn->id }}, old_turn, '{{ $turn->time }}')" 
+                                    class="cursor-pointer text-center w-24 p-2 my-3 rounded-md bg-red-600 hover:bg-red-900 text-white duration-300">
+                                    {{ \Carbon\Carbon::parse($turn->time)->format('H:i') }}
+                                </button>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endforeach
+                        </div>
+                    </div>
+                    <div class="p-4 border-t flex justify-end sticky bottom-0 bg-white">
+                        <button @click="editTurn = false" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
 
 
         </main>

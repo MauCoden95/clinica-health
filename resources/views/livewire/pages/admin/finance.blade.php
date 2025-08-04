@@ -6,21 +6,21 @@
         <x-common.header_dashboard />
 
         <main class="w-full flex-1 overflow-x-hidden overflow-y-auto bg-white">
-            <div class="relative w-full px-14 overflow-x-auto mt-20 flex justify-between">
+            <div class="relative w-full px-14 overflow-x-auto mt-20 flex gap-4 justify-between">
 
                 <x-common.count_finance :item="'Ingresos de hoy'" :background="'green'" :quantity="$todayIncomes->sum('amount')" :icon="'fas fa-money-bill-wave-alt'" />
                 <x-common.count_finance :item="'Egresos de hoy'" :background="'red'" :quantity="$todayExpenses->sum('amount')" :icon="'fas fa-money-bill-wave-alt'" />
 
                 <div class="flex flex-col">
-                    <button @click="showPaymentMethods = true" class="btn_add h-12 p-3 bg-cyan-400 hover:bg-cyan-500 duration-300 rounded-md">
+                    <button @click="showPaymentMethods = true" class="btn_add text-sm h-12 p-3 bg-cyan-400 hover:bg-cyan-500 duration-300 rounded-md">
                         Métodos de pago <i class="fas fa-credit-card"></i>
                     </button>
 
-                    <button @click="showIncomesMoney = true" class="btn_add h-12 p-3 mt-2 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
+                    <button @click="showIncomesMoney = true" class="btn_add text-sm h-12 p-3 mt-2 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
                         Nuevo ingreso <i class="fas fa-plus-circle"></i>
                     </button>
 
-                    <button @click="showExpensesMoney = true" class="btn_add h-12 p-3 mt-2 bg-red-400 hover:bg-red-500 duration-300 rounded-md">
+                    <button @click="showExpensesMoney = true" class="btn_add text-sm h-12 p-3 mt-2 bg-red-400 hover:bg-red-500 duration-300 rounded-md">
                         Nuevo Egreso <i class="fas fa-minus-circle"></i>
                     </button>
 
