@@ -1,4 +1,4 @@
-<div x-data="{ sidebarOpen: false, editTurn: false, old_turn: null }" class="relative flex h-screen bg-gray-100 overflow-hidden">
+<div x-data="{ sidebarOpen: false, editTurn: false, oldTurnId: 9  }" class="relative flex h-screen bg-gray-100 overflow-hidden">
 
 
     <x-common.sidebar />
@@ -31,7 +31,8 @@
                             <td class="border border-gray-300 p-2 text-center">Dr. {{ $turn['doctor_name'] ?? 'N/A' }}</td>
                             <td class="border border-gray-300 p-2 text-center">{{ $turn['specialty'] ?? 'N/A' }}</td>
                             <td class="border border-gray-300 p-2 text-center">
-                                <button @click="editTurn = true, old_turn = {{ $turn['id'] }}" wire:click="getTurnsAvailables({{ $turn['doctor_id'] }})" class="text-xl">
+                                <button @click="editTurn = true; old_turn_id = {{ $turn['id'] }};"
+                                    wire:click="getTurnsAvailables({{ $turn['doctor_id'] }})" class="text-xl">
                                     <i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i></button>
                                 <button class="text-xl">
                                     <i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
@@ -76,6 +77,7 @@
                         <thead>
                             <tr class="bg-gray-200 text-left">
                                 <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">PACIENTE</th>
+                                <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">FECHA</th>
                                 <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">HORA</th>
                                 <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">MEDICO</th>
                                 <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">ESPECIALIDAD</th>
@@ -83,15 +85,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($turns as $turn)
+                            @forelse($turns_today as $turn)
                             <tr class="">
                                 <td class="border border-gray-300 p-2 text-center">{{ $turn['name_patient'] ?? 'N/A' }}</td>
+                                <td class="border border-gray-300 p-2 text-center">{{ \Carbon\Carbon::parse($turn['date'])->format('d-m-Y') ?? 'N/A' }}</td>
                                 <td class="border border-gray-300 p-2 text-center">{{ \Carbon\Carbon::parse($turn['time'])->format('H:i') ?? 'N/A' }}</td>
                                 <td class="border border-gray-300 p-2 text-center">Dr. {{ $turn['doctor_name'] ?? 'N/A' }}</td>
                                 <td class="border border-gray-300 p-2 text-center">{{ $turn['specialty'] ?? 'N/A' }}</td>
                                 <td class="border border-gray-300 p-2 text-center">
-                                    <a wire:navigate
-                                        class="text-xl"><i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i></a>
+                                    <button
+                                        @click="editTurn = true; oldTurnId = {{ $turn['id'] }};"
+                                        wire:click="
+                                            getTurnsAvailables({{ $turn['doctor_id'] }})
+                                            $nextTick(() => { 
+                                                $wire.oldTurnId = {{ $turn['id'] }};
+                                            });
+                                            "
+                                        class="text-xl">
+                                        <i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i>
+                                    </button>
+
                                     <button class="text-xl">
                                         <i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
                                     </button>
@@ -111,9 +124,7 @@
 
 
             </div>
-            @foreach($turnsByPatient as $turn)
-            {{$turn}}
-            @endforeach
+
 
 
             <div class="w-5/6 m-auto">
@@ -131,21 +142,21 @@
                     <h2 class="text-xl font-semibold p-4 border-b sticky top-0 bg-white z-10">Editar turno</h2>
                     <div class="w-full p-6 overflow-y-auto flex-1">
                         <div class="grid gap-4 grid-cols-3 justify-items-center">
-                        @foreach ($turns_availables as $date => $turns)
-                        <div class="mb-6">
-                            <h3 class="text-2xl my-3 font-bold text-center">
-                                {{ \Carbon\Carbon::parse($date)->format('d-m-Y') }}
-                            </h3>
-                            <div class="list-none pl-5 grid gap-3 grid-cols-2">
-                                @foreach ($turns as $turn)
-                                <button wire:click="editTurn({{ $turn->id }}, old_turn, '{{ $turn->time }}')" 
-                                    class="cursor-pointer text-center w-24 p-2 my-3 rounded-md bg-red-600 hover:bg-red-900 text-white duration-300">
-                                    {{ \Carbon\Carbon::parse($turn->time)->format('H:i') }}
-                                </button>
-                                @endforeach
+                            @foreach ($turns_availables as $date => $turns)
+                            <div class="mb-6">
+                                <h3 class="text-2xl my-3 font-bold text-center">
+                                    {{ \Carbon\Carbon::parse($date)->format('d-m-Y') }}
+                                </h3>
+                                <div class="list-none pl-5 grid gap-3 grid-cols-2">
+                                    @foreach ($turns as $turn)
+                                    <button wire:click="editTurn({{ $turn->id }}, {{ $oldTurnId }})"
+                                        class="cursor-pointer text-center w-24 p-2 my-3 rounded-md bg-red-600 hover:bg-red-900 text-white duration-300">
+                                        {{ \Carbon\Carbon::parse($turn->time)->format('H:i') }}
+                                    </button>
+                                    @endforeach
+                                </div>
                             </div>
-                        </div>
-                        @endforeach
+                            @endforeach
                         </div>
                     </div>
                     <div class="p-4 border-t flex justify-end sticky bottom-0 bg-white">

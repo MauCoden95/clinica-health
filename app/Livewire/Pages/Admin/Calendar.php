@@ -25,7 +25,9 @@ class Calendar extends Component
     public $patients = [];
     public $inputSearch = '';
     public $turns_availables = [];
-    public $old_turn;
+    public $oldTurnId;
+    public $turns_today = [];
+    public $originalTurnsToday = [];
 
     protected $turnRepository;
     protected $doctorRepository;
@@ -49,6 +51,29 @@ class Calendar extends Component
 
     public function mount()
     {
+        $turns = Turn::with(['user', 'doctor.specialty'])
+            ->where('date', '>=', Carbon::now()->format('Y-m-d'))
+            ->where('status', 'unavailable')
+            ->whereHas('user')
+            ->whereHas('doctor')
+            ->get();
+
+        $this->originalTurnsToday = $turns->map(function ($turn) {
+            return [
+                'id' => $turn->id,
+                'doctor_id' => $turn->doctor_id,
+                'name_patient' => $turn->user ? $turn->user->name : 'Paciente no disponible',
+                'doctor_name' => $turn->doctor && $turn->doctor->user ? $turn->doctor->user->name : 'Médico no disponible',
+                'specialty' => $turn->doctor && $turn->doctor->specialty ? $turn->doctor->specialty->specialty : 'Especialidad no disponible',
+                'date' => $turn->date,
+                'time' => $turn->time,
+                'status' => $turn->status
+            ];
+        })->toArray();
+
+       
+        $this->turns_today = $this->originalTurnsToday;
+
         $this->loadEvents();
         $this->todayDate = Carbon::now()->format('d-m-y');
         $this->occupation_day = $this->turnRepository->getOccupationPercentage();
@@ -57,7 +82,6 @@ class Calendar extends Component
         $this->patients = $this->userRepository->getPatientsWithRepeatedTurns();
         $this->showTurnsToday();
     }
-
 
 
 
@@ -76,11 +100,11 @@ class Calendar extends Component
 
 
 
-    
+
 
     public function showTurnsToday()
     {
-        $this->turns = $this->turnRepository->getTurnsToday()->map(function($turn) {
+        $this->turns = $this->turnRepository->getTurnsToday()->map(function ($turn) {
             return [
                 'id' => $turn->id,
                 'doctor_id' => $turn->doctor_id,
@@ -114,6 +138,7 @@ class Calendar extends Component
 
         return view('livewire.pages.admin.calendar', [
             'turns' => $this->turns,
+            'turns_today' => $this->turns_today,
             'occupation_day' => $this->occupation_day,
             'topThreeSpecialties' => $this->topThreeSpecialties,
             'topThreeDoctors' => $this->topThreeDoctors,
@@ -124,6 +149,10 @@ class Calendar extends Component
 
 
 
+    public function updatedInputSearch()
+    {
+        $this->filterTurnsByDoctorOrSpecialty();
+    }
 
 
 
@@ -131,36 +160,25 @@ class Calendar extends Component
     public function filterTurnsByDoctorOrSpecialty()
     {
         if (empty($this->inputSearch)) {
-            $this->showTurnsToday();
+            $this->turns_today = $this->originalTurnsToday;
             return;
         }
 
         $searchTerm = strtolower($this->inputSearch);
-        $turns = $this->turnRepository->getTurnsToday()->filter(function ($turn) use ($searchTerm) {
-            $doctorName = $turn->doctor && $turn->doctor->user ? strtolower($turn->doctor->user->name) : '';
-            $specialty = $turn->doctor && $turn->doctor->specialty ? strtolower($turn->doctor->specialty->specialty) : '';
-            $patientName = $turn->user ? strtolower($turn->user->name) : '';
-            
+
+        $turns = collect($this->originalTurnsToday)->filter(function ($turn) use ($searchTerm) {
+            $doctorName = strtolower($turn['doctor_name'] ?? '');
+            $specialty = strtolower($turn['specialty'] ?? '');
+            $patientName = strtolower($turn['name_patient'] ?? '');
+
             return str_contains($doctorName, $searchTerm) ||
-                   str_contains($specialty, $searchTerm) ||
-                   str_contains($patientName, $searchTerm);
+                str_contains($specialty, $searchTerm) ||
+                str_contains($patientName, $searchTerm);
         });
 
-        
-
-        $this->turns = $turns->map(function($turn) {
-            return [
-                'id' => $turn->id,
-                'doctor_id' => $turn->doctor_id,
-                'name_patient' => $turn->user ? $turn->user->name : 'Paciente no disponible',
-                'doctor_name' => $turn->doctor && $turn->doctor->user ? $turn->doctor->user->name : 'Médico no disponible',
-                'specialty' => $turn->doctor && $turn->doctor->specialty ? $turn->doctor->specialty->specialty : 'Especialidad no disponible',
-                'date' => $turn->date,
-                'time' => $turn->time,
-                'status' => $turn->status
-            ];
-        })->toArray();
+        $this->turns_today = $turns->toArray();
     }
+
 
 
 
@@ -180,27 +198,27 @@ class Calendar extends Component
 
 
 
-    public function editTurn($turn_id, $old_turn_id, $time){
+    public function editTurn($turn_id, $old_turn_id)
+    {
         $turn = Turn::find($turn_id);
 
-        $turn->update([
-            'status' => 'available'
-        ]);
-
         $old_turn = Turn::find($old_turn_id);
+        $user_id = $old_turn->user_id;
 
+       
         
 
-        
         $update_old_turn = $old_turn->update([
+            'user_id' => 0,
             'status' => 'available'
         ]);
 
         $update = $turn->update([
+            'user_id' => $user_id,
             'status' => 'unavailable'
         ]);
-        
-        
+
+
 
         if ($update) {
             $this->dispatch('showAlert', [
@@ -209,12 +227,10 @@ class Calendar extends Component
                 'text' => 'Turno cambiado correctamente'
             ]);
 
-            $this->showTurnsToday();    
+            $this->showTurnsToday();
+           
+
+            
         }
-
-        
     }
-
-
-    
 }
