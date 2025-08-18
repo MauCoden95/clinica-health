@@ -13,11 +13,12 @@ use App\Models\Doctor;
 class Users extends Component
 {
     use LogoutTrait;
-    public $users;
     public $count_users;
     public $userFilter = '';
 
     protected $userRepository;
+
+    protected $paginationTheme = 'tailwind';
 
     public $roles;
     public $role_id;
@@ -42,20 +43,19 @@ class Users extends Component
     public function mount()
     {
         $this->roles = Role::all();
-        $this->getUsers();
     }
 
     public function render()
     {
-        return view('livewire.pages.admin.users');
-    }
-
-
-    public function getUsers()
-    {
-        $this->users = $this->userRepository->getAll($this->userFilter);
+        $users = $this->userRepository->getAll($this->userFilter); 
         $this->count_users = User::count();
+
+        return view('livewire.pages.admin.users', [
+            'users' => $users
+        ]);
     }
+
+
 
 
 
@@ -198,5 +198,11 @@ class Users extends Component
                 'text' => 'Usuario eliminado correctamente'
             ]
         );
+    }
+
+
+    public function updatingUserFilter()
+    {
+        $this->resetPage(); 
     }
 }

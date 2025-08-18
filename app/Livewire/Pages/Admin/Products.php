@@ -93,7 +93,7 @@ class Products extends Component
     {
         $products = $this->showProductsReposition
             ? collect($this->productRepository->getProductsToReposition())
-            : $this->productRepository->getAllPaginated($this->nameFilter, 10);
+            : $this->productRepository->getAllPaginated($this->nameFilter, $this->supplierId, 10);
 
         return view('livewire.pages.admin.products', [
             'products' => $products
@@ -220,17 +220,11 @@ class Products extends Component
         }
     }
 
-    /*
-    public function updatedNameFilter()
-    {
-        $this->loadProducts();
-    }*/
+    
+   
 
 
-    public function updatingNameFilter()
-    {
-        $this->resetPage();
-    }
+   
 
     public function updatingShowProductsReposition()
     {

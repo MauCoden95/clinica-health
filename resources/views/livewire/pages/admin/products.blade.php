@@ -53,10 +53,27 @@
                 <h3 class="px-3 py-1 text-center text-2xl mt-16 font-bold">Todos los productos</h3>
 
 
-     
+
                 <div class="mt-4 mb-6">
                     <input wire:model.live="nameFilter" type="text" placeholder="Buscar por nombre..." class="w-full p-2 border border-gray-300 rounded-md">
                 </div>
+
+
+
+                <div class="relative w-full px-14 overflow-x-auto mb-7">
+                    <h3 class="px-3 py-1 text-center text-2xl mt-16 mb-7 font-bold">Ver productos por proveedor</h3>
+                    <div class="w-full my-5">
+                        <select wire:model.live="supplierId" class="w-full p-3 border-b border-red-500" name="supplierId">
+                            <option value="">Seleccione un proveedor...</option>
+                            @foreach($suppliers as $supplier)
+                            <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                            @endforeach
+                        </select>
+
+                    </div>
+
+                </div>
+
 
                 <table class="w-full m-auto mt-6 mb-12 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     @if (count($products) > 0)
@@ -150,65 +167,6 @@
 
 
 
-
-            <div class="relative w-full px-14 overflow-x-auto mb-7">
-                <h3 class="px-3 py-1 text-center text-2xl mt-16 mb-7 font-bold">Ver productos por proveedor</h3>
-                <div class="my-5">
-                    <select wire:model.live="supplierId" class="w-full p-3 border-b border-red-500" name="supplierId">
-                        <option value="">Seleccione un proveedor...</option>
-                        @foreach($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
-                        @endforeach
-                    </select>
-
-
-                    <table class="w-full m-auto mt-6 mb-12 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        @if (count($productsBySupplier) > 0)
-                        <thead class="text-xs text-white uppercase bg-red-600 ">
-                            <tr>
-                                <th scope="col" class="px-3 py-1 text-center">Producto</th>
-                                <th scope="col" class="px-3 py-1 text-center">Descripcion</th>
-                                <th scope="col" class="px-3 py-1 text-center">Precio</th>
-                                <th scope="col" class="px-3 py-1 text-center">Stock</th>
-                                <th scope="col" class="px-3 py-1 text-center">Stock de reposición</th>
-                                <th scope="col" class="px-3 py-1 text-center">Acciones</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach ($productsBySupplier as $product)
-                            <tr class="bg-gray-200 border-b ">
-                                <td class="px-3 py-2 text-center text-gray-900">{{ $product->name }}</td>
-                                <td class="px-3 py-2 text-center text-gray-900">{{ $product->description }}</td>
-                                <td class="px-3 py-2 text-center text-gray-900">{{ $product->price }}</td>
-                                <td class="px-3 py-2 text-center text-gray-900">{{ $product->stock }}</td>
-                                <td class="px-3 py-2 text-center text-gray-900">{{ $product->stock_reposition }}</td>
-                                <td class="px-3 py-2 text-center text-gray-900">
-                                    <button>
-                                        <i class=" fas fa-edit text-xl text-blue-600 hover:text-blue-400 duration-300"></i>
-                                    </button>
-                                    <button @click="
-                                        showConfirmDelete = true;
-                                        productToDeleteId = {{ $product->id }};
-                                        $nextTick(() => { 
-                                            $wire.productId = productToDeleteId
-                                        });
-                                        
-                                    ">
-                                        <i
-                                            class="fas fa-trash-alt text-xl ml-4 text-red-600 hover:text-red-400 duration-300"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            @endforeach
-                            @else
-                            <p class="text-gray-600 text-2xl my-5">No hay productos para ese proveedor.</p>
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
 
 
 

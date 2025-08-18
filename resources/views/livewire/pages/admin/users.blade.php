@@ -49,9 +49,9 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($users as $user)
                                 <tr>
-                                    <td class="text-center px-6 py-4 whitespace-nowrap text-sm bg-gray-100 text-gray-900">{{ $user->name }}</td>
-                                    <td class="text-center px-6 py-4 whitespace-nowrap text-sm bg-gray-100 text-gray-900">{{ $user->email }}</td>
-                                    <td class="w-1/5 text-center  px-6 py-4 whitespace-nowrap text-sm bg-gray-100 text-gray-900">
+                                    <td class="text-center text-xs px-6 py-4 whitespace-nowrap bg-gray-100 text-gray-900">{{ $user->name }}</td>
+                                    <td class="text-center text-xs px-6 py-4 whitespace-nowrap bg-gray-100 text-gray-900">{{ $user->email }}</td>
+                                    <td class="w-1/5 text-center text-xs  px-6 py-4 whitespace-nowrapm bg-gray-100 text-gray-900">
                                         {{ $user->getRoleNames()->first() ?: 'Sin rol asignado' }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium bg-gray-100 flex items-center justify-center">
@@ -65,7 +65,11 @@
                                 </tr>
                                 @endforeach
                             </tbody>
+
                         </table>
+                        <div class="mt-4 px-6">
+                            {{ $users->links() }}
+                        </div>
                     </div>
                 </div>
             </div>

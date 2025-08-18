@@ -58,12 +58,14 @@ class ProductRepository
         return $product ? $product->update($data) : false;
     }
 
-    public function getAllPaginated($nameFilter = null, $perPage = 10)
+    public function getAllPaginated($nameFilter = null, $supplierId = null, $perPage = 10)
     {
-        return Product::when(
-            $nameFilter,
-            fn($q) =>
-            $q->where('name', 'like', '%' . $nameFilter . '%')
-        )->paginate($perPage);
+        return Product::when($nameFilter, function($query) use ($nameFilter) {
+                $query->where('name', 'like', '%' . $nameFilter . '%');
+            })
+            ->when($supplierId, function($query) use ($supplierId) {
+                $query->where('supplier_id', $supplierId);
+            })
+            ->paginate($perPage);
     }
 }

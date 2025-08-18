@@ -22,13 +22,13 @@ class UserRepository
     }
 
 
-    public function getAll($name = '')
+    public function getAll($name = '',$perPage = 10)
     {
         return User::query()
             ->when(trim($name), function ($query) use ($name) {
                 return $query->where('name', 'like', '%' . $name . '%');
             })
-            ->get();
+            ->paginate($perPage);
     }
 
     public function create($data)
