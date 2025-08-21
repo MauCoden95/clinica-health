@@ -1,7 +1,7 @@
 <div class="w-3/4 h-screen">
     <section class="">
         <div class="relative w-full h-24 px-14 flex items-center justify-between">
-            <h1 class="text-2xl font-bold">Bienvenido, {{ auth()->user()->name }}</h1>
+
 
             <div class="relative w-44" x-data="{ isActive: false }" @click.outside="isActive = false">
                 <button class="w-full p-3 bg-slate-300 hover:bg-slate-400 duration-300" @click="isActive = !isActive">
@@ -21,8 +21,10 @@
                     </ul>
                 </div>
             </div>
-         
-            
+
+
         </div>
     </section>
 </div>
+
+

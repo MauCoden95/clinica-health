@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages;
 
 use Livewire\Component;
+use App\Models\User;
 
 class LoginAdmin extends Component
 {
@@ -37,6 +38,8 @@ class LoginAdmin extends Component
 
             session(['user_id' => $user->id]);
 
+           
+
             session()->regenerate();
             session(['user' => $user]);
             return redirect()->to('/dashboard');
@@ -45,5 +48,8 @@ class LoginAdmin extends Component
         $this->addError('email', 'Las credenciales proporcionadas no son correctas.');
     }
 
+
+
+  
     
 }

@@ -15,9 +15,10 @@
         "vite": "^5.0"
     },
     "dependencies": {
-        "@fullcalendar/core": "^6.1.15",
-        "@fullcalendar/daygrid": "^6.1.15",
-        "@fullcalendar/interaction": "^6.1.15",
+        "@fullcalendar/core": "^6.1.19",
+        "@fullcalendar/daygrid": "^6.1.19",
+        "@fullcalendar/interaction": "^6.1.19",
+        "@fullcalendar/timegrid": "^6.1.19",
         "alpinejs": "^3.14.3",
         "sweetalert2": "^11.14.3",
         "swiper": "^11.1.14"

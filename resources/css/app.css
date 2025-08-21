@@ -4,6 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* FullCalendar styles */
+@import './fullcalendar.css';
+
 
 .nanum{
     font-family: "Nanum Pen Script", cursive;
@@ -116,3 +119,88 @@
 .bg-login-admin{
     background-image: url('../../public/img/Clinic.jpg');
 }
+
+
+
+
+
+
+
+/* Encabezado del calendario */
+.fc .fc-toolbar {
+    background: linear-gradient(90deg, #e70a0a, #c50000);
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  /* Botones del header */
+  .fc .fc-button {
+    background: #fff;
+    color: #e70a0a;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  .fc .fc-button:hover {
+    background: #e70a0a;
+    color: white;
+  }
+  .fc .fc-button.fc-button-active {
+    background: #c50000;
+    color: white;
+  }
+  
+  /* Encabezados de los días */
+  .fc-theme-standard th {
+    background-color: #e70a0a;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 8px;
+    border: none;
+  }
+  
+  /* Días normales */
+  .fc-daygrid-day {
+    transition: background-color 0.3s ease;
+  }
+  .fc-daygrid-day:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+  }
+  
+  /* Fines de semana */
+  .fc-day-sat, .fc-day-sun {
+    background-color: #f9f9f9;
+  }
+  
+  /* Día actual */
+  .fc-day-today {
+    background-color: #e70606 !important;
+    color: #fff !important;
+    border-radius: 6px;
+    font-weight: bold;
+  }
+  
+  /* Días pasados */
+  .fc-past-custom {
+    background-color: #ececec;
+    color: #999;
+  }
+  
+  /* Eventos */
+  .fc-event {
+    border-radius: 8px;
+    padding: 2px 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+  }
+  .fc-event:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+  }
+  
