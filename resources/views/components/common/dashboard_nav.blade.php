@@ -1,4 +1,4 @@
-<div :class="{'block': sidebarOpen, 'hidden': !sidebarOpen}" class="absolute bg-white w-64 min-h-screen flex flex-col md:block">
+<div :class="{'block': sidebarOpen, 'hidden': !sidebarOpen}" class="absolute bg-white w-96 min-h-screen flex flex-col md:block">
     @if(auth()->user()->hasRole('paciente'))
     <x-common.patient_menu />
     @elseif(auth()->user()->hasRole('admin'))

@@ -62,12 +62,14 @@ class Users extends Component
 
     public function updatedUserFilter()
     {
-        $this->getUsers();
+        //$this->getUsers();
     }
 
     public function createUser()
     {
         $role = $this->role_id;
+
+
 
         if ($this->name == '' || $this->email == '' || $this->address == '' || $this->phone == '' || $this->obra_social == '' || $this->dni == '') {
             $this->dispatch(
@@ -201,8 +203,5 @@ class Users extends Component
     }
 
 
-    public function updatingUserFilter()
-    {
-        $this->resetPage(); 
-    }
+   
 }

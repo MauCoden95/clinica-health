@@ -40,26 +40,26 @@
                         <table class="w-full mb-24">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th class="px-6 py-3 text-xs font-medium text-center bg-red-500 text-white uppercase tracking-wider">Nombre</th>
-                                    <th class="px-6 py-3 text-xs font-medium text-center bg-red-500 text-white uppercase tracking-wider">Email</th>
-                                    <th class="w-1/5 px-6 py-3 text-xs font-medium text-center bg-red-500 text-white uppercase tracking-wider">Rol</th>
-                                    <th class="px-6 py-3 text-xs font-medium text-center bg-red-500 text-white uppercase tracking-wider">Acciones</th>
+                                    <th class="px-6 py-3 text-xs md:text-lg font-medium text-center bg-red-500 text-white uppercase tracking-wider">Nombre</th>
+                                    <th class="px-6 py-3 text-xs md:text-lg font-medium text-center bg-red-500 text-white uppercase tracking-wider">Email</th>
+                                    <th class="w-1/5 px-6 py-3 text-xs md:text-lg font-medium text-center bg-red-500 text-white uppercase tracking-wider">Rol</th>
+                                    <th class="px-6 py-3 text-xs md:text-lg font-medium text-center bg-red-500 text-white uppercase tracking-wider">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($users as $user)
                                 <tr>
-                                    <td class="text-center text-xs px-6 py-4 whitespace-nowrap bg-gray-100 text-gray-900">{{ $user->name }}</td>
-                                    <td class="text-center text-xs px-6 py-4 whitespace-nowrap bg-gray-100 text-gray-900">{{ $user->email }}</td>
-                                    <td class="w-1/5 text-center text-xs  px-6 py-4 whitespace-nowrapm bg-gray-100 text-gray-900">
+                                    <td class="text-center text-xs md:text-lg px-6 py-4 whitespace-nowrap bg-gray-100 text-gray-900">{{ $user->name }}</td>
+                                    <td class="text-center text-xs md:text-lg px-6 py-4 whitespace-nowrap bg-gray-100 text-gray-900">{{ $user->email }}</td>
+                                    <td class="w-1/5 text-center text-xs md:text-lg  px-6 py-4 whitespace-nowrapm bg-gray-100 text-gray-900">
                                         {{ $user->getRoleNames()->first() ?: 'Sin rol asignado' }}
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium bg-gray-100 flex items-center justify-center">
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm md:text-lg font-medium bg-gray-100 flex items-center justify-center">
                                         <button @click="editUserModal = true; userId = {{ $user->id }}; name = '{{ $user->name }}'; email = '{{ $user->email }}'; address = '{{ $user->address }}'; phone = '{{ $user->phone }}'; dni = '{{ $user->dni }}'; obra_social = '{{ $user->obra_social }}'; role_id = {{ $user->getRoleNames()->first() }}" class="text-base">
-                                            <i class="fas fa-edit ml-4 text-blue-600 hover:text-blue-400 duration-300"></i>
+                                            <i class="fas fa-edit ml-4 text-xs md:text-lg text-blue-600 hover:text-blue-400 duration-300"></i>
                                         </button>
                                         <button @click="deleteUserVisible = true" class="text-base">
-                                            <i class="fas fa-trash-alt ml-2 text-red-600 hover:text-red-400 duration-300"></i>
+                                            <i class="fas fa-trash-alt ml-2 text-xs md:text-lg text-red-600 hover:text-red-400 duration-300"></i>
                                         </button>
                                     </td>
                                 </tr>
