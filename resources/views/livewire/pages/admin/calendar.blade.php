@@ -13,39 +13,55 @@
                 <h1 class="text-4xl my-12 text-center font-bold">Turnos de hoy</h1>
 
 
-                <table class="w-6/6 m-auto mb-20 border-collapse border border-gray-300">
-                    <thead>
-                        <tr class="bg-gray-200 text-left">
-                            <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">PACIENTE</th>
-                            <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">HORA</th>
-                            <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">MEDICO</th>
-                            <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">ESPECIALIDAD</th>
-                            <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">ACCIONES</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($turns as $turn)
-                        <tr class="">
-                            <td class="border border-gray-300 p-2 text-center">{{ $turn['name_patient'] ?? 'N/A' }}</td>
-                            <td class="border border-gray-300 p-2 text-center">{{ \Carbon\Carbon::parse($turn['time'])->format('H:i') ?? 'N/A' }}</td>
-                            <td class="border border-gray-300 p-2 text-center">Dr. {{ $turn['doctor_name'] ?? 'N/A' }}</td>
-                            <td class="border border-gray-300 p-2 text-center">{{ $turn['specialty'] ?? 'N/A' }}</td>
-                            <td class="border border-gray-300 p-2 text-center">
-                                <button @click="editTurn = true; old_turn_id = {{ $turn['id'] }};"
-                                    wire:click="getTurnsAvailables({{ $turn['doctor_id'] }})" class="text-xl">
-                                    <i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i></button>
-                                <button class="text-xl">
-                                    <i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="4" class="w-full text-gray-500 p-4">No hay turnos para mostrar</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                <div class="overflow-x-auto rounded-lg shadow-md mb-20">
+                    <table class="min-w-full leading-normal">
+                        <thead class="bg-gray-100 dark:bg-gray-700">
+                            <tr>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Paciente
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Hora
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Médico
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Especialidad
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Acciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($turns as $turn)
+                            <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition duration-300 ease-in-out">
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $turn['name_patient'] ?? 'N/A' }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ \Carbon\Carbon::parse($turn['time'])->format('H:i') ?? 'N/A' }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">Dr. {{ $turn['doctor_name'] ?? 'N/A' }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $turn['specialty'] ?? 'N/A' }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm font-medium">
+                                    <button @click="editTurn = true; old_turn_id = {{ $turn['id'] }};"
+                                        wire:click="getTurnsAvailables({{ $turn['doctor_id'] }})"
+                                        class="text-xl text-blue-600 hover:text-blue-400 duration-300">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="text-xl ml-4 text-red-600 hover:text-red-400 duration-300">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="5" class="px-5 py-4 text-center text-lg text-gray-600 dark:text-gray-400">
+                                    No hay turnos para mostrar.
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
 
                 {{--
                 <div x-data="{ calendar: 'monthly' }" class="w-5/6 m-auto mb-7">
@@ -71,48 +87,58 @@
 
 
                     <input wire:model.live="inputSearch" type="text" placeholder="Ingrese Nombre Médico o Especialidad"
-                        class="w-full p-2 border border-gray-300 active:border-red-500 rounded-md">
+                        class="w-full p-2 border border-gray-300 active:border-red-500 rounded-md mb-12">
 
-                    <table class="w-full m-auto my-12 border-collapse border border-gray-300">
-                        <thead>
-                            <tr class="bg-gray-200 text-left">
-                                <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">PACIENTE</th>
-                                <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">FECHA</th>
-                                <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">HORA</th>
-                                <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">MEDICO</th>
-                                <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">ESPECIALIDAD</th>
-                                <th class="border border-gray-300 bg-red-500 text-white p-2 text-center">ACCIONES</th>
+                    <table class="min-w-full leading-normal">
+                        <thead class="bg-gray-100 dark:bg-gray-700">
+                            <tr>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Paciente
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Fecha
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Hora
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Médico
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Especialidad
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Acciones
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($turns_today as $turn)
-                            <tr class="">
-                                <td class="border border-gray-300 p-2 text-center">{{ $turn['name_patient'] ?? 'N/A' }}</td>
-                                <td class="border border-gray-300 p-2 text-center">{{ \Carbon\Carbon::parse($turn['date'])->format('d-m-Y') ?? 'N/A' }}</td>
-                                <td class="border border-gray-300 p-2 text-center">{{ \Carbon\Carbon::parse($turn['time'])->format('H:i') ?? 'N/A' }}</td>
-                                <td class="border border-gray-300 p-2 text-center">Dr. {{ $turn['doctor_name'] ?? 'N/A' }}</td>
-                                <td class="border border-gray-300 p-2 text-center">{{ $turn['specialty'] ?? 'N/A' }}</td>
-                                <td class="border border-gray-300 p-2 text-center">
+                            <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition duration-300 ease-in-out">
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $turn['name_patient'] ?? 'N/A' }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ \Carbon\Carbon::parse($turn['date'])->format('d-m-Y') ?? 'N/A' }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ \Carbon\Carbon::parse($turn['time'])->format('H:i') ?? 'N/A' }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">Dr. {{ $turn['doctor_name'] ?? 'N/A' }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $turn['specialty'] ?? 'N/A' }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm font-medium">
                                     <button
                                         @click="editTurn = true; oldTurnId = {{ $turn['id'] }};"
-                                        wire:click="
-                                            getTurnsAvailables({{ $turn['doctor_id'] }})
-                                            $nextTick(() => { 
-                                                $wire.oldTurnId = {{ $turn['id'] }};
-                                            });
-                                            "
-                                        class="text-xl">
-                                        <i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i>
+                                        wire:click="getTurnsAvailables({{ $turn['doctor_id'] }})"
+                                        class="text-xl text-blue-600 hover:text-blue-400 duration-300">
+                                        <i class="fas fa-edit"></i>
                                     </button>
-
-                                    <button class="text-xl">
-                                        <i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
+                                    <button
+                                        @click="confirmDelete = true; turnIdToDelete = {{ $turn['id'] }}"
+                                        class="text-xl ml-4 text-red-600 hover:text-red-400 duration-300">
+                                        <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="4" class="w-full text-gray-500 p-4">No hay turnos para mostrar</td>
+                                <td colspan="6" class="px-5 py-4 text-center text-lg text-gray-600 dark:text-gray-400">
+                                    No hay turnos para hoy.
+                                </td>
                             </tr>
                             @endforelse
                         </tbody>

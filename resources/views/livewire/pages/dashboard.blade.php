@@ -28,17 +28,17 @@
                                 👋 ¡Hola, {{ auth()->user()->name }}!
                             </h1>
                             <p class="text-lg mt-3 text-white/90 leading-relaxed">
-                                Bienvenido a tu panel médico. Consulta estadísticas, gestiona turnos y brinda una mejor atención a tus pacientes hoy.
+                                Bienvenido a tu panel administrador. Consulta estadísticas, gestiona turnos y brinda una mejor atención a tus pacientes hoy.
                             </p>
                         </div>
 
-                        
+
                         <div class="relative">
                             <img class="h-56 drop-shadow-xl rounded-full bg-white p-2" src="http://127.0.0.1:8000/img/Medical-dashboard.png" />
                         </div>
                     </div>
 
-                    
+
                     <div class="w-full flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl p-4 my-6 shadow-sm">
                         <div class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
                             <i class="fas fa-clock text-blue-600"></i>
@@ -97,6 +97,26 @@
                             </div>
                         </div>
 
+                        <div class="relative w-full p-6 rounded-2xl bg-gradient-to-r from-teal-400 to-teal-600 shadow-lg hover:shadow-2xl transition-transform hover:scale-105">
+                            <div class="flex items-center gap-4">
+                                <i class="fas fa-user-plus bg-white text-teal-500 rounded-full p-4 shadow-md"></i>
+                                <div>
+                                    <h2 class="text-lg font-semibold text-white">Pacientes nuevos (hoy)</h2>
+                                    <h2 class="text-4xl font-extrabold text-white mt-2">8</h2>
+                                </div>
+                            </div>
+                        </div>
+
+                       
+                        <div class="relative w-full p-6 rounded-2xl bg-gradient-to-r from-indigo-400 to-indigo-600 shadow-lg hover:shadow-2xl transition-transform hover:scale-105">
+                            <div class="flex items-center gap-4">
+                                <i class="fas fa-users bg-white text-indigo-500 rounded-full p-4 shadow-md"></i>
+                                <div>
+                                    <h2 class="text-lg font-semibold text-white">Pacientes nuevos (semana)</h2>
+                                    <h2 class="text-4xl font-extrabold text-white mt-2">32</h2>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
 

@@ -22,50 +22,59 @@
                     Ver Quejas/sugerencias marcadas
                     <input class="ml-2" type="checkbox" wire:model="showUsefuls" wire:change="showUsefulsSuggestions">
                 </span>
-                <table class="w-full m-auto mt-6 mb-20 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    @if (count($suggestions) > 0)
-                    <thead class="text-xs text-white uppercase bg-red-600 ">
+                <table class="min-w-full leading-normal">
+                    <thead class="bg-gray-100 dark:bg-gray-700">
                         <tr>
-                            <th scope="col" class="px-3 py-1 text-center border border-black">Autor</th>
-                            <th scope="col" class="px-3 py-1 text-center border border-black">Asunto</th>
-                            <th scope="col" class="px-3 py-1 text-center border border-black">Descripcion</th>
-                            <th scope="col" class="px-3 py-1 text-center border border-black">Fecha</th>
-                            <th scope="col" class="px-3 py-1 text-center border border-black">Hora</th>
-                            <th scope="col" class="px-3 py-1 text-center border border-black">Respuesta</th>
-                            <th scope="col" class="px-3 py-1 text-center border border-black">Marcar</th>
-                            <th scope="col" class="px-3 py-1 text-center border border-black">Acciones</th>
+                            <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">Autor</th>
+                            <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">Asunto</th>
+                            <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">Descripción</th>
+                            <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">Fecha</th>
+                            <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">Hora</th>
+                            <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">Respuesta</th>
+                            <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">Útil</th>
+                            <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">Acciones</th>
                         </tr>
                     </thead>
-
                     <tbody>
+                        @if (count($suggestions) > 0)
                         @foreach ($suggestions as $suggestion)
-                        <tr class="bg-gray-200 border-b ">
-                            <td class="px-3 py-2 text-center text-gray-900 border border-black">{{ $suggestion->user->name }}</td>
-                            <td class="px-3 py-2 text-center text-gray-900 border border-black">{{ $suggestion->affair }}</td>
-                            <td class="px-3 py-2 text-center text-gray-900 border border-black">{{ $suggestion->description }}</td>
-                            <td class="mx-14 text-center text-gray-900 border border-black">{{ \Carbon\Carbon::parse($suggestion->date)->format('d-m-Y') }}</td>
-                            <td class="mx-14 text-center text-gray-900 border border-black">{{ \Carbon\Carbon::parse($suggestion->time)->format('H:i') }}</td>
-                            <td class="px-3 py-2 text-center text-gray-900">
+                        <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition duration-300 ease-in-out">
+                            <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $suggestion->user->name }}</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $suggestion->affair }}</td>
+                            <td class="px-5 py-4 text-sm text-gray-900 max-w-xs">{{ $suggestion->description }}</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ \Carbon\Carbon::parse($suggestion->date)->format('d-m-Y') }}</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ \Carbon\Carbon::parse($suggestion->time)->format('H:i') }}</td>
+                            <td class="px-5 py-4 text-sm text-gray-900 max-w-xs">
                                 {{ $suggestion->response ?? 'Sin respuesta' }}
                             </td>
-                            <td class="mx-14 text-center text-gray-900 border border-black">
-                                {{--<button wire:click="toggleUseful({{ $suggestion->id }})">ssss</button>--}}
-                                <input type="checkbox" wire:click="toggleUseful({{ $suggestion->id }})" {{ $suggestion->useful == 1 ? 'checked' : '' }}>
+                            <td class="px-5 py-4 whitespace-nowrap text-center text-sm">
+                                <input type="checkbox" wire:click="toggleUseful({{ $suggestion->id }})" {{ $suggestion->useful == 1 ? 'checked' : '' }} class="form-checkbox h-5 w-5 text-green-600 rounded-sm border-gray-300 focus:ring-green-500 transition duration-150 ease-in-out">
                             </td>
-
-                            <td class="px-3 py-2 text-center text-gray-900">
-                                <button @click="
+                            <td class="px-5 py-4 whitespace-nowrap text-sm font-medium">
+                                <button
+                                    @click="
                                     replySuggestion = true;
                                     suggestionId = {{ $suggestion->id }};
                                     response = '{{ $suggestion->response }}';
                                     $nextTick(() => { $wire.suggestionId = suggestionId; $wire.response = response; });
-                                "><i class="fas fa-comment text-xl text-blue-500 hover:text-blue-700"></i></button>
-                                <button @click="confirmDelete = true, suggestionIdToDelete = {{ $suggestion->id }}"><i class="fas fa-trash ml-4 text-xl text-red-500 hover:text-red-700"></i></button>
+                                "
+                                    class="text-xl text-blue-600 hover:text-blue-400 duration-300">
+                                    <i class="fas fa-comment"></i>
+                                </button>
+                                <button
+                                    @click="confirmDelete = true, suggestionIdToDelete = {{ $suggestion->id }}"
+                                    class="text-xl ml-4 text-red-600 hover:text-red-400 duration-300">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
                             </td>
                         </tr>
                         @endforeach
                         @else
-                        <p class="text-gray-600 text-2xl">No hay quejas/sugerencias registradas.</p>
+                        <tr>
+                            <td colspan="8" class="px-5 py-4 text-center text-lg text-gray-600 dark:text-gray-400">
+                                No hay quejas o sugerencias registradas.
+                            </td>
+                        </tr>
                         @endif
                     </tbody>
                 </table>

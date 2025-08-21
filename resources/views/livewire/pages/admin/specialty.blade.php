@@ -17,8 +17,14 @@
 
                 <div x-data="{ visible: false }">
                     <button @click="visible = true"
-                        class="btn_add h-12 p-3 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
-                        Nuevo <i class="fas fa-plus-circle"></i>
+                        class="flex items-center justify-center space-x-2 
+               px-6 py-3 text-white font-semibold 
+               bg-green-600 rounded-lg shadow-lg 
+               hover:bg-green-700 hover:shadow-xl 
+               focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 
+               transition duration-300 transform hover:scale-105">
+                        <i class="fas fa-plus-circle text-lg"></i>
+                        <span>Nueva especialidad</span>
                     </button>
 
                     <div x-show="visible" class="z-50 div_add fixed inset-0 flex items-center justify-center">
@@ -33,48 +39,42 @@
             </div>
 
             <div class="relative w-full px-14 overflow-x-auto mb-7">
-                <h3 class="px-3 py-1 text-center text-2xl mt-16 font-bold">Todas las especialidades</h3>
+                <h3 class="px-3 py-1 text-center text-2xl mt-16 mb-5 font-bold">Todas las especialidades</h3>
 
-                <table class="w-full m-auto mt-6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    @if (count($specialties) > 0)
-                    <thead class="text-xs text-white uppercase bg-red-600 ">
-                        <tr>
-                            <th scope="col" class="px-3 py-1 text-xl text-center">ID</th>
-                            <th scope="col" class="w-3/5 px-3 py-1 text-xl text-center">Especialidad</th>
-                            <th scope="col" class="px-3 py-1 text-xl text-center">Acciones</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
+                <div class="overflow-x-auto rounded-lg shadow-md">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+                        @if (count($specialties) > 0)
                         @foreach ($specialties as $specialty)
-                        <tr class="bg-gray-200 border-b ">
-                            <td class="px-3 py-2 text-center text-xl text-gray-900">{{ $specialty->id }}</td>
-                            <td class="px-3 py-2 text-center text-xl text-gray-900">{{ $specialty->specialty }}
-                            </td>
-                            <td class="px-3 py-2 text-center text-xl text-gray-900">
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{{ $specialty->specialty }}</h3>
+                            </div>
+                            <div class="flex justify-end mt-4 space-x-2">
                                 <button
                                     @click="
-                                    editSpecialtyModal = true;
-                                    specialtyId = {{ $specialty->id }};
-                                    specialty = '{{ $specialty->specialty }}';
-                                    $nextTick(() => { $wire.specialtyId = specialtyId; $wire.affair = affair; $wire.description = description; });
-                                ">
-                                    <i class="fas fa-edit text-xl text-blue-600 hover:text-blue-400 duration-300"></i>
+                            editSpecialtyModal = true;
+                            specialtyId = {{ $specialty->id }};
+                            specialty = '{{ $specialty->specialty }}';
+                            $nextTick(() => { $wire.specialtyId = specialtyId; $wire.specialty = specialty; });
+                        "
+                                    class="text-xl text-blue-600 hover:text-blue-400 duration-300">
+                                    <i class="fas fa-edit"></i>
                                 </button>
                                 <button
                                     @click="confirmDelete = true; specialtyIdToDelete = {{ $specialty->id }}"
-                                    class="text-xl">
-                                    <i
-                                        class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
+                                    class="text-xl text-red-600 hover:text-red-400 duration-300">
+                                    <i class="fas fa-trash-alt"></i>
                                 </button>
-                            </td>
-                        </tr>
+                            </div>
+                        </div>
                         @endforeach
                         @else
-                        <p class="text-gray-600 text-2xl">No hay especialidades registradas.</p>
+                        <div class="col-span-1 sm:col-span-2 lg:col-span-3 text-center text-gray-600 dark:text-gray-400 py-10">
+                            <p class="text-2xl font-semibold">No hay especialidades registradas.</p>
+                        </div>
                         @endif
-                    </tbody>
-                </table>
+                    </div>
+                </div>
             </div>
 
             <div x-show="confirmDelete"

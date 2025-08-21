@@ -10,8 +10,15 @@
                 <x-common.count :item="'Cantidad de doctores'" :quantity="$count_doctors" :icon="'fas fa-user-md'" />
 
                 <div x-data="{ visible: false }">
-                    <button @click="visible = true" class="btn_add h-12 p-3 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
-                        Nuevo <i class="fas fa-plus-circle"></i>
+                    <button @click="visible = true"
+                        class="flex items-center justify-center space-x-2 
+               px-6 py-3 text-white font-semibold 
+               bg-green-600 rounded-lg shadow-lg 
+               hover:bg-green-700 hover:shadow-xl 
+               focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 
+               transition duration-300 transform hover:scale-105">
+                        <i class="fas fa-plus-circle text-lg"></i>
+                        <span>Nuevo médico</span>
                     </button>
 
                     <div x-show="visible" x-bind:style="{ display: visible ? 'flex' : 'none' }"
@@ -35,50 +42,74 @@
                         class="w-full p-2 border border-gray-300 rounded-md">
                 </div>
 
-                <table class="w-full m-auto mt-6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    @if (count($doctors) > 0)
-                    <thead class="text-xs text-white uppercase bg-red-600">
-                        <tr>
-                            <th scope="col" class="px-3 py-1 text-center">ID</th>
-                            <th scope="col" class="px-3 py-1 text-center">Nombre</th>
-                            <th scope="col" class="px-3 py-1 text-center">Especialidad</th>
-                            <th scope="col" class="px-3 py-1 text-center">Teléfono</th>
-                            <th scope="col" class="px-3 py-1 text-center">Dirección</th>
-                            <th scope="col" class="px-3 py-1 text-center">Licencia</th>
-                            <th scope="col" class="px-3 py-1 text-center">DNI</th>
-                            <th scope="col" class="px-3 py-1 text-center">Acciones</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach ($doctors as $doctor)
-                        <tr class="bg-gray-200 border-b">
-                            <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->id }}</td>
-                            <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->user->name }}</td>
-                            <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->specialty->specialty }}</td>
-                            <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->user->phone }}</td>
-                            <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->user->address }}</td>
-                            <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->license }}</td>
-                            <td class="px-3 py-2 text-center text-gray-900">{{ $doctor->user->dni }}</td>
-                            <td class="px-3 py-2 text-center text-gray-900">
-                                <a wire:navigate href="{{ route('edit.doctor', ['id' => $doctor->id]) }}"
-                                    class="text-xl"><i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i></a>
-                                <a wire:navigate href="{{ route('edit.doctor_schedule', ['id' => $doctor->id]) }}"
-                                    title="Modificar dia de trabajo"
-                                    class="text-xl"><i class="fas fa-calendar ml-4 text-orange-700 hover:text-orange-400 duration-300"></i></a>
-                                <button @click="confirmDeleteVisible = true; doctorId = {{ $doctor->id }}" class="text-xl">
-                                    <i class="fas fa-trash-alt ml-4 text-red-600 hover:text-red-400 duration-300"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                    @else
-                    <tr>
-                        <td colspan="8" class="text-gray-600 text-2xl text-center">No hay doctores registrados.</td>
-                    </tr>
-                    @endif
-                </table>
+                <div class="overflow-x-auto rounded-lg shadow-md">
+                    <table class="min-w-full leading-normal">
+                        <thead class="bg-gray-100 dark:bg-gray-700">
+                            <tr>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    ID
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Nombre
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Especialidad
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Teléfono
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Dirección
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Licencia
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    DNI
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Acciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (count($doctors) > 0)
+                            @foreach ($doctors as $doctor)
+                            <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition duration-300 ease-in-out">
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $doctor->id }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $doctor->user->name }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $doctor->specialty->specialty }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $doctor->user->phone }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $doctor->user->address }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $doctor->license }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $doctor->user->dni }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a wire:navigate href="{{ route('edit.doctor', ['id' => $doctor->id]) }}"
+                                        class="text-xl text-blue-600 hover:text-blue-400 duration-300">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a wire:navigate href="{{ route('edit.doctor_schedule', ['id' => $doctor->id]) }}"
+                                        title="Modificar dia de trabajo"
+                                        class="text-xl ml-4 text-orange-700 hover:text-orange-400 duration-300">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </a>
+                                    <button @click="confirmDeleteVisible = true; doctorId = {{ $doctor->id }}"
+                                        class="text-xl ml-4 text-red-600 hover:text-red-400 duration-300">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                            <tr>
+                                <td colspan="8" class="px-5 py-4 text-center text-lg text-gray-600 dark:text-gray-400">
+                                    No hay doctores registrados.
+                                </td>
+                            </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </main>
     </div>

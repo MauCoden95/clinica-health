@@ -1,75 +1,55 @@
 <div x-data="{ calendar: 'monthly' }" class=" m-auto my-20">
     <h1 class="text-2xl my-7 text-center font-bold">Estadísticas de Turnos</h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
-        <div class="bg-white rounded-lg p-4 shadow-md">
-            <h2 class="text-lg font-bold mb-2">Ocupación Diaria</h2>
-            <div class="flex flex-col">
-                <span class="text-xl font-bold"> {{ ceil($occupationDay) }}%</span>
-                <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                    <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{$occupationDay ?? 0}}%"></div>
-                </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
 
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-xl">
+            <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Ocupación Diaria</h2>
+            <div class="flex flex-col items-start space-y-3">
+                <span class="text-3xl font-extrabold text-blue-600 dark:text-blue-400">{{ ceil($occupationDay) }}%</span>
+                <div class="w-full bg-gray-200 rounded-full h-3 dark:bg-gray-700">
+                    <div class="bg-blue-600 h-3 rounded-full transition-all duration-500 ease-in-out" style="width: {{ $occupationDay ?? 0 }}%;"></div>
+                </div>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Porcentaje de turnos ocupados hoy.</p>
             </div>
         </div>
 
-      
-
-        <div class="bg-white rounded-lg p-4 shadow-md">
-            <h2 class="font-bold mb-2">Especialidades más Demandadas</h2>
-            <table class="w-full">
-                <tbody class="bg-white">
-                    @foreach ($topThreeSpecialties as $specialty)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                                <div class="flex items-center justify-between">
-                                    <div class="text-sm leading-5 font-medium text-gray-900">{{ $specialty->specialty }} </div>
-                                    <div class="ml-2 text-sm leading-5 font-medium text-gray-900"> {{ $specialty->total }} turnos asignados</div>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-
-
-                </tbody>
-            </table>
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-xl">
+            <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Especialidades más Demandadas</h2>
+            <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+                @foreach ($topThreeSpecialties as $specialty)
+                <li class="py-3 flex items-center justify-between">
+                    <span class="text-base text-gray-700 dark:text-gray-200 font-medium">{{ $specialty->specialty }}</span>
+                    <span class="text-base font-bold text-green-600 dark:text-green-400">{{ $specialty->total }}</span>
+                </li>
+                @endforeach
+            </ul>
         </div>
 
-        <div class="bg-white rounded-lg p-4 shadow-md">
-            <h2 class="font-bold mb-2">Doctores con más Turnos</h2>
-            <table class="w-full">
-                <tbody class="bg-white">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-xl">
+            <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Doctores con más Turnos</h2>
+            <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                 @foreach ($topThreeDoctors as $doctor)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                                <div class="flex items-center justify-between">
-                                    <div class="text-sm leading-5 font-medium text-gray-900">{{ $doctor->name }} </div>
-                                    <div class="ml-2 text-sm leading-5 font-medium text-gray-900"> {{ $doctor->total }} turnos asignados</div>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                <li class="py-3 flex items-center justify-between">
+                    <span class="text-base text-gray-700 dark:text-gray-200 font-medium">{{ $doctor->name }}</span>
+                    <span class="text-base font-bold text-green-600 dark:text-green-400">{{ $doctor->total }}</span>
+                </li>
+                @endforeach
+            </ul>
         </div>
 
-
-        <div class="bg-white rounded-lg p-4 shadow-md">
-            <h2 class="font-bold mb-2">Pacientes que han reservado más de un turno el ultimo mes</h2>
-            <table class="w-full">
-                <tbody class="bg-white">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-xl">
+            <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Pacientes Recurrentes (Último mes)</h2>
+            <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                 @foreach ($patients as $patient)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                                <div class="flex items-center justify-between">
-                                    <div class="text-sm leading-5 font-medium text-gray-900">{{ $patient->name }} </div>
-                                    <div class="ml-2 text-sm leading-5 font-medium text-gray-900"> {{ $patient->total }} turnos asignados</div>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                <li class="py-3 flex items-center justify-between">
+                    <span class="text-base text-gray-700 dark:text-gray-200 font-medium">{{ $patient->name }}</span>
+                    <span class="text-base font-bold text-green-600 dark:text-green-400">{{ $patient->total }}</span>
+                </li>
+                @endforeach
+            </ul>
         </div>
+
     </div>
+</div>
 </div>

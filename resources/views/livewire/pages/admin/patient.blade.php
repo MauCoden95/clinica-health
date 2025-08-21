@@ -15,8 +15,15 @@
                 <x-common.count :item="'Cantidad de pacientes'" :quantity="$count_patients" :icon="'fas fa-user'" />
 
                 <div x-data="{ visible: false }">
-                    <button @click="visible = true" class="btn_add h-12 p-3 bg-green-400 hover:bg-green-500 duration-300 rounded-md">
-                        Nuevo <i class="fas fa-plus-circle"></i>
+                    <button @click="visible = true"
+                        class="flex items-center justify-center space-x-2 
+               px-6 py-3 text-white font-semibold 
+               bg-green-600 rounded-lg shadow-lg 
+               hover:bg-green-700 hover:shadow-xl 
+               focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 
+               transition duration-300 transform hover:scale-105">
+                        <i class="fas fa-plus-circle text-lg"></i>
+                        <span>Nuevo paciente</span>
                     </button>
                     <div x-show="visible" x-bind:style="{ display: visible ? 'flex' : 'none' }" class="z-50 div_add fixed inset-0 flex items-center justify-center">
                         <button @click="visible = false" class="btn_close absolute top-5 right-5 text-5xl text-white">
@@ -37,60 +44,80 @@
                     <input wire:model.live="dniFilter" type="text" placeholder="Buscar por DNI" class="w-full p-2 border border-gray-300 rounded-md">
                 </div>
 
-                <table class="w-full m-auto mt-6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    @if (count($patients) > 0)
-                    <thead class="text-xs text-white uppercase bg-red-600 ">
-                        <tr>
-                            <th class="px-3 py-1 text-center">Nombre</th>
-                            <th class="px-3 py-1 text-center">Email</th>
-                            <th class="px-3 py-1 text-center">Teléfono</th>
-                            <th class="px-3 py-1 text-center">Dirección</th>
-                            <th class="px-3 py-1 text-center">DNI</th>
-                            <th class="px-3 py-1 text-center">Obra Social</th>
-                            <th class="px-3 py-1 text-center">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($patients as $patient)
-                        <tr class="bg-gray-200 border-b">
-                            <td class="px-3 py-2 text-center text-gray-900">{{ $patient->name }}</td>
-                            <td class="px-3 py-2 text-center text-gray-900">{{ $patient->email }}</td>
-                            <td class="px-3 py-2 text-center text-gray-900">{{ $patient->phone }}</td>
-                            <td class="px-3 py-2 text-center text-gray-900">{{ $patient->address }}</td>
-                            <td class="px-3 py-2 text-center text-gray-900">{{ $patient->dni }}</td>
-                            <td class="px-3 py-2 text-center text-gray-900">{{ $patient->obra_social }}</td>
-                            <td class="px-3 py-2 text-center text-gray-900">
-                                <button @click="
-                                    editPatientModal = true;
-                                    patientId = {{ $patient->id }};
-                                    name = '{{ $patient->name }}';
-                                    email = '{{ $patient->email }}';
-                                    phone = {{ $patient->phone }};
-                                    address = '{{ $patient->address }}';
-                                    dni = {{ $patient->dni }};
-                                    obra_social = '{{ $patient->obra_social }}';
-                                    $nextTick(() => { 
-                                        $wire.patientId = patientId; 
-                                        $wire.name = name; 
-                                        $wire.email = email; 
-                                        $wire.phone = phone; 
-                                        $wire.address = address; 
-                                        $wire.dni = dni; 
-                                        $wire.obra_social = obra_social; 
-                                    });" class="text-xl">
-                                    <i class="fas fa-edit text-blue-600 hover:text-blue-400 duration-300"></i>
-                                </button>
-                                <button @click="deleteModalOpen = true; patientIdToDelete = {{ $patient->id }}" class="text-xl">
-                                    <i class="fas fa-trash-alt ml-2 text-red-600 hover:text-red-400 duration-300"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        @endforeach
-                        @else
-                        <p class="text-gray-600 text-2xl">No hay pacientes registrados.</p>
-                        @endif
-                    </tbody>
-                </table>
+                <div class="overflow-x-auto rounded-lg shadow-md">
+                    <table class="min-w-full leading-normal">
+                        <thead class="bg-gray-100 dark:bg-gray-700">
+                            <tr>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Nombre
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Email
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Teléfono
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Dirección
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    DNI
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Obra Social
+                                </th>
+                                <th scope="col" class="px-5 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-left">
+                                    Acciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (count($patients) > 0)
+                            @foreach ($patients as $patient)
+                            <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition duration-300 ease-in-out">
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $patient->name }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $patient->email }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $patient->phone }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $patient->address }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $patient->dni }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900">{{ $patient->obra_social }}</td>
+                                <td class="px-5 py-4 whitespace-nowrap text-sm font-medium">
+                                    <button @click="
+                            editPatientModal = true;
+                            patientId = {{ $patient->id }};
+                            name = '{{ $patient->name }}';
+                            email = '{{ $patient->email }}';
+                            phone = {{ $patient->phone }};
+                            address = '{{ $patient->address }}';
+                            dni = {{ $patient->dni }};
+                            obra_social = '{{ $patient->obra_social }}';
+                            $nextTick(() => { 
+                                $wire.patientId = patientId; 
+                                $wire.name = name; 
+                                $wire.email = email; 
+                                $wire.phone = phone; 
+                                $wire.address = address; 
+                                $wire.dni = dni; 
+                                $wire.obra_social = obra_social; 
+                            });" class="text-xl text-blue-600 hover:text-blue-400 duration-300">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button @click="deleteModalOpen = true; patientIdToDelete = {{ $patient->id }}" class="text-xl ml-2 text-red-600 hover:text-red-400 duration-300">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                            <tr>
+                                <td colspan="7" class="px-5 py-4 text-center text-lg text-gray-600 dark:text-gray-400">
+                                    No hay pacientes registrados.
+                                </td>
+                            </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
 
@@ -118,20 +145,20 @@
 
 
                         <input type="text" id="name" wire:model.defer="name" x-model="name" class="mb-5 shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nombre">
-                        
+
                         <input type="email" id="email" wire:model.defer="email" x-model="email" class="mb-5 shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Email">
-                        
+
                         <input type="text" id="phone" wire:model.defer="phone" x-model="phone" class="mb-5 shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Teléfono">
-                        
+
                         <input type="text" id="address" wire:model.defer="address" x-model="address" class="mb-5 shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Dirección">
-                        
+
                         <input type="number" id="dni" wire:model.defer="dni" x-model="dni" class="mb-5 shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="DNI">
-                       
+
                         <input type="text" id="obra_social" wire:model.defer="obra_social" x-model="obra_social" class="mb-5 shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Obra Social">
-                        
 
 
-                       
+
+
 
                         <div class="flex items-center justify-between">
                             <button type="submit" class="bg-red-500 hover:bg-red-700 duration-300 m-auto mt-8 text-black hover:text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
