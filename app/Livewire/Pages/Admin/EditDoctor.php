@@ -56,6 +56,7 @@ class EditDoctor extends Component
     public function mount($id){
         $this->doctor = Doctor::find($id);
         $this->name = $this->doctor->user->name;
+        $this->specialty_id = $this->doctor->specialty_id;
         $this->email = $this->doctor->user->email;
         $this->address = $this->doctor->user->address;
         $this->phone = $this->doctor->user->phone;

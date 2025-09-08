@@ -133,39 +133,51 @@
             </div>
 
 
-            {{-- Modal para editar sugerencia --}}
+
             <div x-show="editPatientModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
-                <div class="w-3/6 bg-white p-6 rounded-lg text-center">
+                <div class="w-3/6 p-6 rounded-lg text-center">
                     <button @click="editPatientModal = false" class="btn_close absolute top-5 right-5 text-5xl text-white">
                         <i class="fas fa-times"></i>
                     </button>
-                    <form wire:submit.prevent="editPatient">
-                        <h3 class="my-4 text-center text-xl">Editar paciente</h3>
+                    <form wire:submit.prevent="editPatient" class="bg-gray-100 p-8 rounded-xl shadow-2xl space-y-6 max-w-xl mx-auto">
+                        <h3 class="text-3xl font-extrabold text-center text-gray-800">
+                            Editar paciente
+                        </h3>
 
+                        <div class="space-y-4">
+                            <input type="text" id="name" wire:model.defer="name" x-model="name"
+                                class="w-full px-5 py-3 text-gray-900 bg-white border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-300 placeholder-gray-500 dark:placeholder-gray-400"
+                                placeholder="Nombre">
 
+                            <input type="email" id="email" wire:model.defer="email" x-model="email"
+                                class="w-full px-5 py-3 text-gray-900 bg-white border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-300 placeholder-gray-500 dark:placeholder-gray-400"
+                                placeholder="Email">
 
-                        <input type="text" id="name" wire:model.defer="name" x-model="name" class="mb-5 shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nombre">
+                            <input type="text" id="phone" wire:model.defer="phone" x-model="phone"
+                                class="w-full px-5 py-3 text-gray-900 bg-white border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-300 placeholder-gray-500 dark:placeholder-gray-400"
+                                placeholder="Teléfono">
 
-                        <input type="email" id="email" wire:model.defer="email" x-model="email" class="mb-5 shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Email">
+                            <input type="text" id="address" wire:model.defer="address" x-model="address"
+                                class="w-full px-5 py-3 text-gray-900 bg-white border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-300 placeholder-gray-500 dark:placeholder-gray-400"
+                                placeholder="Dirección">
 
-                        <input type="text" id="phone" wire:model.defer="phone" x-model="phone" class="mb-5 shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Teléfono">
+                            <input type="number" id="dni" wire:model.defer="dni" x-model="dni"
+                                class="w-full px-5 py-3 text-gray-900 bg-white border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-300 placeholder-gray-500 dark:placeholder-gray-400"
+                                placeholder="DNI">
 
-                        <input type="text" id="address" wire:model.defer="address" x-model="address" class="mb-5 shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Dirección">
+                            <input type="text" id="obra_social" wire:model.defer="obra_social" x-model="obra_social"
+                                class="w-full px-5 py-3 text-gray-900 bg-white border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-300 placeholder-gray-500 dark:placeholder-gray-400"
+                                placeholder="Obra Social">
+                        </div>
 
-                        <input type="number" id="dni" wire:model.defer="dni" x-model="dni" class="mb-5 shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="DNI">
-
-                        <input type="text" id="obra_social" wire:model.defer="obra_social" x-model="obra_social" class="mb-5 shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Obra Social">
-
-
-
-
-
-                        <div class="flex items-center justify-between">
-                            <button type="submit" class="bg-red-500 hover:bg-red-700 duration-300 m-auto mt-8 text-black hover:text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        <div class="flex justify-center pt-4">
+                            <button type="submit"
+                                class="w-full md:w-auto px-8 py-3 text-lg font-bold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-105">
                                 Guardar
                             </button>
                         </div>
                     </form>
+
 
 
                 </div>

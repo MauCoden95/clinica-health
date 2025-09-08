@@ -90,6 +90,8 @@ class Settings extends Component
                 'title' => '¡Éxito!',
                 'text' => 'Paciente actualizado correctamente'
             ]);
+
+            $this->latestUpdate($user->id);
         } else {
             $this->dispatch('showAlert', [
                 'type' => 'error',
@@ -160,5 +162,16 @@ class Settings extends Component
         }else{
             return true;
         }
+    }
+
+
+
+    public function latestUpdate($user_id){
+        $user = User::find($user_id);
+
+        $user->latest_update_date = now();
+        $user->latest_update_time = now()->timezone('America/Argentina/Buenos_Aires')->format('H:i:s');
+
+        $user->save();
     }
 }

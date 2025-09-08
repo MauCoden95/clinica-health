@@ -1,6 +1,6 @@
 <div class="h-full bg-gray-50 border-r border-gray-200">
     <div class="flex items-center justify-center py-6 border-b border-gray-200">
-        <img class="w-24 h-auto" src="{{ asset('img/Logo.png') }}" alt="Logo" />
+        <img class="w-48 h-auto" src="{{ asset('img/Logo.png') }}" alt="Logo" />
     </div>
 
     <nav class="flex-1 mt-6">
