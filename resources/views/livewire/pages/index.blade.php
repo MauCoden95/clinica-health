@@ -3,7 +3,7 @@
 
 
 
-    <section class="relative w-full min-h-[450px] z-30 py-5 md:py-0 px-8 md:px-14 flex flex-col md:flex-row items-center justify-center">
+    <section class="relative w-full min-h-[450px] z-20 py-5 md:py-0 px-8 md:px-14 flex flex-col md:flex-row items-center justify-center">
 
         <div class="w-full md:w-2/4 mb-8 md:mb-0">
             <h2 class="text-2xl md:text-4xl mb-4 md:mb-6 text-center md:text-left">

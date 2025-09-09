@@ -80,3 +80,22 @@ function initCalendar() {
         window.calendar = calendar; 
     }
 }
+
+
+
+    const btnOpen = document.getElementById('menu-btn');
+    const btnClose = document.getElementById('close-btn');
+    const menu = document.getElementById('mobile-menu');
+
+    function openMenu() {
+        menu.classList.remove('-translate-x-full', 'opacity-0', 'pointer-events-none');
+        menu.classList.add('translate-x-0', 'opacity-100', 'pointer-events-auto');
+    }
+
+    function closeMenu() {
+        menu.classList.add('-translate-x-full', 'opacity-0', 'pointer-events-none');
+        menu.classList.remove('translate-x-0', 'opacity-100', 'pointer-events-auto');
+    }
+
+    btnOpen.addEventListener('click', openMenu);
+    btnClose.addEventListener('click', closeMenu);
