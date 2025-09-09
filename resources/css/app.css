@@ -118,6 +118,7 @@
 /*Login Admin*/
 .bg-login-admin{
     background-image: url('../../public/img/Clinic.jpg');
+    background-size: cover;
 }
 
 
