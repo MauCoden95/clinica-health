@@ -5,85 +5,123 @@
 
     <section class="relative w-full min-h-[450px] z-30 py-5 md:py-0 px-8 md:px-14 flex flex-col md:flex-row items-center justify-center">
 
-        <div class="absolute inset-0 flex justify-center items-center">
+        <div class="w-full md:w-2/4 mb-8 md:mb-0">
+            <h2 class="text-2xl md:text-4xl mb-4 md:mb-6 text-center md:text-left">
+                Cuidamos tu salud, <span class="font-bold">transformamos tu vida.</span>
+            </h2>
+            <p class="text-sm md:text-base text-center md:text-left">
+                En nuestra clínica, tu salud es nuestra prioridad. Ofrecemos atención médica integral con profesionales dedicados y tecnología de vanguardia. Nos comprometemos a brindarte un cuidado personalizado y de calidad, asegurando tu bienestar en cada paso del camino.
+            </p>
+        </div>
 
-            <div class="w-full md:w-2/4 mb-8 md:mb-0">
-                <h2 class="text-2xl md:text-4xl mb-4 md:mb-6 text-center md:text-left">Cuidamos tu salud, <span class="font-bold">transformamos tu vida.</span></h2>
-                <p class="text-sm md:text-base text-center md:text-left">
-                    En nuestra clínica, tu salud es nuestra prioridad. Ofrecemos atención médica integral con profesionales dedicados y tecnología de vanguardia. Nos comprometemos a brindarte un cuidado personalizado y de calidad, asegurando tu bienestar en cada paso del camino.
-                </p>
+        <div class="w-full md:w-2/5 flex justify-center">
+            <img src="http://localhost:8000/img/Banner1.png" alt="Dos médicos"
+                class="max-w-full h-auto object-contain rounded-lg" />
+        </div>
+
+    </section>
+
+
+
+    <section class="relative w-full h-auto z-30 py-12 md:py-20 px-8 md:px-14 flex flex-col md:flex-row flex-wrap gap-6 items-center justify-center">
+
+
+        <div class="w-full sm:w-1/2 md:w-1/4 bg-gradient-to-br from-red-600 to-red-700 p-8 rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition duration-300">
+            <div class="flex items-center mb-4">
+                <div class="w-12 h-12 flex items-center justify-center rounded-full bg-white/20 text-white text-2xl mr-3">
+                    <i class="fas fa-home"></i>
+                </div>
+                <h4 class="font-bold text-xl text-white">Atención a Domicilio</h4>
             </div>
-            <img class="w-4/5 md:w-2/5 mt-6 md:mt-0" src="http://localhost:8000/img/Banner1.png" alt="Dos médicos" />
+            <p class="text-white text-sm md:text-base leading-relaxed">
+                Brindamos servicios médicos en la comodidad de tu hogar.
+            </p>
+        </div>
+
+
+        <div class="w-full sm:w-1/2 md:w-1/4 bg-gradient-to-br from-red-700 to-red-800 p-8 rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition duration-300">
+            <div class="flex items-center mb-4">
+                <div class="w-12 h-12 flex items-center justify-center rounded-full bg-white/20 text-white text-2xl mr-3">
+                    <i class="fas fa-stethoscope"></i>
+                </div>
+                <h4 class="font-bold text-xl text-white">Consultas Especializadas</h4>
+            </div>
+            <p class="text-white text-sm md:text-base leading-relaxed">
+                Contamos con un equipo de especialistas en diversas áreas de la salud.
+            </p>
+        </div>
+
+
+        <div class="w-full sm:w-1/2 md:w-1/4 bg-gradient-to-br from-red-600 to-red-700 p-8 rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition duration-300">
+            <div class="flex items-center mb-4">
+                <div class="w-12 h-12 flex items-center justify-center rounded-full bg-white/20 text-white text-2xl mr-3">
+                    <i class="fas fa-microscope"></i>
+                </div>
+                <h4 class="font-bold text-xl text-white">Exámenes y Diagnósticos</h4>
+            </div>
+            <p class="text-white text-sm md:text-base leading-relaxed">
+                Ofrecemos una amplia gama de pruebas diagnósticas.
+            </p>
+        </div>
+
+
+        <div class="w-full sm:w-1/2 md:w-1/4 bg-gradient-to-br from-red-700 to-red-800 p-8 rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition duration-300">
+            <div class="flex items-center mb-4">
+                <div class="w-12 h-12 flex items-center justify-center rounded-full bg-white/20 text-white text-2xl mr-3">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <h4 class="font-bold text-xl text-white">Programas de Prevención</h4>
+            </div>
+            <p class="text-white text-sm md:text-base leading-relaxed">
+                Implementamos programas de bienestar para promover estilos de vida saludables.
+            </p>
+        </div>
+
     </section>
 
 
-    <section class="relative w-full h-auto z-30 py-8 md:py-14 px-8 md:px-14 flex flex-col md:flex-row flex-wrap md:flex-nowrap gap-4 md:gap-6 items-center justify-center">
-        <div class="w-full sm:w-1/2 md:w-1/4 h-auto md:h-72 bg-red-700 p-4 rounded-lg mb-4 md:mb-0">
-            <h4 class="font-bold text-lg md:text-base text-white">
-                <i class="fas fa-home"></i>
-                Atención a Domicilio
-            </h4>
-            <p class="my-3 md:my-7 text-sm md:text-base text-white">
-                Brindamos servicios médicos en la comodidad de tu hogar
-            </p>
-        </div>
 
-        <div class="w-full sm:w-1/2 md:w-1/4 h-auto md:h-72 bg-red-800 p-4 rounded-lg mb-4 md:mb-0">
-            <h4 class="font-bold text-lg md:text-base text-white">
-                <i class="fas fa-stethoscope"></i>
-                Consultas Especializadas
-            </h4>
-            <p class="my-3 md:my-7 text-sm md:text-base text-white">
-                Contamos con un equipo de especialistas en diversas áreas de la salud
-            </p>
-        </div>
 
-        <div class="w-full sm:w-1/2 md:w-1/4 h-auto md:h-72 bg-red-700 p-4 rounded-lg mb-4 md:mb-0">
-            <h4 class="font-bold text-lg md:text-base text-white">
-                <i class="fas fa-microscope"></i>
-                Exámenes y Diagnósticos
-            </h4>
-            <p class="my-3 md:my-7 text-sm md:text-base text-white">
-                Ofrecemos una amplia gama de pruebas diagnósticas
-            </p>
-        </div>
-
-        <div class="w-full sm:w-1/2 md:w-1/4 h-auto md:h-72 bg-red-800 p-4 rounded-lg">
-            <h4 class="font-bold text-lg md:text-base text-white">
-                <i class="fas fa-heartbeat"></i>
-                Programas de Prevención
-            </h4>
-            <p class="my-3 md:my-7 text-sm md:text-base text-white">
-                Implementamos programas de bienestar para promover estilos de vida saludables
-            </p>
-        </div>
-    </section>
 
     <section class="w-full min-h-[450px] z-30 px-8 md:px-14 mb-16 sm:mb-24 md:my-32">
-        <h3 class="nanum text-3xl sm:text-4xl md:text-5xl text-center my-8 sm:my-10 md:my-12">Nuestros servicios</h3>
+        <h3 class="nanum text-3xl sm:text-4xl md:text-5xl text-center font-bold text-gray-800 my-8 sm:my-10 md:my-12">
+            Nuestros servicios
+        </h3>
 
+        
         <div class="swiper">
-            <div class="w-5/6 swiper-wrapper px-2 mb-5">
+            <div class="w-5/6 swiper-wrapper px-2 mb-10">
                 @foreach($services as $service)
-                <div class="swiper-slide card_services bg-base-100 w-1/4 p-2 sm:p-3 rounded-md mt-3 duration-300">
-                    <figure>
-                        <img src="{{ $service['image'] }}" alt="{{ $service['atl'] }}" class="w-full h-auto" />
+                <div
+                    class="swiper-slide card_services mt-12 bg-white rounded-xl shadow-md transform hover:-translate-y-2 transition duration-300 ease-out p-4">
+
+                   
+                    <figure class="overflow-hidden rounded-t-xl">
+                        <img src="{{ $service['image'] }}" alt="{{ $service['atl'] }}"
+                            class="w-full h-48 object-cover transform transition duration-500 ease-out" />
                     </figure>
-                    <div class="card-body">
-                        <h2 class="card-title text-center my-2 sm:my-3 md:my-4 text-lg sm:text-xl font-bold">{{ $service['specialty'] }}</h2>
-                        <p class="p-2 sm:p-3 text-sm sm:text-base">{{ $service['desc'] }}</p>
+
+                    <div class="card-body text-center p-4">
+                        <h2 class="card-title text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-3">
+                            {{ $service['specialty'] }}
+                        </h2>
+                        <p class="text-sm sm:text-base text-gray-600 leading-relaxed">
+                            {{ $service['desc'] }}
+                        </p>
                     </div>
                 </div>
                 @endforeach
-
             </div>
+
             <div class="swiper-pagination"></div>
         </div>
-
-        <div class="grid gap-4 sm:gap-5 md:gap-7 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-
-        </div>
     </section>
+
+
+
+
+
+
 
 
     <section class="relative w-full h-auto px-8 md:px-16 lg:px-28 my-8 sm:my-12 md:my-16 lg:my-20">
@@ -103,7 +141,7 @@
     <section class="w-full min-h-[450px] z-30 px-8 md:px-14 mt-24 mb-16 sm:mb-24 md:mb-32">
         <h3 class="nanum text-3xl sm:text-4xl md:text-5xl text-center my-8 sm:my-10 md:my-12">Innovación</h3>
 
-        <div class="flex gap-8 flex-col md:flex-row items-center justify-between">
+        <div class="flex gap-8 flex-col md:flex-row items-center justify-around">
             <div class="w-full md:w-1/2 mb-8 md:mb-0">
                 <h2 class="text-xl sm:text-2xl font-bold mb-4">Innovación al Servicio de tu Salud</h2>
                 <p class="text-base sm:text-lg my-4">
@@ -165,7 +203,7 @@
                     </ul>
                 </div>
             </div>
-            <img class="w-full md:w-1/2 mt-8 md:mt-0" src="http://localhost:8000/img/Innovacion.png" alt="Dos médicos" />
+            <img class="w-full md:w-1/3 mt-8 md:mt-0 shadow-lg" src="http://localhost:8000/img/Innovacion.png" alt="Dos médicos" />
         </div>
     </section>
 
