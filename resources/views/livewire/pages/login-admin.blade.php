@@ -1,13 +1,13 @@
 <div class="bg-gradient-to-r from-red-400 via-red-500 to-red-600 w-screen h-screen flex items-center justify-center px-6">
-    <div class="flex bg-white rounded-2xl shadow-2xl overflow-hidden w-[900px]">
+    <div class="flex flex-col md:flex-row bg-white rounded-2xl shadow-2xl overflow-hidden w-[95%] h-80% md:h-auto md:w-[900px]">
         <!-- Formulario -->
-        <form wire:submit.prevent="login" class="w-[500px] p-10">
-            <h3 class="text-3xl font-semibold text-center text-gray-800 mb-8">Login Profesional</h3>
+        <form wire:submit.prevent="login" class="w-full md:w-[500px] p-4 md:p-10">
+            <h3 class="text-xl md:text-3xl font-semibold text-center text-gray-800 mb-8">Login Profesional</h3>
 
             <!-- Email -->
             <div class="mb-6">
                 <input wire:model="email" type="text"
-                    class="block w-full p-4 text-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-400 focus:outline-none"
+                    class="block w-full p-4 text-md md:text-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-400 focus:outline-none"
                     placeholder="Correo electrónico..." />
                 @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
@@ -15,14 +15,14 @@
             <!-- Password -->
             <div class="mb-6">
                 <input wire:model="password" type="password"
-                    class="block w-full p-4 text-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-400 focus:outline-none"
+                    class="block w-full p-4 text-md md:text-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-400 focus:outline-none"
                     placeholder="Contraseña..." />
                 @error('password') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <!-- Botón -->
             <button
-                class="block w-full text-white text-lg p-4 rounded-xl bg-gradient-to-r from-red-500 to-red-700 hover:opacity-90 transition duration-300 shadow-md">
+                class="block w-full text-white text-md md:text-lg p-4 rounded-xl bg-gradient-to-r from-red-500 to-red-700 hover:opacity-90 transition duration-300 shadow-md">
                 Ingresar
             </button>
 
@@ -38,8 +38,8 @@
         </form>
 
         <!-- Imagen -->
-        <div class="flex items-center justify-center bg-gray-50 w-1/2 p-10">
-            <img class="max-w-xs" src="{{ asset('img/Logo.png') }}" alt="Logo" />
+        <div class="flex items-center justify-center bg-gray-50 w-full md:w-1/2 p-10">
+            <img class="w-32 md:max-w-xs" src="{{ asset('img/Logo.png') }}" alt="Logo" />
         </div>
     </div>
 </div>
