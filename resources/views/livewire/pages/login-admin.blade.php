@@ -39,7 +39,7 @@
 
         <!-- Imagen -->
         <div class="flex items-center justify-center bg-gray-50 w-full md:w-1/2 p-10">
-            <img class="w-32 md:max-w-xs" src="{{ asset('img/Logo.png') }}" alt="Logo" />
+            <img class="w-[50%] md:w-[70%]" src="{{ asset('img/Logo.png') }}" alt="Logo" />
         </div>
     </div>
 </div>

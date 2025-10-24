@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Page Title</title>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    
+    <script type="module" src="http://[::1]:5173/@vite/client" data-navigate-track="reload"></script><link rel="stylesheet" href="http://[::1]:5173/resources/css/app.css" data-navigate-track="reload" /><script type="module" src="http://[::1]:5173/resources/js/app.js" data-navigate-track="reload"></script>    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.2/dist/cdn.min.js" defer></script>
+ 
+    
+    <!-- Livewire Styles --><style >[wire\:loading][wire\:loading], [wire\:loading\.delay][wire\:loading\.delay], [wire\:loading\.inline-block][wire\:loading\.inline-block], [wire\:loading\.inline][wire\:loading\.inline], [wire\:loading\.block][wire\:loading\.block], [wire\:loading\.flex][wire\:loading\.flex], [wire\:loading\.table][wire\:loading\.table], [wire\:loading\.grid][wire\:loading\.grid], [wire\:loading\.inline-flex][wire\:loading\.inline-flex] {display: none;}[wire\:loading\.delay\.none][wire\:loading\.delay\.none], [wire\:loading\.delay\.shortest][wire\:loading\.delay\.shortest], [wire\:loading\.delay\.shorter][wire\:loading\.delay\.shorter], [wire\:loading\.delay\.short][wire\:loading\.delay\.short], [wire\:loading\.delay\.default][wire\:loading\.delay\.default], [wire\:loading\.delay\.long][wire\:loading\.delay\.long], [wire\:loading\.delay\.longer][wire\:loading\.delay\.longer], [wire\:loading\.delay\.longest][wire\:loading\.delay\.longest] {display: none;}[wire\:offline][wire\:offline] {display: none;}[wire\:dirty]:not(textarea):not(input):not(select) {display: none;}:root {--livewire-progress-bar-color: #2299dd;}[x-cloak] {display: none !important;}</style>
+</head>
+<body data-theme="light">
+    <div wire:snapshot="{&quot;data&quot;:{&quot;doctors&quot;:[[[{&quot;id&quot;:1,&quot;name&quot;:&quot;Carolina Rojas&quot;,&quot;specialty&quot;:&quot;Cl\u00ednica M\u00e9dica&quot;,&quot;image&quot;:&quot;http:\/\/localhost:8000\/img\/CarolinaRojas.jpg&quot;,&quot;atl&quot;:&quot;Doctora&quot;},{&quot;s&quot;:&quot;arr&quot;}],[{&quot;id&quot;:1,&quot;name&quot;:&quot;Benjamin Flores&quot;,&quot;specialty&quot;:&quot;Pediatra&quot;,&quot;image&quot;:&quot;http:\/\/localhost:8000\/img\/BenjaminFlores.jpg&quot;,&quot;atl&quot;:&quot;Doctor&quot;},{&quot;s&quot;:&quot;arr&quot;}],[{&quot;id&quot;:1,&quot;name&quot;:&quot;Esteban Zapata&quot;,&quot;specialty&quot;:&quot;Cardi\u00f3logo&quot;,&quot;image&quot;:&quot;http:\/\/localhost:8000\/img\/EstebanZapata.jpg&quot;,&quot;atl&quot;:&quot;Doctor&quot;},{&quot;s&quot;:&quot;arr&quot;}],[{&quot;id&quot;:1,&quot;name&quot;:&quot;Fernando Aguirre&quot;,&quot;specialty&quot;:&quot;Dentista&quot;,&quot;image&quot;:&quot;http:\/\/localhost:8000\/img\/FernandoAguirre.jpg&quot;,&quot;atl&quot;:&quot;Doctor&quot;},{&quot;s&quot;:&quot;arr&quot;}],[{&quot;id&quot;:1,&quot;name&quot;:&quot;Luc\u00eda Altamirano&quot;,&quot;specialty&quot;:&quot;Dermat\u00f3loga&quot;,&quot;image&quot;:&quot;http:\/\/localhost:8000\/img\/ClaudiaCarro.jpg&quot;,&quot;atl&quot;:&quot;Doctora&quot;},{&quot;s&quot;:&quot;arr&quot;}],[{&quot;id&quot;:1,&quot;name&quot;:&quot;Laura Florio&quot;,&quot;specialty&quot;:&quot;Psic\u00f3loga&quot;,&quot;image&quot;:&quot;http:\/\/localhost:8000\/img\/ClaudiaCarro.jpg&quot;,&quot;atl&quot;:&quot;Doctora&quot;},{&quot;s&quot;:&quot;arr&quot;}]],{&quot;s&quot;:&quot;arr&quot;}]},&quot;memo&quot;:{&quot;id&quot;:&quot;VFI6A92kDcYu1jEERgYj&quot;,&quot;name&quot;:&quot;pages.services&quot;,&quot;path&quot;:&quot;servicios&quot;,&quot;method&quot;:&quot;GET&quot;,&quot;children&quot;:[],&quot;scripts&quot;:[],&quot;assets&quot;:[],&quot;errors&quot;:[],&quot;locale&quot;:&quot;es&quot;},&quot;checksum&quot;:&quot;bc95461e6686744c5d062fc2a7892137258dd3b521276caa67e17225579965a1&quot;}" wire:effects="[]" wire:id="VFI6A92kDcYu1jEERgYj">
+    <header class="w-full h-24 z-50 bg-white md:bg-white shadow-md">
+    <div class="md:w-11/12 m-auto px-14 flex flex-col md:flex-row items-left md:items-center justify-between md:h-24">
+
+        <a href="http://localhost:8000" wire:navigate>
+            <img class="w-14 mt-3 md:mt-0" src="http://localhost:8000/img/Logo.png" alt="Logo" />
+        </a>
+
+        
+        <button id="menu-btn" class="absolute top-6 right-11 md:hidden text-gray-700 focus:outline-none">
+            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+
+        <nav id="mobile-menu" class="fixed inset-0 left-0 w-full md:w-1/4 bg-red-200 z-40 flex flex-col items-center justify-center md:relative md:inset-auto md:bg-white md:flex md:flex-row md:mt-0
+    -translate-x-full opacity-0 transition-all duration-300 pointer-events-none md:pointer-events-auto md:translate-x-0 md:opacity-100">
+
+            
+            <button id="close-btn" class="absolute top-6 right-6 md:hidden text-gray-700 focus:outline-none">
+                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <ul class="flex flex-col items-center justify-center space-y-6 md:flex-row md:space-y-0 md:space-x-10">
+                <li class="text-2xl md:text-lg my-10 md:my-0 font-medium text-gray-700 group cursor-pointer">
+                    <a class="lg:mr-12" href="http://localhost:8000" wire:navigate>Inicio</a>
+                </li>
+                <li class="text-2xl md:text-lg my-10 md:my-0 font-medium text-gray-700 group cursor-pointer">
+                    <a class="lg:mr-12 mt-2 lg:mt-0" href="http://localhost:8000/servicios" wire:navigate>Servicios</a>
+                </li>
+                <li class="text-2xl md:text-lg my-14 md:my-0 font-medium text-gray-700 group cursor-pointer">
+                    <a class="lg:mr-12 mt-4 lg:mt-0" href="http://localhost:8000/contacto" wire:navigate>Contacto</a>
+                </li>
+                <li class="w-full md:w-auto text-2xl md:text-lg my-14 md:my-0 font-medium text-white bg-red-600 hover:bg-red-700 px-5 py-2 rounded-full">
+                    <a href="http://localhost:8000/login" wire:navigate class="transition duration-300">Login</a>
+                </li>
+            </ul>
+        </nav>
+
+
+
+
+    </div>
+</header>
+
+
+    <section class="w-full py-12 px-14 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-gray-800">Nuestros Servicios</h2>
+            <div class="w-full mt-12 flex gap-7 items-center justify-between">
+                <p class="text-lg text-gray-600 mt-4">En nuestra clínica, ofrecemos una amplia gama de servicios médicos diseñados para cuidar de tu salud y bienestar. Desde consultas especializadas hasta estudios avanzados, nuestro equipo de profesionales está comprometido en brindarte atención personalizada y tratamientos innovadores para asegurar tu recuperación y bienestar integral.</p>
+                <img class="w-full md:w-1/2 mt-8 md:mt-0" src="http://localhost:8000/img/Services.jpg" alt="Estetoscopio" />
+            </div>
+        </div>
+    </section>
+
+    <section class="w-full px-14 bg-gray-100">
+        <h2 class="nanum text-4xl font-bold text-center py-12 text-gray-800">Especialidades</h2>
+        
+       
+        <div class="max-w-7xl mx-auto my-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="flex items-center text-lg text-gray-800">
+                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Cardiología
+            </div>
+            <div class="flex items-center text-lg text-gray-800">
+                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Dermatología
+            </div>
+            <div class="flex items-center text-lg text-gray-800">
+                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Neurología
+            </div>
+            <div class="flex items-center text-lg text-gray-800">
+                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Pediatría
+            </div>
+            <div class="flex items-center text-lg text-gray-800">
+                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Ginecología
+            </div>
+            <div class="flex items-center text-lg text-gray-800">
+                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Psiquiatría
+            </div>
+            <div class="flex items-center text-lg text-gray-800">
+                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Traumatología
+            </div>
+            <div class="flex items-center text-lg text-gray-800">
+                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Oftalmología
+            </div>
+            <div class="flex items-center text-lg text-gray-800">
+                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Endocrinología
+            </div>
+            <div class="flex items-center text-lg text-gray-800">
+                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Oncología
+            </div>
+            <div class="flex items-center text-lg text-gray-800">
+                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Medicina Interna
+            </div>
+            <div class="flex items-center text-lg text-gray-800">
+                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Urología
+            </div>
+        </div>
+
+
+
+
+        <h2 class="nanum text-4xl font-bold text-center py-12 text-gray-800">Estudios</h2>
+
+        <div class="max-w-7xl mx-auto mb-20 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="flex items-center text-lg text-gray-800">
+                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Análisis de sangre
+            </div>
+            <div class="flex items-center text-lg text-gray-800">
+                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Electrocardiograma
+            </div>
+            <div class="flex items-center text-lg text-gray-800">
+                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Ecografía
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-gray-200 px-8 md:px-14 py-12">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+
+        <!-- Logo + descripción -->
+        <div>
+            <img class="w-36 mb-4" src="http://localhost:8000/img/Logo.png" alt="Clínica Health" />
+            <p class="text-sm leading-relaxed">
+                <span class="font-semibold">Clínica Health</span><br />
+                Cuidando tu salud desde 2000
+            </p>
+        </div>
+
+        <!-- Servicios -->
+        <div>
+            <h6 class="text-lg font-semibold mb-4 text-white">Servicios</h6>
+            <ul class="space-y-2">
+                <li><a href="#" class="hover:text-red-400 transition">Consultas médicas</a></li>
+                <li><a href="#" class="hover:text-red-400 transition">Exámenes de laboratorio</a></li>
+                <li><a href="#" class="hover:text-red-400 transition">Imagenología</a></li>
+                <li><a href="#" class="hover:text-red-400 transition">Urgencias</a></li>
+            </ul>
+        </div>
+
+        <!-- Nosotros -->
+        <div>
+            <h6 class="text-lg font-semibold mb-4 text-white">Nosotros</h6>
+            <ul class="space-y-2">
+                <li><a href="#" class="hover:text-red-400 transition">Sobre nosotros</a></li>
+                <li><a href="#" class="hover:text-red-400 transition">Contacto</a></li>
+                <li><a href="#" class="hover:text-red-400 transition">Trabaja con nosotros</a></li>
+                <li><a href="#" class="hover:text-green-400 transition">Noticias</a></li>
+            </ul>
+        </div>
+
+        <!-- Legal -->
+        <div>
+            <h6 class="text-lg font-semibold mb-4 text-white">Legal</h6>
+            <ul class="space-y-2">
+                <li><a href="#" class="hover:text-red-400 transition">Términos de uso</a></li>
+                <li><a href="#" class="hover:text-red-400 transition">Política de privacidad</a></li>
+                <li><a href="#" class="hover:text-red-400 transition">Política de cookies</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Línea divisoria + copyright -->
+    <div class="border-t border-gray-700 mt-10 pt-6 text-center text-sm text-gray-400">
+        © 2025 Clínica Health. Todos los derechos
+</div>
+    
+
+
+    <script>
+        function data(){
+            return {
+                open: false,
+                start(){
+                    this.open = true
+                },
+                isOpen(){
+                    this.open = !this.open
+                },
+                close(){
+                    this.open = false
+                }
+            }
+        }
+    </script>
+    <!-- Livewire Scripts -->
+<script src="/livewire/livewire.js?id=923613aa"   data-csrf="ARh4LSyIQwdNfZPapRuLtHeMKuR1m9gZp15LUyrS" data-update-uri="/livewire/update" data-navigate-once="true"></script>
+
+    </body>
+</html>

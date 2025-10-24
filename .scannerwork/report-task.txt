@@ -1,0 +1,6 @@
+projectKey=ClinicaHealth
+serverUrl=http://localhost:9000
+serverVersion=25.10.0.114319
+dashboardUrl=http://localhost:9000/dashboard?id=ClinicaHealth
+ceTaskId=fd886601-c546-45fc-900e-f4399c688430
+ceTaskUrl=http://localhost:9000/api/ce/task?id=fd886601-c546-45fc-900e-f4399c688430

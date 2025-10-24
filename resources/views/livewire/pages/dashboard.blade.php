@@ -20,21 +20,30 @@
     <div class="flex-1 flex flex-col overflow-hidden">
         <x-common.header_dashboard />
         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-white p-6">
-            <div class="px-10 flex gap-5">
-                <div class="w-4/6 min-h-0">
-                    <div class="w-full h-64 px-7 bg-gradient-to-r from-green-500 to-emerald-700 rounded-2xl flex items-center justify-between shadow-lg">
+            <div class="px-5 md:px-10 flex flex-col md:flex-row gap-5">
+                <div class="w-full md:w-4/6 min-h-0">
+                    <div class="w-full h-auto md:h-64 py-10 md:py-0 px-7 bg-gradient-to-r from-green-500 to-emerald-700 rounded-2xl flex flex-col md:flex-row items-center justify-between shadow-lg">
                         <div class="max-w-xl">
-                            <h1 class="text-4xl text-white font-extrabold flex items-center gap-2">
+                            <h1 class="text-2xl md:text-4xl text-center md:text-left text-white font-extrabold flex items-center gap-2">
                                 👋 ¡Hola, {{ auth()->user()->name }}!
                             </h1>
-                            <p class="text-lg mt-3 text-white/90 leading-relaxed">
+                            <p class="text-lg mt-3 text-center md:text-left text-white/90 leading-relaxed">
                                 Bienvenido a tu panel administrador. Consulta estadísticas, gestiona turnos y brinda una mejor atención a tus pacientes hoy.
                             </p>
                         </div>
 
 
-                        <div class="relative">
-                            <img class="h-56 drop-shadow-xl rounded-full bg-white p-2" src="http://127.0.0.1:8000/img/Medical-dashboard.png" />
+                        <div class="relative mt-10 md:mt-0">
+                            <img 
+                                class="h-56 drop-shadow-xl rounded-full bg-white p-2" 
+                                src="{{ asset('img/Medical-dashboard.webp') }}"
+                                srcset="{{ asset('img/Medical-dashboard.webp') }} 1x, {{ asset('img/Medical-dashboard@2x.webp') }} 2x"
+                                alt="Dashboard médico"
+                                width="224"
+                                height="224"
+                                loading="lazy"
+                                fetchpriority="high"
+                            />
                         </div>
                     </div>
 
@@ -51,26 +60,26 @@
 
 
 
-                    <div class="w-full mt-8 grid gap-6 grid-cols-3">
+                    <div class="w-full mt-8 grid gap-6 grid-cols-2 md:grid-cols-3">
 
 
-                        <div class="relative w-full p-6 rounded-2xl bg-gradient-to-r from-red-400 to-red-500 shadow-lg hover:shadow-2xl transition-transform hover:scale-105">
+                        <div class="relative w-full h-20 md:h-auto p-2 md:p-6 rounded-2xl bg-gradient-to-r from-red-400 to-red-500 shadow-lg hover:shadow-2xl transition-transform hover:scale-105">
                             <div class="flex items-center gap-4">
-                                <i class="fas fa-calendar bg-white text-red-500 rounded-full p-4 shadow-md"></i>
+                                <i class="fas fa-calendar bg-white text-red-500 rounded-full p-1 md:p-4 shadow-md"></i>
                                 <div>
-                                    <h2 class="text-lg font-semibold text-white">Turnos de hoy</h2>
-                                    <h2 class="text-4xl font-extrabold text-white mt-2">5</h2>
+                                    <h2 class="text-sm md:text-lg font-semibold text-white">Turnos de hoy</h2>
+                                    <h2 class="text-base md:text-4xl font-extrabold text-white mt-2">5</h2>
                                 </div>
                             </div>
                         </div>
 
 
-                        <div class="relative w-full p-6 rounded-2xl bg-gradient-to-r from-blue-400 to-blue-600 shadow-lg hover:shadow-2xl transition-transform hover:scale-105">
+                        <div class="relative w-full h-20 md:h-auto p-2 md:p-6 rounded-2xl bg-gradient-to-r from-blue-400 to-blue-600 shadow-lg hover:shadow-2xl transition-transform hover:scale-105">
                             <div class="flex items-center gap-4">
-                                <i class="fas fa-money-bill-wave bg-white text-blue-500 rounded-full p-4 shadow-md"></i>
+                                <i class="fas fa-money-bill-wave bg-white text-blue-500 rounded-full p-1 md:p-4 shadow-md"></i>
                                 <div>
-                                    <h2 class="text-lg font-semibold text-white">Ingresos de hoy</h2>
-                                    <h2 class="text-4xl font-extrabold text-white mt-2">500,000 $</h2>
+                                    <h2 class="text-sm md:text-lg font-semibold text-white">Ingresos de hoy</h2>
+                                    <h2 class="text-base md:text-4xl text-white mt-2">500,000 $</h2>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +87,7 @@
 
                         <div class="relative w-full p-6 rounded-2xl bg-gradient-to-r from-green-400 to-green-600 shadow-lg hover:shadow-2xl transition-transform hover:scale-105">
                             <div class="flex items-center gap-4">
-                                <i class="fas fa-list bg-white text-green-500 rounded-full p-4 shadow-md"></i>
+                                <i class="fas fa-list bg-white text-green-500 rounded-full p-1 md:p-4 shadow-md"></i>
                                 <div>
                                     <h2 class="text-lg font-semibold text-white">Órdenes pendientes</h2>
                                     <h2 class="text-4xl font-extrabold text-white mt-2">5</h2>

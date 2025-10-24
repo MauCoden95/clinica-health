@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Page Title</title>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    
+    <script type="module" src="http://[::1]:5173/@vite/client" data-navigate-track="reload"></script><link rel="stylesheet" href="http://[::1]:5173/resources/css/app.css" data-navigate-track="reload" /><script type="module" src="http://[::1]:5173/resources/js/app.js" data-navigate-track="reload"></script>    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.2/dist/cdn.min.js" defer></script>
+ 
+    
+    <!-- Livewire Styles --><style >[wire\:loading][wire\:loading], [wire\:loading\.delay][wire\:loading\.delay], [wire\:loading\.inline-block][wire\:loading\.inline-block], [wire\:loading\.inline][wire\:loading\.inline], [wire\:loading\.block][wire\:loading\.block], [wire\:loading\.flex][wire\:loading\.flex], [wire\:loading\.table][wire\:loading\.table], [wire\:loading\.grid][wire\:loading\.grid], [wire\:loading\.inline-flex][wire\:loading\.inline-flex] {display: none;}[wire\:loading\.delay\.none][wire\:loading\.delay\.none], [wire\:loading\.delay\.shortest][wire\:loading\.delay\.shortest], [wire\:loading\.delay\.shorter][wire\:loading\.delay\.shorter], [wire\:loading\.delay\.short][wire\:loading\.delay\.short], [wire\:loading\.delay\.default][wire\:loading\.delay\.default], [wire\:loading\.delay\.long][wire\:loading\.delay\.long], [wire\:loading\.delay\.longer][wire\:loading\.delay\.longer], [wire\:loading\.delay\.longest][wire\:loading\.delay\.longest] {display: none;}[wire\:offline][wire\:offline] {display: none;}[wire\:dirty]:not(textarea):not(input):not(select) {display: none;}:root {--livewire-progress-bar-color: #2299dd;}[x-cloak] {display: none !important;}</style>
+</head>
+<body data-theme="light">
+    <div wire:snapshot="{&quot;data&quot;:{&quot;name&quot;:null,&quot;email&quot;:null,&quot;address&quot;:null,&quot;phone&quot;:null,&quot;dni&quot;:null,&quot;obra_social&quot;:null,&quot;password&quot;:null,&quot;password_confirmation&quot;:null},&quot;memo&quot;:{&quot;id&quot;:&quot;6SgEEQdiygKA5Gx9Thka&quot;,&quot;name&quot;:&quot;pages.register&quot;,&quot;path&quot;:&quot;register&quot;,&quot;method&quot;:&quot;GET&quot;,&quot;children&quot;:[],&quot;scripts&quot;:[],&quot;assets&quot;:[],&quot;errors&quot;:[],&quot;locale&quot;:&quot;es&quot;},&quot;checksum&quot;:&quot;c3963e9c74ec23637908f5a280169ed088366975808dbaaf8d050acfdc7a4d03&quot;}" wire:effects="[]" wire:id="6SgEEQdiygKA5Gx9Thka" class="h-screen flex">  
+    <div class="w-2/4 h-screen bg-white p-6">
+        <h2 class="text-2xl font-bold text-center my-4 text-gray-800">Registro de pacientes</h2>
+        <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->
+        <form wire:submit.prevent="register" class="w-full bg-white p-8 rounded-lg grid gap-4 grid-cols-2" autoComplete="off">
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Nombre completo</label>
+                <input type="text" id="name" wire:model="name" 
+                    class="w-full px-4 py-1 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-500 transition duration-200" 
+                    placeholder="Ingrese su nombre completo...">
+                <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->
+            </div>
+
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Correo electrónico</label>
+                <input type="email" id="email" wire:model="email" 
+                    class="w-full px-4 py-1 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-500 transition duration-200" 
+                    placeholder="Ingrese su correo electrónico...">
+                <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->
+            </div>
+
+            <div class="mb-4">
+                <label for="address" class="block text-gray-700 text-sm font-bold mb-2">Dirección</label>
+                <input type="text" id="address" wire:model="address" 
+                    class="w-full px-4 py-1 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-500 transition duration-200" 
+                    placeholder="Ingrese su dirección...">
+                <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->
+            </div>
+
+            <div class="mb-4">
+                <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Teléfono</label>
+                <input type="tel" id="phone" wire:model="phone" 
+                    class="w-full px-4 py-1 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-500 transition duration-200" 
+                    placeholder="Ingrese su teléfono...">
+                <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->
+            </div>
+
+            <div class="mb-4">
+                <label for="dni" class="block text-gray-700 text-sm font-bold mb-2">DNI</label>
+                <input type="number" id="dni" wire:model="dni" 
+                    class="w-full px-4 py-1 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-500 transition duration-200" 
+                    placeholder="Ingrese su DNI...">
+                <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->
+            </div>
+
+            <div class="mb-4">
+                <label for="obra_social" class="block text-gray-700 text-sm font-bold mb-2">Obra Social</label>
+                <input type="text" id="obra_social" wire:model="obra_social" 
+                    class="w-full px-4 py-1 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-500 transition duration-200" 
+                    placeholder="Ingrese su obra social...">
+                <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->
+            </div>
+            
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Contraseña</label>
+                <input type="password" id="password" wire:model="password" 
+                    class="w-full px-4 py-1 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-500 transition duration-200" 
+                    placeholder="Ingrese su contraseña...">
+                <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->
+            </div>
+
+            <div class="mb-4">
+                <label for="password_confirmation" class="block text-gray-700 text-sm font-bold mb-2">Confirmar contraseña</label>
+                <input type="password" id="password_confirmation" wire:model="password_confirmation" 
+                    class="w-full px-4 py-1 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-500 transition duration-200" 
+                    placeholder="Confirme su contraseña...">
+                <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->
+            </div>
+
+            <button type="submit" class="w-full bg-red-500 text-white py-1 rounded-lg hover:bg-red-600 focus:bg-red-700 transition duration-300 font-semibold shadow-md">Registrar</button>
+
+            <div class="text-center">
+                <span class="text-gray-600">¿Ya tiene cuenta? 
+                    <a href="http://localhost:8000/login" class="text-red-600 hover:text-red-800 font-semibold transition duration-200" wire:navigate>Ingrese acá</a>
+                </span>
+            </div>
+        </form>
+       
+    </div>
+    <img class="w-2/4 h-full mt-10 md:mt-0" src="http://localhost:8000/img/Register.jpg" alt="Dos médicos" />
+</div>
+    
+
+
+    <script>
+        function data(){
+            return {
+                open: false,
+                start(){
+                    this.open = true
+                },
+                isOpen(){
+                    this.open = !this.open
+                },
+                close(){
+                    this.open = false
+                }
+            }
+        }
+    </script>
+    <!-- Livewire Scripts -->
+<script src="/livewire/livewire.js?id=923613aa"   data-csrf="sjbifxCFTaxY5bFL5VaTEsmHnzS9cGIUMwjv5BgT" data-update-uri="/livewire/update" data-navigate-once="true"></script>
+
+    </body>
+</html>
